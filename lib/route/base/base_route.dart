@@ -1,16 +1,18 @@
 
+import 'package:fitee/route/page/base_page.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/widgets/drawer/drawer_custom.dart';
 import 'package:fitee/widgets/drawer/drawer_widget.dart';
+import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
-class HomeRoute extends StatefulWidget {
+class BaseRoute extends StatefulWidget {
 
   @override
-  _HomeRouteState createState()=> _HomeRouteState();
+  _BaseRouteState createState()=> _BaseRouteState();
 }
 
-class _HomeRouteState extends State<HomeRoute> {
+class _BaseRouteState extends State<BaseRoute> {
 
   Widget screenView;
   DrawerIndex drawerIndex;
@@ -30,9 +32,7 @@ class _HomeRouteState extends State<HomeRoute> {
             onCellClick: (DrawerIndex drawerIndex) {
               changeIndex(drawerIndex);
             },
-            screenView: Container(
-              color: Colors.lightBlue,
-            ),
+            screenView: BasePage()
           ),
         ),
       ),
@@ -40,5 +40,10 @@ class _HomeRouteState extends State<HomeRoute> {
   }
   void changeIndex(DrawerIndex index) {
 
+  }
+
+  Future<bool> getData() async {
+    await Future<dynamic>.delayed(const Duration(milliseconds: 0));
+    return true;
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:fitee/route/home/home_route.dart';
+import 'package:fitee/route/base/base_route.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
       ),
-      home: HomeRoute(),
+      home: BaseRoute(),
     );
   }
 }

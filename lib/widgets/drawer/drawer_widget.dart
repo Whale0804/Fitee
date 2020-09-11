@@ -128,7 +128,22 @@ class _DrawerWidgetState extends State<DrawerWidget> with TickerProviderStateMix
                     children: <Widget>[
                       IgnorePointer(
                         ignoring: scrolloffset == 1.0 || false,
-                        child: widget.screenView,
+                        child: Scaffold(
+                          backgroundColor: AppTheme.white,
+                          body: FutureBuilder<bool>(
+                            future: getData(),
+                            builder: (BuildContext context, AsyncSnapshot<bool> snapshot){
+                              if(!snapshot.hasData) {
+                                return SizedBox();
+                              }else {
+                                return Padding(
+                                  padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                                  child: widget.screenView,
+                                );
+                              }
+                            }
+                          ),
+                        ),
                       ),
                       if(scrolloffset == 1.0) InkWell(onTap: (){onDrawerClick();}),
                       Padding(
@@ -165,6 +180,11 @@ class _DrawerWidgetState extends State<DrawerWidget> with TickerProviderStateMix
         ),
       )
     );
+  }
+
+  Future<bool> getData() async {
+    await Future<dynamic>.delayed(const Duration(milliseconds: 0));
+    return true;
   }
 
   void onDrawerClick() {
