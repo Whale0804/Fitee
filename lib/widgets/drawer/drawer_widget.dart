@@ -101,7 +101,7 @@ class _DrawerWidgetState extends State<DrawerWidget> with TickerProviderStateMix
                     return Transform(
                       transform: Matrix4.translationValues(scrollController.offset, 0.0, 0.0),
                       child: DrawerCustom(
-                        screenIndex: DrawerIndex.HOME,
+                        screenIndex: widget.screenIndex == null ? DrawerIndex.HOME : widget.screenIndex,
                         iconAnimationController: iconAnimationController,
                         callBackIndex: (DrawerIndex index){
                           onDrawerClick();

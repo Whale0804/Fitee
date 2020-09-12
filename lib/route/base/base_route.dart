@@ -1,9 +1,9 @@
 
+import 'package:fitee/pages/about/about_page.dart';
 import 'package:fitee/route/page/base_page.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/widgets/drawer/drawer_custom.dart';
 import 'package:fitee/widgets/drawer/drawer_widget.dart';
-import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
 class BaseRoute extends StatefulWidget {
@@ -18,6 +18,13 @@ class _BaseRouteState extends State<BaseRoute> {
   DrawerIndex drawerIndex;
 
   @override
+  void initState() {
+    drawerIndex = DrawerIndex.HOME;
+    screenView = BasePage();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.nearlyWhite,
@@ -27,19 +34,33 @@ class _BaseRouteState extends State<BaseRoute> {
         child: Container(
           color: AppTheme.nearlyWhite,
           child: DrawerWidget(
-            screenIndex: DrawerIndex.HOME,
+            screenIndex: drawerIndex,
             drawerWidth: MediaQuery.of(context).size.width * 0.75,
             onCellClick: (DrawerIndex drawerIndex) {
               changeIndex(drawerIndex);
             },
-            screenView: BasePage()
+            screenView: screenView
           ),
         ),
       ),
     );
   }
   void changeIndex(DrawerIndex index) {
+    print(index);
+    if (drawerIndex != index) {
+      drawerIndex = index;
+      if (drawerIndex == DrawerIndex.HOME) {
+        setState(() => screenView = BasePage());
+      } else if (drawerIndex == DrawerIndex.HELP) {
 
+      } else if (drawerIndex == DrawerIndex.FEEDBACK) {
+
+      } else if (drawerIndex == DrawerIndex.INVITE) {
+
+      } else if(drawerIndex == DrawerIndex.ABOUT){
+        setState(() => screenView = AboutPage());
+      }
+    }
   }
 
   Future<bool> getData() async {
