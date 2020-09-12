@@ -3,12 +3,13 @@ import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
+class MinePage extends StatefulWidget {
+
   @override
-  _HomePageState createState()=> _HomePageState();
+  _MinePageState createState()=> _MinePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MinePageState extends State<MinePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,16 +19,12 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             AppBarWidget(
-              title: 'Fitee',
-              callBack: (){
-                print("click homePage title right icon.");
-              },
-              icon: Icon(Icons.dashboard),
+                title: 'Mine'
             ),
             Expanded(
                 child: Container(
                   child: Center(
-                    child: FlutterLogo(size: 150),
+                    child: FlutterLogo(size: 150, colors: Colors.yellow),
                   ),
                 )
             ),
@@ -35,4 +32,5 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
 }

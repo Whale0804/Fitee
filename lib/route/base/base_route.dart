@@ -24,9 +24,9 @@ class _BaseRouteState extends State<BaseRoute> {
       child: SafeArea(
         top: false,
         bottom: false,
-        child: Scaffold(
-          backgroundColor: AppTheme.nearlyWhite,
-          body: DrawerWidget(
+        child: Container(
+          color: AppTheme.nearlyWhite,
+          child: DrawerWidget(
             screenIndex: DrawerIndex.HOME,
             drawerWidth: MediaQuery.of(context).size.width * 0.75,
             onCellClick: (DrawerIndex drawerIndex) {

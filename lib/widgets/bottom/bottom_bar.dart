@@ -210,7 +210,6 @@ class _TabIconState extends State<TabIcon> with TickerProviderStateMixin{
         widget.tabIconData.animationController.reverse();
       }
     });
-    print(widget.tabIconData.isSelected);
     super.initState();
   }
 

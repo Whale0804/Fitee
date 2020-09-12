@@ -1,7 +1,10 @@
 
 import 'dart:math';
 
+import 'package:fitee/pages/discovery_page.dart';
 import 'package:fitee/pages/home_page.dart';
+import 'package:fitee/pages/mine_page.dart';
+import 'package:fitee/pages/notice_page.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/widgets/bottom/TabIconData.dart';
 import 'package:fitee/widgets/bottom/bottom_widget.dart';
@@ -26,9 +29,9 @@ class _BasePageState extends State<BasePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppTheme.white,
-      body: FutureBuilder<bool>(
+    return Container(
+      color: AppTheme.white,
+      child: FutureBuilder<bool>(
         future: getData(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot){
           if(!snapshot.hasData) {
@@ -56,17 +59,11 @@ class _BasePageState extends State<BasePage> {
       if(index == 0) {
         tabBody = HomePage();
       } else if(index == 1){
-        tabBody = Container(
-          color: Color.fromRGBO(Random().nextInt(256), Random().nextInt(256), Random().nextInt(256), 1),
-        );
+        tabBody = DiscoveryPage();
       } else if(index == 2){
-        tabBody = Container(
-          color: Color.fromRGBO(Random().nextInt(256), Random().nextInt(256), Random().nextInt(256), 1),
-        );
+        tabBody = NoticePage();
       }else if(index == 3) {
-        tabBody = Container(
-          color: Color.fromRGBO(Random().nextInt(256), Random().nextInt(256), Random().nextInt(256), 1),
-        );
+        tabBody = MinePage();
       }
     });
   }
