@@ -46,7 +46,6 @@ class _BaseRouteState extends State<BaseRoute> {
     );
   }
   void changeIndex(DrawerIndex index) {
-    print(index);
     if (drawerIndex != index) {
       drawerIndex = index;
       if (drawerIndex == DrawerIndex.HOME) {
