@@ -50,7 +50,7 @@ class _BottomBarWidgetState extends State<BottomBarWidget> with TickerProviderSt
                 child: Column(
                   children: <Widget>[
                     SizedBox(
-                      height: 62,
+                      height: 52,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8, right: 8, top: 4),
                         child: Row(
@@ -116,7 +116,7 @@ class _BottomBarWidgetState extends State<BottomBarWidget> with TickerProviderSt
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
           child: SizedBox(
             width: 38 * 2.0,
-            height: 38 + 62.0,
+            height: 38 + 52.0,
             child: Container(
               alignment: Alignment.topCenter,
               color: Colors.transparent,
@@ -245,7 +245,7 @@ class _TabIconState extends State<TabIcon> with TickerProviderStateMixin{
                       curve: Interval(0.1, 1.0, curve: Curves.fastOutSlowIn))),
                    child: Image.asset(widget.tabIconData.isSelected
                    ? widget.tabIconData.selectImagePath
-                   : widget.tabIconData.imagePath,width: 36, height: 36),
+                   : widget.tabIconData.imagePath,width: 25, height: 25),
                  ),
                  Positioned(
                    top: 0,

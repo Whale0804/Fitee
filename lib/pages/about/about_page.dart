@@ -139,8 +139,8 @@ class _AboutPageState extends State<AboutPage> {
                                           children: <Widget>[
                                             Center(
                                               child: Container(
-                                                width: 24,
-                                                height: 24,
+                                                width: 22,
+                                                height: 22,
                                                 child: Image.asset('assets/icon/eye.png'),
                                               ),
                                             ),
@@ -168,8 +168,8 @@ class _AboutPageState extends State<AboutPage> {
                                           children: <Widget>[
                                             Center(
                                                 child: Container(
-                                                  width: 24,
-                                                  height: 24,
+                                                  width: 22,
+                                                  height: 22,
                                                   child: Image.asset('assets/icon/star.png'),
                                                 )
                                             ),
@@ -197,8 +197,8 @@ class _AboutPageState extends State<AboutPage> {
                                           children: <Widget>[
                                             Center(
                                                 child: Container(
-                                                  width: 28,
-                                                  height: 28,
+                                                  width: 26,
+                                                  height: 26,
                                                   child: Image.asset('assets/icon/fork.png'),
                                                 )
                                             ),
