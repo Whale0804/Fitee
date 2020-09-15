@@ -299,6 +299,7 @@ class _AboutPageState extends State<AboutPage> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 10),
                   Container(
                     child: Center(
                       child: Text(
