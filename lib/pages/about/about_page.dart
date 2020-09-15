@@ -94,7 +94,7 @@ class _AboutPageState extends State<AboutPage> {
                                 version !=null ? '版本号：' + version : '版本号：1.0.0',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w700
                                 ),
                               ),
@@ -139,8 +139,8 @@ class _AboutPageState extends State<AboutPage> {
                                           children: <Widget>[
                                             Center(
                                               child: Container(
-                                                width: 28,
-                                                height: 28,
+                                                width: 24,
+                                                height: 24,
                                                 child: Image.asset('assets/icon/eye.png'),
                                               ),
                                             ),
@@ -149,7 +149,36 @@ class _AboutPageState extends State<AboutPage> {
                                               child: Text(
                                                 repo != null ? repo['watchers_count'].toString() : '1.6k',
                                                 style: TextStyle(color: AppTheme.darkText,
-                                                fontSize: 22),
+                                                fontSize: 18),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(top: 18, bottom: 18),
+                                      child: VerticalDivider(width: 1, color: Colors.grey.withOpacity(.7)),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Center(
+                                                child: Container(
+                                                  width: 24,
+                                                  height: 24,
+                                                  child: Image.asset('assets/icon/star.png'),
+                                                )
+                                            ),
+                                            const SizedBox(height: 6),
+                                            Center(
+                                              child: Text(
+                                                repo != null ? repo['stargazers_count'].toString() : '10.6k',
+                                                style: TextStyle(color: AppTheme.darkText,
+                                                    fontSize: 18),
                                               ),
                                             )
                                           ],
@@ -170,35 +199,6 @@ class _AboutPageState extends State<AboutPage> {
                                                 child: Container(
                                                   width: 28,
                                                   height: 28,
-                                                  child: Image.asset('assets/icon/star.png'),
-                                                )
-                                            ),
-                                            const SizedBox(height: 6),
-                                            Center(
-                                              child: Text(
-                                                repo != null ? repo['stargazers_count'].toString() : '10.6k',
-                                                style: TextStyle(color: AppTheme.darkText,
-                                                    fontSize: 22),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.only(top: 18, bottom: 18),
-                                      child: VerticalDivider(width: 1, color: Colors.grey.withOpacity(.7)),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Center(
-                                                child: Container(
-                                                  width: 32,
-                                                  height: 32,
                                                   child: Image.asset('assets/icon/fork.png'),
                                                 )
                                             ),
@@ -207,7 +207,7 @@ class _AboutPageState extends State<AboutPage> {
                                               child: Text(
                                                 repo != null ? repo['forks_count'].toString() : '1.1k',
                                                 style: TextStyle(color: AppTheme.darkText,
-                                                    fontSize: 22),
+                                                    fontSize: 18),
                                               ),
                                             )
                                           ],
@@ -244,7 +244,7 @@ class _AboutPageState extends State<AboutPage> {
                                           'Fitee',
                                           style: TextStyle(
                                               color: AppTheme.darkText,
-                                              fontSize: 28,
+                                              fontSize: 22,
                                               fontWeight: FontWeight.w700
                                           ),
                                           textAlign: TextAlign.center,
@@ -258,7 +258,7 @@ class _AboutPageState extends State<AboutPage> {
                                           repo != null ? repo['description'] : 'Gitee（码云）的Flutter版',
                                           style: TextStyle(
                                               color: AppTheme.darkText,
-                                              fontSize: 20,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.w700
                                           ),
                                         ),
@@ -271,7 +271,7 @@ class _AboutPageState extends State<AboutPage> {
                                           'Flutter 版本：1.20.3',
                                           style: TextStyle(
                                               color: AppTheme.darkText,
-                                              fontSize: 20,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.w700
                                           ),
                                         ),
@@ -284,7 +284,7 @@ class _AboutPageState extends State<AboutPage> {
                                           'Dart 版本：2.9.2',
                                           style: TextStyle(
                                               color: AppTheme.darkText,
-                                              fontSize: 20,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.w700
                                           ),
                                         ),
@@ -304,13 +304,13 @@ class _AboutPageState extends State<AboutPage> {
                       child: Text(
                         'Copyright \u00a9 2019-2020 Whale4Cloud Studio',
                         style: TextStyle(
-                          fontSize: 16
+                          fontSize: 12
                         ),
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).padding.bottom,
+                    height: MediaQuery.of(context).padding.bottom + 5,
                   )
                 ],
               )
