@@ -1,5 +1,6 @@
 
 import 'package:fitee/plugin/wave.dart';
+import 'package:fitee/services/about_service.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,17 +15,27 @@ class AboutPage extends StatefulWidget {
 class _AboutPageState extends State<AboutPage> {
 
   String version;
-
+  String buildNumber;
+  Map<String,dynamic> repo;
   @override
-  void initState() {
+  void initState(){
+    super.initState();
     PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
       String appName = packageInfo.appName;
       String packageName = packageInfo.packageName;
       version = packageInfo.version;
-      String buildNumber = packageInfo.buildNumber;
-      print(version);
+      buildNumber = packageInfo.buildNumber;
     });
-    super.initState();
+    
+    FiteeAPI.getFiteeData().then((res) {
+      repo = {
+        "description": res['description'],
+        "forks_count": res['forks_count'],
+        "stargazers_count": res['stargazers_count'],
+        "watchers_count": res['watchers_count']
+      };
+      print(repo['description']);
+    });
   }
 
   @override
@@ -107,13 +118,13 @@ class _AboutPageState extends State<AboutPage> {
                       child: SingleChildScrollView(
                         child: Container(
                           width: double.infinity,
-                          height: 10000,
+                          color: Colors.white,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                height: 100,
+                                height: 90,
                                 width: double.infinity,
                                 color: Colors.white,
                                 child: Row(
@@ -131,8 +142,16 @@ class _AboutPageState extends State<AboutPage> {
                                                 width: 28,
                                                 height: 28,
                                                 child: Image.asset('assets/icon/eye.png'),
-                                              )
+                                              ),
                                             ),
+                                            const SizedBox(height: 6),
+                                            Center(
+                                              child: Text(
+                                                repo != null ? repo['watchers_count'].toString() : '1.6k',
+                                                style: TextStyle(color: AppTheme.darkText,
+                                                fontSize: 22),
+                                              ),
+                                            )
                                           ],
                                         ),
                                       ),
@@ -154,6 +173,14 @@ class _AboutPageState extends State<AboutPage> {
                                                   child: Image.asset('assets/icon/star.png'),
                                                 )
                                             ),
+                                            const SizedBox(height: 6),
+                                            Center(
+                                              child: Text(
+                                                repo != null ? repo['stargazers_count'].toString() : '10.6k',
+                                                style: TextStyle(color: AppTheme.darkText,
+                                                    fontSize: 22),
+                                              ),
+                                            )
                                           ],
                                         ),
                                       ),
@@ -175,6 +202,14 @@ class _AboutPageState extends State<AboutPage> {
                                                   child: Image.asset('assets/icon/fork.png'),
                                                 )
                                             ),
+                                            const SizedBox(height: 6),
+                                            Center(
+                                              child: Text(
+                                                repo != null ? repo['forks_count'].toString() : '1.1k',
+                                                style: TextStyle(color: AppTheme.darkText,
+                                                    fontSize: 22),
+                                              ),
+                                            )
                                           ],
                                         ),
                                       ),
@@ -182,13 +217,94 @@ class _AboutPageState extends State<AboutPage> {
                                   ],
                                 ),
                               ),
+                              Divider(height: 1,color: Colors.grey.withOpacity(.6)),
+                              const SizedBox(height: 12),
                               Container(
-                                height: 1000,
                                 width: double.infinity,
-                                color: Colors.black,
+                                padding: EdgeInsets.all(20),
+                                child: Container(
+                                  padding: EdgeInsets.only(top: 20, left: 18,right: 18,bottom: 18),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey.withOpacity(.4)),
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(0), 
+                                      bottomRight: Radius.circular(30),
+                                      topLeft: Radius.circular(30),
+                                      bottomLeft: Radius.circular(0)
+                                    )
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.only(top: 15,bottom: 15, left: 8, right: 8),
+                                        child: Text(
+                                          'Fitee',
+                                          style: TextStyle(
+                                              color: AppTheme.darkText,
+                                              fontSize: 28,
+                                              fontWeight: FontWeight.w700
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                      Divider(height: 1,color: Colors.grey.withOpacity(.6)),
+                                      Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.only(top: 15,bottom: 15, left: 8, right: 8),
+                                        child: Text(
+                                          repo != null ? repo['description'] : 'Gitee（码云）的Flutter版',
+                                          style: TextStyle(
+                                              color: AppTheme.darkText,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w700
+                                          ),
+                                        ),
+                                      ),
+                                      Divider(height: 1,color: Colors.grey.withOpacity(.6)),
+                                      Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.only(top: 15,bottom: 15, left: 8, right: 8),
+                                        child: Text(
+                                          'Flutter 版本：1.20.3',
+                                          style: TextStyle(
+                                              color: AppTheme.darkText,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w700
+                                          ),
+                                        ),
+                                      ),
+                                      Divider(height: 1,color: Colors.grey.withOpacity(.6)),
+                                      Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.only(top: 15,bottom: 15, left: 8, right: 8),
+                                        child: Text(
+                                          'Dart 版本：2.9.2',
+                                          style: TextStyle(
+                                              color: AppTheme.darkText,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w700
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                )
                               ),
                             ],
                           ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Center(
+                      child: Text(
+                        'Copyright \u00a9 2019-2020 Whale4Cloud Studio',
+                        style: TextStyle(
+                          fontSize: 16
                         ),
                       ),
                     ),
