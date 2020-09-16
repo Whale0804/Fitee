@@ -41,9 +41,6 @@ class _AboutPageState extends State<AboutPage> {
 
   @override
   Widget build(BuildContext context) {
-    /// 根据iphone X 高度适配,高度去掉 顶部、底部
-    ScreenUtil.init(context,
-        width: 375, height: 812 - 44 - 34, allowFontScaling: true);
     return Scaffold(
       backgroundColor: AppTheme.white,
       body: Column(

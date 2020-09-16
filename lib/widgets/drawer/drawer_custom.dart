@@ -1,6 +1,8 @@
 import 'package:fitee/theme/app_theme.dart';
+import 'package:fitee/utils/screen.dart';
 import 'package:fitee/widgets/drawer/drawer_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DrawerCustom extends StatefulWidget {
 
@@ -188,8 +190,8 @@ class _DrawerCustomState extends State<DrawerCustom> {
                   const Padding(padding: EdgeInsets.all(4.0)),
                   data.isAssetsImage ?
                       Container(
-                        width: 24,
-                        height: 24,
+                        width: duSetWidth(24),
+                        height: duSetHeight(24),
                         child: Image.asset(
                           data.imageName,
                           color: widget.screenIndex == data.index ? Colors.white: AppTheme.nearlyBlack,

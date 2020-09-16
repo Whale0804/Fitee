@@ -1,7 +1,9 @@
 import 'dart:math' as math;
+import 'package:fitee/utils/screen.dart';
 import 'package:fitee/utils/utils.dart';
 import 'package:fitee/widgets/bottom/TabIconData.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BottomBarWidget extends StatefulWidget {
 
@@ -45,7 +47,7 @@ class _BottomBarWidgetState extends State<BottomBarWidget> with TickerProviderSt
                 //设置边缘剪切形状
                 clipper: TabClipper(
                   radius: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: animationController,curve: Curves.fastOutSlowIn))
-                      .value * 38.0
+                      .value * 32.0
                 ),
                 child: Column(
                   children: <Widget>[
@@ -115,16 +117,16 @@ class _BottomBarWidgetState extends State<BottomBarWidget> with TickerProviderSt
         Padding(
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
           child: SizedBox(
-            width: 38 * 2.0,
-            height: 38 + 52.0,
+            width: 32 * 2.0,
+            height: 32 + 52.0,
             child: Container(
               alignment: Alignment.topCenter,
               color: Colors.transparent,
               child: SizedBox(
-                width: 38 * 2.0,
-                height: 38 * 2.0,
+                width: 32 * 2.0,
+                height: 32 * 2.0,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(6.0),
                   child: ScaleTransition(
                     alignment: Alignment.center,
                     scale: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
@@ -145,9 +147,9 @@ class _BottomBarWidgetState extends State<BottomBarWidget> with TickerProviderSt
                         shape: BoxShape.circle,
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                            color: Colors.lightBlue[100].withOpacity(.4),
-                            offset: const Offset(8.0, 16.0),
-                            blurRadius: 16.0
+                            color: Colors.lightBlue[100].withOpacity(.23),
+                            offset: const Offset(4.0, 12.0),
+                            blurRadius: 12.0
                           )
                         ]
                       ),
@@ -160,7 +162,7 @@ class _BottomBarWidgetState extends State<BottomBarWidget> with TickerProviderSt
                           onTap: () {
                             widget.onAddClick();
                           },
-                          child: Icon(Icons.add, color: Colors.white, size: 32),
+                          child: Icon(Icons.add, color: Colors.white, size: 30),
                         ),
                       ),
                     ),
@@ -245,7 +247,7 @@ class _TabIconState extends State<TabIcon> with TickerProviderStateMixin{
                       curve: Interval(0.1, 1.0, curve: Curves.fastOutSlowIn))),
                    child: Image.asset(widget.tabIconData.isSelected
                    ? widget.tabIconData.selectImagePath
-                   : widget.tabIconData.imagePath,width: 25, height: 25),
+                   : widget.tabIconData.imagePath,width: duSetWidth(30), height: duSetHeight(30)),
                  ),
                  Positioned(
                    top: 0,
@@ -315,7 +317,7 @@ class TabClipper extends CustomClipper<Path> {
 
   final double radius;
 
-  TabClipper({this.radius = 38.0});
+  TabClipper({this.radius = 32.0});
 
   @override
   Path getClip(Size size) {
