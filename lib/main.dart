@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       systemNavigationBarDividerColor: Colors.black,
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
+
     return MaterialApp(
       title: 'Fitee',
       debugShowCheckedModeBanner: false,

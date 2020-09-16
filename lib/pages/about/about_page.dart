@@ -2,8 +2,10 @@
 import 'package:fitee/plugin/wave.dart';
 import 'package:fitee/services/about_service.dart';
 import 'package:fitee/theme/app_theme.dart';
+import 'package:fitee/utils/screen.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:package_info/package_info.dart';
 
 class AboutPage extends StatefulWidget {
@@ -19,14 +21,6 @@ class _AboutPageState extends State<AboutPage> {
   Map<String,dynamic> repo;
   @override
   void initState(){
-    super.initState();
-    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
-      String appName = packageInfo.appName;
-      String packageName = packageInfo.packageName;
-      version = packageInfo.version;
-      buildNumber = packageInfo.buildNumber;
-    });
-    
     FiteeAPI.getFiteeData().then((res) {
       repo = {
         "description": res['description'],
@@ -34,12 +28,22 @@ class _AboutPageState extends State<AboutPage> {
         "stargazers_count": res['stargazers_count'],
         "watchers_count": res['watchers_count']
       };
-      print(repo['description']);
+      print(repo);
     });
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      String appName = packageInfo.appName;
+      String packageName = packageInfo.packageName;
+      version = packageInfo.version;
+      buildNumber = packageInfo.buildNumber;
+    });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    /// 根据iphone X 高度适配,高度去掉 顶部、底部
+    ScreenUtil.init(context,
+        width: 375, height: 812 - 44 - 34, allowFontScaling: true);
     return Scaffold(
       backgroundColor: AppTheme.white,
       body: Column(
@@ -139,8 +143,8 @@ class _AboutPageState extends State<AboutPage> {
                                           children: <Widget>[
                                             Center(
                                               child: Container(
-                                                width: 22,
-                                                height: 22,
+                                                width: duSetWidth(22),
+                                                height: duSetHeight(22),
                                                 child: Image.asset('assets/icon/eye.png'),
                                               ),
                                             ),
@@ -149,7 +153,8 @@ class _AboutPageState extends State<AboutPage> {
                                               child: Text(
                                                 repo != null ? repo['watchers_count'].toString() : '1.6k',
                                                 style: TextStyle(color: AppTheme.darkText,
-                                                fontSize: 18),
+                                                fontSize: duSetFontSize(18)
+                                                ),
                                               ),
                                             )
                                           ],
