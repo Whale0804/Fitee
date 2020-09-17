@@ -2,19 +2,40 @@ import 'dart:io';
 
 import 'package:fitee/route/base/base_route.dart';
 import 'package:fitee/theme/app_theme.dart';
+import 'package:fitee/theme/model/theme_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
-void main() async {
+import 'cache/local_storage.dart';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // 查看是否登录
+  bool isLogin = await LocalStorage.getBool('isLogin');
+
   await SystemChrome
       .setPreferredOrientations(<DeviceOrientation>[DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
-      .then((_) => runApp(MyApp()));
+      .then((_) => runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_)=> ThemeModel())
+      ],
+      child: MyApp(isLogin: isLogin),
+    )
+  ));
 }
 
 class MyApp extends StatelessWidget {
+
+  final bool isLogin;
+  const MyApp({Key key, this.isLogin}): super(key: key);
+
   @override
   Widget build(BuildContext context) {
+
+    final _darkMode = Provider.of<ThemeModel>(context).darkMode;
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       //全局设置透明
       statusBarColor: Colors.transparent,
@@ -26,10 +47,31 @@ class MyApp extends StatelessWidget {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
 
-    return MaterialApp(
+//    return MaterialApp(
+//      title: 'Fitee',
+//      debugShowCheckedModeBanner: false,
+//      darkTheme: ThemeData.dark(),
+//      theme: ThemeData(
+//        textTheme: AppTheme.textTheme,
+//        platform: TargetPlatform.iOS,
+//      ),
+//      home: BaseRoute(),
+//    );
+
+    return _darkMode == 2 ?
+    MaterialApp(
       title: 'Fitee',
       debugShowCheckedModeBanner: false,
+      darkTheme: ThemeData.dark(),
       theme: ThemeData(
+        textTheme: AppTheme.textTheme,
+        platform: TargetPlatform.iOS,
+      ),
+      home: BaseRoute(),
+    ) : MaterialApp(
+      title: 'Fitee',
+      debugShowCheckedModeBanner: false,
+      theme: _darkMode == 1 ? ThemeData.dark() : ThemeData(
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
       ),
