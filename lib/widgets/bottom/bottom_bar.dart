@@ -31,6 +31,9 @@ class _BottomBarWidgetState extends State<BottomBarWidget> with TickerProviderSt
 
   @override
   Widget build(BuildContext context) {
+    /// 根据iphone X 高度适配,高度去掉 顶部、底部
+    ScreenUtil.init(context,
+        width: 375, height: 812 - 44 - 34, allowFontScaling: true);
     return Stack(
       alignment: AlignmentDirectional.bottomCenter,
       children: <Widget>[
@@ -221,6 +224,7 @@ class _TabIconState extends State<TabIcon> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
+    //AspectRatio组件是固定宽高比的组件，如果组件的宽度固定，希望高是宽的1/2
     //AspectRatio组件是固定宽高比的组件，如果组件的宽度固定，希望高是宽的1/2
     return AspectRatio(
       aspectRatio: 1,

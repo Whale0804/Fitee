@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:fitee/widgets/bottom/bottom_bar.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'TabIconData.dart';
 
 class BottomWidget extends StatefulWidget {

@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:fitee/pages/login/login_page.dart';
 import 'package:fitee/route/base/base_route.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/theme/model/theme_model.dart';
+import 'package:fitee/utils/nav_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +14,7 @@ import 'cache/local_storage.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // 查看是否登录
-  bool isLogin = await LocalStorage.getBool('isLogin');
+  bool isLogin = await LocalStorage.getBool('isLogin') ?? false;
 
   await SystemChrome
       .setPreferredOrientations(<DeviceOrientation>[DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
@@ -33,9 +35,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final _darkMode = Provider.of<ThemeModel>(context).darkMode;
-
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       //全局设置透明
       statusBarColor: Colors.transparent,
@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
       ),
-      home: BaseRoute(),
+      home: isLogin ? BaseRoute() : LoginPage(),
     );
   }
 }
