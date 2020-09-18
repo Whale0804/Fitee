@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/config/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -66,8 +67,7 @@ class DioUtils {
    * 获取token
    */
   getAuthorizationHeader() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('token');
+    return LocalStorage.getString('access_token');
   }
 
   /// get 操作

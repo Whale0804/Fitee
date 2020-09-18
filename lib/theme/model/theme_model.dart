@@ -29,6 +29,6 @@ class ThemeModel with ChangeNotifier {
 
     notifyListeners();
 
-    await LocalStorage.save(CACHE_KEY, darkMode);
+    await LocalStorage.setInt(CACHE_KEY, darkMode);
   }
 }

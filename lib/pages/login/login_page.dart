@@ -1,5 +1,10 @@
 
+import 'package:fitee/cache/local_storage.dart';
+import 'package:fitee/config/config.dart';
 import 'package:fitee/pages/register/register_page.dart';
+import 'package:fitee/plugin/toast.dart';
+import 'package:fitee/route/base/base_route.dart';
+import 'package:fitee/services/login_service.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/screen.dart';
@@ -23,6 +28,29 @@ class _LoginPageState extends State<LoginPage> {
   GlobalKey _formKey = GlobalKey<FormState>();
   TextEditingController _unameController = TextEditingController();
   TextEditingController _pwdController = TextEditingController();
+
+  _loginAction(BuildContext context) async {
+    if ((_formKey.currentState as FormState).validate()) {
+      var res = await LoginApi.login(username: _unameController.text, password: _pwdController.text);
+      if(res != null && res['access_token'] != null){
+        LocalStorage.set('access_token', res['access_token']);
+        LocalStorage.set('user_name', _unameController.text);
+        LocalStorage.setBool('is_login', true);
+        NavUtil.pushReplacement(BaseRoute());
+        Toast.toast(
+          context,
+          msg: '登录成功，欢迎回来～～～',
+          showTime: 3000,
+        );
+      }else {
+        Toast.toast(
+          context,
+          msg: '用户名或密码错误',
+          showTime: 3000,
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          SizedBox(height: duSetHeight(70)),
+                          SizedBox(height: duSetHeight(80)),
                           Form(
                             key: _formKey,
                             autovalidate: false,
@@ -151,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                                   child: FlatButton(
                                     colorBrightness: Brightness.dark,
                                     shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
-                                    onPressed: () {},
+                                    onPressed: ()=> _loginAction(context),
                                     child: Text(
                                       "登 录",
                                       style: TextStyle(
@@ -163,31 +191,31 @@ class _LoginPageState extends State<LoginPage> {
                                     color: Colors.blueAccent,
                                   ),
                                 ),
-                                SizedBox(height: duSetHeight(20)),
-                                RichText(
-                                  text: TextSpan(
-                                  text: "没有账号? ",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: "去注册",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.blueAccent,
-                                        decoration: TextDecoration.underline
-                                      ),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () async {
-                                          NavUtil.push(RegisterPage(enableArrow: true));
-                                        },
-                                    ),]
-                                  )
-                                ),
+//                                SizedBox(height: duSetHeight(20)),
+//                                RichText(
+//                                  text: TextSpan(
+//                                  text: "没有账号? ",
+//                                  style: TextStyle(
+//                                    fontSize: 15,
+//                                    fontWeight: FontWeight.w500,
+//                                    color: Colors.white,
+//                                  ),
+//                                  children: [
+//                                    TextSpan(
+//                                      text: "去注册",
+//                                      style: TextStyle(
+//                                        fontSize: 15,
+//                                        fontWeight: FontWeight.w600,
+//                                        color: Colors.blueAccent,
+//                                        decoration: TextDecoration.underline
+//                                      ),
+//                                      recognizer: TapGestureRecognizer()
+//                                        ..onTap = () async {
+//                                          NavUtil.push(RegisterPage(enableArrow: true));
+//                                        },
+//                                    ),]
+//                                  )
+//                                ),
                                 SizedBox(height: duSetHeight(20))
                               ],
                             ),
@@ -200,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Center(
                 child: Padding(
-                  padding: EdgeInsets.only(top: 114),
+                  padding: EdgeInsets.only(top: duSetHeight(70)),
                   child: Container(
                     width: 150,
                     height: 150,

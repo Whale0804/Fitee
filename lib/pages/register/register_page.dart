@@ -193,7 +193,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               Center(
                 child: Padding(
-                  padding: EdgeInsets.only(top: 114),
+                  padding: EdgeInsets.only(top: duSetHeight(70)),
                   child: Container(
                     width: 150,
                     height: 150,

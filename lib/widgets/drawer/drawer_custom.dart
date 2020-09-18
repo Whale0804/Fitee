@@ -62,6 +62,8 @@ class _DrawerCustomState extends State<DrawerCustom> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context,
+        width: 375, height: 812 - 44 - 34, allowFontScaling: true);
     return Scaffold(
       backgroundColor: AppTheme.notWhite.withOpacity(0.5),
       body: Column(

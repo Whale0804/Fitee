@@ -4,7 +4,7 @@ import 'package:fitee/plugin/request/request.dart';
 
 /// 详情页面
 class FiteeAPI {
-  /// 获取供应商数据
+  /// 关于页面相关数据
   static Future<Map> getFiteeData() async {
     RequestOptions requestOptions = RequestOptions();
     requestOptions.baseUrl = GITHUB_SERVER_API_URL;

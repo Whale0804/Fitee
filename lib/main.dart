@@ -14,7 +14,7 @@ import 'cache/local_storage.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // 查看是否登录
-  bool isLogin = await LocalStorage.getBool('isLogin') ?? false;
+  bool isLogin = await LocalStorage.getBool('is_login') ?? false;
 
   await SystemChrome
       .setPreferredOrientations(<DeviceOrientation>[DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
@@ -76,6 +76,7 @@ class MyApp extends StatelessWidget {
         platform: TargetPlatform.iOS,
       ),
       home: isLogin ? BaseRoute() : LoginPage(),
+//      home: LoginPage(),
     );
   }
 }

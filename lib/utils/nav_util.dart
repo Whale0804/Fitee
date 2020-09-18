@@ -50,4 +50,11 @@ class NavUtil {
     Navigator.of(_ctx).push(
         MaterialPageRoute(fullscreenDialog: true, builder: (context) => page));
   }
+
+  static pushReplacement(Widget page, {BuildContext context}) {
+    final _ctx = context ?? ctx;
+    Navigator.pushReplacement(_ctx,
+      MaterialPageRoute( builder: (context) => page),
+    );
+  }
 }
