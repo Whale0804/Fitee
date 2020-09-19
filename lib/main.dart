@@ -10,18 +10,19 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'cache/local_storage.dart';
+import 'model/user/user_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // 查看是否登录
   bool isLogin = await LocalStorage.getBool('is_login') ?? false;
-
   await SystemChrome
       .setPreferredOrientations(<DeviceOrientation>[DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((_) => runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_)=> ThemeModel())
+        ChangeNotifierProvider(create: (_)=> ThemeModel()),
+        ChangeNotifierProvider(create: (_)=> UserProvider()),
       ],
       child: MyApp(isLogin: isLogin),
     )
@@ -35,7 +36,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // 保存 ctx
+    NavUtil.ctx = context;
+
     final _darkMode = Provider.of<ThemeModel>(context).darkMode;
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       //全局设置透明
       statusBarColor: Colors.transparent,

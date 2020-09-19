@@ -61,7 +61,7 @@ class DioUtils {
       // 当请求失败时做一些预处理
       return createErrorEntity(e);
     }));
-    //dio.interceptors.add(DioLogInterceptor());
+    dio.interceptors.add(DioLogInterceptor());
   }
   /*
    * 获取token
@@ -80,10 +80,10 @@ class DioUtils {
       Options requestOptions = options ?? Options();
 
       /// 以下三行代码为获取token然后将其合并到header的操作
-      Map<String, dynamic> _authorization = {"token": getAuthorizationHeader()};
-      if (_authorization != null) {
-        requestOptions = requestOptions.merge(headers: _authorization);
-      }
+//      Map<String, dynamic> _authorization = {"access_token": getAuthorizationHeader()};
+//      if (_authorization != null) {
+//        requestOptions = requestOptions.merge(headers: _authorization);
+//      }
       var response = await dio.get(
         path,
         queryParameters: params,
@@ -96,7 +96,7 @@ class DioUtils {
   }
 
   ///  post 操作
-  Future post(String path, {dynamic params, Options options}) async {
+  Future post(String path, {dynamic data, Options options}) async {
     Options requestOptions = options ?? Options();
 
     /// 以下三行代码为获取token然后将其合并到header的操作
@@ -104,12 +104,12 @@ class DioUtils {
     // if (_authorization != null) {
     //   requestOptions = requestOptions.merge(headers: _authorization);
     // }
-    var response = await dio.post(path, data: params, options: requestOptions);
+    var response = await dio.post(path, data: data, options: requestOptions);
     return response.data;
   }
 
   ///  put 操作
-  Future put(String path, {dynamic params, Options options}) async {
+  Future put(String path, {dynamic data, Options options}) async {
     Options requestOptions = options ?? Options();
 
     /// 以下三行代码为获取token然后将其合并到header的操作
@@ -117,7 +117,7 @@ class DioUtils {
     // if (_authorization != null) {
     //   requestOptions = requestOptions.merge(headers: _authorization);
     // }
-    var response = await dio.put(path, data: params, options: requestOptions);
+    var response = await dio.put(path, data: data, options: requestOptions);
     return response.data;
   }
 

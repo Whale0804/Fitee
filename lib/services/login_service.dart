@@ -1,5 +1,6 @@
-
+import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/config/config.dart';
+import 'package:fitee/model/user/user.dart';
 import 'package:fitee/plugin/request/request.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -15,6 +16,14 @@ class LoginApi {
       'username': username,
       'password': password
     };
-    return await DioUtils().post("/oauth/token", params: data);
+    return await DioUtils().post("/oauth/token", data: data);
+  }
+
+  /// 获取用户信息
+  static Future<User> getUser() async{
+    String accessToken = await LocalStorage.getString("access_token");
+    Map<String, String> params = {"access_token": accessToken};
+    var result = await DioUtils().get("/api/v5/user", params: params);
+    return User.fromJson(result);
   }
 }

@@ -1,4 +1,6 @@
 
+import 'package:fitee/model/user/user.dart';
+import 'package:fitee/model/user/user_provider.dart';
 import 'package:fitee/pages/about/about_page.dart';
 import 'package:fitee/route/page/base_page.dart';
 import 'package:fitee/theme/app_theme.dart';
@@ -6,6 +8,7 @@ import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/widgets/drawer/drawer_custom.dart';
 import 'package:fitee/widgets/drawer/drawer_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BaseRoute extends StatefulWidget {
 
@@ -22,14 +25,17 @@ class _BaseRouteState extends State<BaseRoute> {
   void initState() {
     drawerIndex = DrawerIndex.HOME;
     screenView = BasePage();
+    _initData(NavUtil.ctx);
     super.initState();
+  }
+
+  _initData(BuildContext context) async{
+    final _userProvider = Provider.of<UserProvider>(context);
+    await _userProvider.getUser();
   }
 
   @override
   Widget build(BuildContext context) {
-    // 保存 ctx
-    NavUtil.ctx = context;
-
     return Container(
       color: AppTheme.nearlyWhite,
       child: SafeArea(

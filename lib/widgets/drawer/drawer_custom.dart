@@ -1,8 +1,9 @@
+import 'package:fitee/model/user/user_provider.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/screen.dart';
-import 'package:fitee/widgets/drawer/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class DrawerCustom extends StatefulWidget {
 
@@ -93,12 +94,17 @@ class _DrawerCustomState extends State<DrawerCustom> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               boxShadow: <BoxShadow>[
-                                BoxShadow(color: AppTheme.grey.withOpacity(0.6), offset: const Offset(2.0, 4.0), blurRadius: 8.0),
-                              ]
+                                BoxShadow(color: AppTheme.white.withOpacity(0.6), offset: const Offset(2.0, 4.0), blurRadius: 8.0),
+                              ],
+                              border: Border.all(color: Colors.grey.withOpacity(.5), width: 4),
                             ),
                             child: ClipRRect(
                               borderRadius: const BorderRadius.all((Radius.circular(50.0))),
-                              child: Image.asset('assets/daniel.jpg'),
+                              child: Consumer<UserProvider>(
+                                  builder: (context, state, child) {
+                                    return Image.network(state.user.avatar_url);
+                                  }
+                                ),
                             ),
                           ),
                         ),
@@ -107,14 +113,18 @@ class _DrawerCustomState extends State<DrawerCustom> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 18, left: 4),
-                    child: Text(
-                      'Zzzzz_',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                        fontSize: 18,
-                      ),
-                    ),
+                    child: Consumer<UserProvider>(
+                      builder: (context, state, child) {
+                        return Text(
+                          state.user.name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87,
+                            fontSize: 18,
+                          ),
+                        );
+                      },
+                    )
                   )
                 ],
               ),
