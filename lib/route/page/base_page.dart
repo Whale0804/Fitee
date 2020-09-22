@@ -1,14 +1,17 @@
 
 import 'dart:math';
 
+import 'package:fitee/model/user/user_provider.dart';
 import 'package:fitee/pages/discovery_page.dart';
 import 'package:fitee/pages/home_page.dart';
 import 'package:fitee/pages/mine_page.dart';
 import 'package:fitee/pages/notice_page.dart';
 import 'package:fitee/theme/app_theme.dart';
+import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/widgets/bottom/TabIconData.dart';
 import 'package:fitee/widgets/bottom/bottom_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BasePage extends StatefulWidget {
   @override
@@ -24,7 +27,13 @@ class _BasePageState extends State<BasePage> {
   @override
   void initState() {
     tabBody = HomePage();
+    _initData(NavUtil.ctx);
     super.initState();
+  }
+
+  _initData(BuildContext context) async{
+    final _userProvider = Provider.of<UserProvider>(context);
+    await _userProvider.getUser();
   }
 
   @override

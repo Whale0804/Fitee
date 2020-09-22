@@ -1,4 +1,5 @@
 import 'package:fitee/theme/app_theme.dart';
+import 'package:fitee/utils/screen.dart';
 import 'package:flutter/material.dart';
 
 class AppBarWidget extends StatelessWidget{
@@ -29,7 +30,7 @@ class AppBarWidget extends StatelessWidget{
                 padding: const EdgeInsets.only(top: 1),
                 child: Text(title,
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: duSetFontSize(18),
                     color: AppTheme.darkText,
                     fontWeight: FontWeight.w700
                   ),

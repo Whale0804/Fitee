@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/config/config.dart';
+import 'package:fitee/pages/login/login_page.dart';
+import 'package:fitee/utils/nav_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /*
@@ -61,7 +63,7 @@ class DioUtils {
       // 当请求失败时做一些预处理
       return createErrorEntity(e);
     }));
-    dio.interceptors.add(DioLogInterceptor());
+    //dio.interceptors.add(DioLogInterceptor());
   }
   /*
    * 获取token
@@ -203,6 +205,7 @@ ErrorEntity createErrorEntity(DioError error) {
               break;
             case 401:
               {
+                NavUtil.push(LoginPage());
                 return ErrorEntity(code: errCode, message: "没有权限");
               }
               break;

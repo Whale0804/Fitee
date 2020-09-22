@@ -36,10 +36,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    // 保存 ctx
-    NavUtil.ctx = context;
-
     final _darkMode = Provider.of<ThemeModel>(context).darkMode;
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
