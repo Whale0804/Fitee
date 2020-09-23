@@ -1,8 +1,5 @@
 
 import 'package:fitee/cache/local_storage.dart';
-import 'package:fitee/config/config.dart';
-import 'package:fitee/model/user/user_provider.dart';
-import 'package:fitee/pages/register/register_page.dart';
 import 'package:fitee/plugin/toast.dart';
 import 'package:fitee/route/base/base_route.dart';
 import 'package:fitee/services/login_service.dart';
@@ -14,7 +11,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
 

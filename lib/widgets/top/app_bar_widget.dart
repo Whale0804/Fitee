@@ -7,12 +7,14 @@ class AppBarWidget extends StatelessWidget{
   final String title;
   final Function callBack;
   final Icon icon;
+  final Color color;
 
-  AppBarWidget({Key key, this.title, this.callBack, this.icon}): super(key: key);
+  AppBarWidget({Key key, this.title, this.callBack, this.icon, this.color}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      color: color == null ? Colors.white : color,
       height: AppBar().preferredSize.height,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
