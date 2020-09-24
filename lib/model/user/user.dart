@@ -34,6 +34,7 @@ class User {
   String blog;
   String weibo;
   String bio;
+  String company;
   // ignore: non_constant_identifier_names
   int public_repos;
   // ignore: non_constant_identifier_names

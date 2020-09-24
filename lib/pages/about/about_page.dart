@@ -10,6 +10,10 @@ import 'package:provider/provider.dart';
 
 class AboutPage extends StatefulWidget {
 
+  final bool back;
+
+  AboutPage({Key key, this.back = false}): super(key: key);
+
   @override
   _AboutPageState createState()=> _AboutPageState();
 }
@@ -32,7 +36,8 @@ class _AboutPageState extends State<AboutPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppBarWidget(
-                title: 'About Us'
+              title: 'About Us',
+              back: widget.back,
             ),
             Expanded(
                 child: Column(

@@ -1,6 +1,9 @@
-
+import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/model/user/user_provider.dart';
+import 'package:fitee/pages/about/about_page.dart';
+import 'package:fitee/plugin/toast.dart';
 import 'package:fitee/theme/app_theme.dart';
+import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/screen.dart';
 import 'package:fitee/utils/utils.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
@@ -8,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MinePage extends StatefulWidget {
-
   @override
   _MinePageState createState()=> _MinePageState();
 }
@@ -17,7 +19,7 @@ class _MinePageState extends State<MinePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.white,
+      color: Colors.white,
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,26 +50,33 @@ class _MinePageState extends State<MinePage> {
                       ],
                     ),
                     ListView(
-                      shrinkWrap: true, // 关键
+                      padding: EdgeInsets.only(top: duSetHeight(12)),
                       children: [
-                        UserCard(context),
-                        ReposCard(context),
-                        const SizedBox(height: 60)
+                        // 用户信息
+                        _UserCard(context),
+                        // 仓库等信息
+                        _ReposCard(context),
+                        // 操作列表
+                        _ActionCard(context),
+                        // 用户信息
+                        _InfoCard(context),
+                        // 其他操作
+                        _OtherCard(context),
+                        SizedBox(height: duSetHeight(65))
                       ],
                     )
                   ],
                 ),
               ),
             )
-
           ]
       ),
     );
   }
 
-  Widget UserCard(BuildContext context) {
+  Widget _UserCard(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: duSetHeight(0),left: duSetWidth(16), right: duSetWidth(16), bottom: duSetHeight(15)),
+      padding: EdgeInsets.only(top: 0,left: duSetWidth(16), right: duSetWidth(16), bottom: duSetHeight(12)),
       child: Consumer<UserProvider>(
         builder: (context, state, child) {
           return Container(
@@ -80,8 +89,8 @@ class _MinePageState extends State<MinePage> {
                 //border: Border.all(width: 1, color: Colors.grey.withOpacity(.4)),
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(0.0, -2.0), //阴影xy轴偏移量
+                      color: Colors.grey[300],
+                      offset: Offset(0.0, -1.0), //阴影xy轴偏移量
                       blurRadius: 30.0, //阴影模糊程度
                       spreadRadius: 1.0 //阴影扩散程度
                   ),
@@ -114,7 +123,7 @@ class _MinePageState extends State<MinePage> {
                             textAlign: TextAlign.left,
                           ),
                           SizedBox(height: duSetHeight(4)),
-                          Text(state.user != null ? state.user.bio : '一个程序员',
+                          Text(state.user != null ? '@' + state.user.login : '一个程序员',
                             style: TextStyle(
                                 color: HexColor('#829099'),
                                 fontSize: duSetFontSize(16)
@@ -142,7 +151,7 @@ class _MinePageState extends State<MinePage> {
                                           SizedBox(height: duSetHeight(6)),
                                           Text('watched',
                                             style: TextStyle(
-                                                color: HexColor('#829099'),
+                                                color: AppTheme.descText,
                                                 fontSize: duSetFontSize(12)
                                             ),
                                           ),
@@ -169,7 +178,7 @@ class _MinePageState extends State<MinePage> {
                                           SizedBox(height: duSetHeight(6)),
                                           Text('followers',
                                             style: TextStyle(
-                                                color: HexColor('#829099'),
+                                                color: AppTheme.descText,
                                                 fontSize: duSetFontSize(12)
                                             ),
                                           ),
@@ -196,7 +205,7 @@ class _MinePageState extends State<MinePage> {
                                           SizedBox(height: duSetHeight(6)),
                                           Text('following',
                                             style: TextStyle(
-                                                color: HexColor('#829099'),
+                                                color: AppTheme.descText,
                                                 fontSize: duSetFontSize(12)
                                             ),
                                           ),
@@ -238,7 +247,9 @@ class _MinePageState extends State<MinePage> {
                           child: FlatButton(
                             colorBrightness: Brightness.dark,
                             shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            onPressed: ()=> {},
+                            onPressed: () async {
+                              print(await LocalStorage.get('access_token'));
+                            },
                             child: Text(
                               "私 信",
                               style: TextStyle(
@@ -284,37 +295,434 @@ class _MinePageState extends State<MinePage> {
       ),
     );
   }
-
-  Widget ReposCard(BuildContext context) {
+  Widget _ReposCard(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: duSetWidth(16), right: duSetWidth(16)),
+      padding: EdgeInsets.only(left: duSetWidth(16), right: duSetWidth(16), bottom: duSetHeight(12)),
       child: Container(
         width: double.infinity,
-        height: duSetHeight(65),
+        height: duSetHeight(60),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(12))
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              child: SizedBox(),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              child: VerticalDivider(
-                color: Colors.grey,
-              ),
-            ),
-            Expanded(
-              child: SizedBox(),
-            )
-          ],
-        ),
+        child: Consumer<UserProvider>(
+          builder: (context, state, child) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                _ReposItem(
+                  title: 'Repos',
+                  count: state.user != null ? state.user.public_repos : 0
+                ),
+                VerticalDivider(
+                  color: Colors.grey.withOpacity(.2),
+                  indent: 12, // 相当于 marginTop
+                  endIndent: 12,
+                  thickness: 1.2,
+                ),
+
+                _ReposItem(
+                    title: 'Watched',
+                    count: state.user != null ? state.user.watched : 0
+                ),
+                VerticalDivider(
+                  color: Colors.grey.withOpacity(.2),
+                  indent: 12, // 相当于 marginTop
+                  endIndent: 12,
+                  thickness: 1.2,
+                ),
+                _ReposItem(
+                    title: 'Gists',
+                    count: state.user != null ? state.user.public_gists : 0
+                ),
+              ],
+            );
+          }
+        )
       ),
     );
   }
+  Widget _ReposItem({String title, int count = 0}) {
+    return Expanded(
+      child: Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: duSetHeight(10)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: Text(count.toString(),
+                    style: TextStyle(
+                        color: AppTheme.darkText,
+                        fontSize: duSetFontSize(18),
+                        fontWeight: FontWeight.w600
+                    ),
+                  ),
+                ),
+                Expanded(
+                    child:Text(title,
+                      style: TextStyle(
+                          color: AppTheme.descText,
+                          fontSize: duSetFontSize(16),
+                          fontWeight: FontWeight.w400
+                      ),
+                    )
+                )
+              ],
+            ),
+          )
+      ),
+    );
+  }
+  Widget _ActionCard(BuildContext context){
+    return Padding(
+          padding: EdgeInsets.only(left: duSetWidth(16), right: duSetWidth(16), bottom: duSetHeight(12)),
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(12))
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                InkWell(
+                  child: Container(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    height: duSetHeight(40),
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.only(left: 8),
+                            child: Text('Issues',
+                              style: TextStyle(
+                                  fontSize: duSetFontSize(18),
+                                  color: AppTheme.darkText
+                              ),
+                            ),
+                          ),
+                        ),
+                        Icon(Icons.arrow_forward_ios,
+                          color: Colors.grey,
+                          size: duSetFontSize(16),
+                        )
+                      ],
+                    ),
+                  ),
+                  onTap: ()=> {
 
+                  },
+                ),
+                _Divider(),
+                InkWell(
+                  child: Container(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    height: duSetHeight(40),
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.only(left: 8),
+                            child: Text('Orgs',
+                              style: TextStyle(
+                                  fontSize: duSetFontSize(18),
+                                  color: AppTheme.darkText
+                              ),
+                            ),
+                          ),
+                        ),
+                        Icon(Icons.arrow_forward_ios,
+                          color: Colors.grey,
+                          size: duSetFontSize(16),
+                        )
+                      ],
+                    ),
+                  ),
+                  onTap: ()=> {
+                    Toast.toast(
+                      context,
+                      msg: 'Orgs',
+                      showTime: 3000,
+                    )
+                  },
+                )
+              ],
+            ),
+          )
+      );
+  }
+  Widget _InfoCard(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: duSetWidth(16), right: duSetWidth(16),bottom: duSetHeight(12)),
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(12))
+        ),
+        child: Consumer<UserProvider>(
+          builder: (context, state, child) {
+            return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      height: duSetHeight(40),
+                      width: double.infinity,
+                      child: GestureDetector(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.only(left: 8),
+                              child: Text('Email',
+                                style: TextStyle(
+                                    fontSize: duSetFontSize(18),
+                                    color: AppTheme.darkText
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(state.user != null && state.user.email != null ? state.user.email : '--',
+                                  style: TextStyle(
+                                    color: AppTheme.descText,
+                                    fontSize: duSetFontSize(16)
+                                  ),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                  ),
+                  _Divider(),
+                  Container(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      height: duSetHeight(40),
+                      width: double.infinity,
+                      child: GestureDetector(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.only(left: 8),
+                              child: Text('Blog',
+                                style: TextStyle(
+                                    fontSize: duSetFontSize(18),
+                                    color: AppTheme.darkText
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(state.user != null && state.user.blog != null ? state.user.blog : '--',
+                                  style: TextStyle(
+                                      color: AppTheme.descText,
+                                      fontSize: duSetFontSize(16),
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                  ),
+                  _Divider(),
+                  Container(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      height: duSetHeight(40),
+                      width: double.infinity,
+                      child: GestureDetector(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.only(left: 8),
+                              child: Text('Weibo',
+                                style: TextStyle(
+                                    fontSize: duSetFontSize(18),
+                                    color: AppTheme.darkText
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(state.user != null && state.user.weibo != null ? state.user.weibo : '--',
+                                  style: TextStyle(
+                                    color: AppTheme.descText,
+                                    fontSize: duSetFontSize(16),
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        onTap: ()=> {
+                          Toast.toast(
+                            context,
+                            msg: 'Issues',
+                            showTime: 3000,
+                          )
+                        },
+                      )
+                  ),
+                  _Divider(),
+                  Container(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      height: duSetHeight(40),
+                      width: double.infinity,
+                      child: GestureDetector(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.only(left: 8),
+                              child: Text('Company',
+                                style: TextStyle(
+                                    fontSize: duSetFontSize(18),
+                                    color: AppTheme.darkText
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(state.user != null && state.user.company != null ? state.user.company : '--',
+                                  style: TextStyle(
+                                    color: AppTheme.descText,
+                                    fontSize: duSetFontSize(16),
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                  ),
+                ]
+            );
+          },
+        )
+      )
+    );
+  }
+  Widget _OtherCard(BuildContext context){
+    return Padding(
+        padding: EdgeInsets.only(left: duSetWidth(16), right: duSetWidth(16), bottom: duSetHeight(12)),
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(12))
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              InkWell(
+                child: Container(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  height: duSetHeight(40),
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.only(left: 8),
+                          child: Text('Feedback',
+                            style: TextStyle(
+                                fontSize: duSetFontSize(18),
+                                color: AppTheme.darkText
+                            ),
+                          ),
+                        ),
+                      ),
+                      Icon(Icons.arrow_forward_ios,
+                        color: Colors.grey,
+                        size: duSetFontSize(16),
+                      )
+                    ],
+                  ),
+                ),
+                onTap: ()=> {
+
+                },
+              ),
+              _Divider(),
+              InkWell(
+                child: Container(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  height: duSetHeight(40),
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.only(left: 8),
+                          child: Text('About',
+                            style: TextStyle(
+                                fontSize: duSetFontSize(18),
+                                color: AppTheme.darkText
+                            ),
+                          ),
+                        ),
+                      ),
+                      Icon(Icons.arrow_forward_ios,
+                        color: Colors.grey,
+                        size: duSetFontSize(16),
+                      )
+                    ],
+                  ),
+                ),
+                onTap: ()=> {
+                  NavUtil.push(AboutPage(back: true))
+                },
+              )
+            ],
+          ),
+        )
+    );
+  }
+  Widget _Divider() {
+    return Divider(
+      height: 1.2,
+      indent: 12,
+      endIndent: 12,
+      thickness: 1.2,
+      color: Colors.grey.withOpacity(.2),
+    );
+  }
 }

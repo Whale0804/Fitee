@@ -63,7 +63,7 @@ class DioUtils {
       // 当请求失败时做一些预处理
       return createErrorEntity(e);
     }));
-    //dio.interceptors.add(DioLogInterceptor());
+    dio.interceptors.add(DioLogInterceptor());
   }
   /*
    * 获取token
@@ -205,7 +205,7 @@ ErrorEntity createErrorEntity(DioError error) {
               break;
             case 401:
               {
-                NavUtil.push(LoginPage());
+                NavUtil.pushReplacement(LoginPage());
                 return ErrorEntity(code: errCode, message: "没有权限");
               }
               break;
