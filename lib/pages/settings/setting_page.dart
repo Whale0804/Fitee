@@ -199,15 +199,18 @@ class _SettingPageState extends State<SettingPage> {
                             Expanded(
                               child: SizedBox(),
                             ),
-                            Switch(
-                              value: this.fingerprintEnable,
-                              activeColor: AppTheme.descText,     // 激活时原点颜色
-                              activeTrackColor: HexColor('#171717'),
-                              onChanged: (value) {
-                                this.setState(() {
-                                  this.fingerprintEnable = !this.fingerprintEnable;
-                                });
-                              },
+                            Container(
+                              height: duSetHeight(20),
+                              child: Switch(
+                                value: this.fingerprintEnable,
+                                activeColor: AppTheme.descText,     // 激活时原点颜色
+                                activeTrackColor: HexColor('#171717'),
+                                onChanged: (value) {
+                                  this.setState(() {
+                                    this.fingerprintEnable = !this.fingerprintEnable;
+                                  });
+                                },
+                              ),
                             ),
                           ],
                         ),
