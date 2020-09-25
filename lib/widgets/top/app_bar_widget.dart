@@ -15,10 +15,10 @@ class AppBarWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    print(this.back);
     return back == true ? Container(
       color: Colors.white,
       child: AppBar(
+
         title: Text(title,
           style: TextStyle(
               fontSize: duSetFontSize(18),

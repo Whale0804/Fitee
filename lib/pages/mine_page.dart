@@ -1,6 +1,7 @@
 import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/model/user/user_provider.dart';
 import 'package:fitee/pages/about/about_page.dart';
+import 'package:fitee/pages/settings/setting_page.dart';
 import 'package:fitee/plugin/toast.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
@@ -11,6 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MinePage extends StatefulWidget {
+  final bool isCurrent;
+  final bool back;
+
+  MinePage({Key key, this.isCurrent = true, this.back = false}): super(key: key);
+
   @override
   _MinePageState createState()=> _MinePageState();
 }
@@ -27,6 +33,8 @@ class _MinePageState extends State<MinePage> {
             AppBarWidget(
               title: '我 的',
               icon: Icon(Icons.settings),
+              back: widget.back,
+              callBack: ()=> NavUtil.push(SettingPage()),
             ),
             Expanded(
               child: Container(
@@ -61,7 +69,7 @@ class _MinePageState extends State<MinePage> {
                         // 用户信息
                         _InfoCard(context),
                         // 其他操作
-                        _OtherCard(context),
+                        widget.isCurrent ? _OtherCard(context) : SizedBox(),
                         SizedBox(height: duSetHeight(65))
                       ],
                     )
@@ -74,6 +82,7 @@ class _MinePageState extends State<MinePage> {
     );
   }
 
+  // Widgets
   Widget _UserCard(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 0,left: duSetWidth(16), right: duSetWidth(16), bottom: duSetHeight(12)),
@@ -81,7 +90,6 @@ class _MinePageState extends State<MinePage> {
         builder: (context, state, child) {
           return Container(
             padding: EdgeInsets.all(12),
-            height: duSetHeight(180),
             width: double.infinity,
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -230,8 +238,8 @@ class _MinePageState extends State<MinePage> {
                     ),
                   ],
                 ),
-                SizedBox(height: duSetHeight(13)),
-                Row(
+                SizedBox(height: duSetHeight(!widget.isCurrent ? 13 : 0)),
+                !widget.isCurrent ? Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
@@ -287,7 +295,7 @@ class _MinePageState extends State<MinePage> {
                       ),
                     )
                   ],
-                ),
+                ) : SizedBox(),
               ],
             ),
           );
