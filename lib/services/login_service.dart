@@ -21,8 +21,7 @@ class LoginApi {
 
   /// 获取用户信息
   static Future<User> getUser() async{
-    String accessToken = await LocalStorage.getString("access_token");
-    Map<String, String> params = {"access_token": accessToken};
+    Map<String, String> params = {"access_token": await DioUtils().getAuthorizationHeader()};
     var result = await DioUtils().get("/api/v5/user", params: params);
     return User.fromJson(result);
   }

@@ -2,7 +2,7 @@
 import 'dart:math';
 
 import 'package:fitee/model/user/user_provider.dart';
-import 'package:fitee/pages/discovery_page.dart';
+import 'package:fitee/pages/feed_page.dart';
 import 'package:fitee/pages/home_page.dart';
 import 'package:fitee/pages/mine_page.dart';
 import 'package:fitee/pages/notice_page.dart';

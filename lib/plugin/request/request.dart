@@ -73,14 +73,9 @@ class DioUtils {
   }
 
   /// get 操作
-  Future get(
-    String path, {
-    dynamic params,
-    Options options,
-  }) async {
+  Future get(String path, {dynamic params,Options options,}) async {
     try {
       Options requestOptions = options ?? Options();
-
       /// 以下三行代码为获取token然后将其合并到header的操作
 //      Map<String, dynamic> _authorization = {"access_token": getAuthorizationHeader()};
 //      if (_authorization != null) {

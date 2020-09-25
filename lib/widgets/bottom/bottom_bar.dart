@@ -165,7 +165,7 @@ class _BottomBarWidgetState extends State<BottomBarWidget> with TickerProviderSt
                           onTap: () {
                             widget.onAddClick();
                           },
-                          child: Icon(Icons.add, color: Colors.white, size: 30),
+                          child: Icon(Icons.search, color: Colors.white, size: 30),
                         ),
                       ),
                     ),

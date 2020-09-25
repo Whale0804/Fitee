@@ -1,4 +1,5 @@
 
+import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,8 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             AppBarWidget(
               title: 'Fitee',
-              callBack: (){
+              callBack: () async {
+                print(await LocalStorage.get('access_token'));
                 print("click homePage title right icon.");
               },
               icon: Icon(Icons.dashboard),
