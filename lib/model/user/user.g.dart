@@ -36,7 +36,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
     created_at: json['created_at'] as String,
     updated_at: json['updated_at'] as String,
     email: json['email'] as String,
-  );
+  )..company = json['company'] as String;
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -59,6 +59,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'blog': instance.blog,
       'weibo': instance.weibo,
       'bio': instance.bio,
+      'company': instance.company,
       'public_repos': instance.public_repos,
       'public_gists': instance.public_gists,
       'followers': instance.followers,

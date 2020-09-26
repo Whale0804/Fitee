@@ -3,6 +3,7 @@ import 'package:fitee/utils/screen.dart';
 import 'package:fitee/utils/utils.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DiscoveryPage extends StatefulWidget {
   
@@ -115,12 +116,47 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                       child: Container(
                         color: Colors.white,
                         width: double.infinity,
-                        child: TabBarView(
-                          controller: _controller,
-                          children: <Widget>[
-                            Icon(Icons.local_florist, size: 128.0, color: Colors.black12),
-                            Icon(Icons.change_history, size: 128.0, color: Colors.black12),
-                          ],
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 0,left: duSetWidth(16), right: duSetWidth(16)),
+                          child: TabBarView(
+                            controller: _controller,
+                            children: <Widget>[
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Expanded(
+                                    child: ListView(
+                                      padding: EdgeInsets.only(top: duSetHeight(12)),
+                                      children: [
+                                        Container(
+                                          width: double.infinity,
+                                          height: 100,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(Radius.circular(16)),
+                                              //border: Border.all(width: 1, color: Colors.grey.withOpacity(.4)),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.grey.withOpacity(.2),
+                                                    offset: Offset(0.0, -1.0), //阴影xy轴偏移量
+                                                    blurRadius: 30.0, //阴影模糊程度
+                                                    spreadRadius: 1.0 //阴影扩散程度
+                                                ),
+                                              ]
+                                          ),
+                                          child: Consumer(),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: duSetHeight(65))
+                                ],
+                              ),
+                              Icon(Icons.change_history, size: 128.0, color: Colors.black12),
+                            ],
+                          ),
                         ),
                       ),
                     )
