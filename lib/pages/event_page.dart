@@ -5,6 +5,7 @@ import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/screen.dart';
 import 'package:fitee/utils/utils.dart';
+import 'package:fitee/widgets/loading/FiteeLoading.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -138,44 +139,15 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                                   Expanded(
                                     child: Consumer<EventProvider>(builder: (context, state, child){
                                       return state.loading ?
-                                      Container(
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                        child: Center(
-                                          child: SizedBox(
-                                            height: duSetHeight(100),
-                                            width: duSetWidth(120),
-                                            child: Card(
-                                              color: AppTheme.dark_grey.withOpacity(.5),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    Container(
-                                                      width: 50.0,
-                                                      height: 50.0,
-                                                      child: SpinKitFadingCube(
-                                                        color: Colors.white,
-                                                        size: 25.0,
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      child: Text('拼命加载中',
-                                                        style: TextStyle(
-                                                          color: AppTheme.nearlyWhite,
-                                                          fontSize: duSetFontSize(18)
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ]
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ) :
+                                      FiteeLoading() :
                                       EasyRefresh.custom(
-                                        header: MaterialHeader(),
-                                        footer: MaterialFooter(),
+                                        header: BezierHourGlassHeader(
+                                          backgroundColor: Colors.transparent,
+                                          color: AppTheme.dismissibleBackground,
+                                        ),
+                                        footer: TaurusFooter(
+                                          backgroundColor: AppTheme.dismissibleBackground
+                                        ),
                                         onRefresh: () async{
                                           setState(() {
                                             page = 1;
@@ -235,7 +207,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                                     }
                                     ),
                                   ),
-                                  SizedBox(height: duSetHeight(65))
+                                  SizedBox(height: duSetHeight(75))
                                 ],
                               ),
                               Icon(Icons.change_history, size: 128.0, color: Colors.black12),
