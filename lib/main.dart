@@ -7,6 +7,7 @@ import 'package:fitee/theme/model/theme_model.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 
 import 'cache/local_storage.dart';
@@ -70,6 +71,10 @@ class MyApp extends StatelessWidget {
         platform: TargetPlatform.iOS,
       ),
       home: BaseRoute(),
+      builder: (BuildContext context, Widget child) {
+        /// 确保 loading 组件能覆盖在其他组件之上.
+        return FlutterEasyLoading(child: child);
+      },
     ) : MaterialApp(
       title: 'Fitee',
       debugShowCheckedModeBanner: false,
@@ -78,6 +83,10 @@ class MyApp extends StatelessWidget {
         platform: TargetPlatform.iOS,
       ),
       home: isLogin ? BaseRoute() : LoginPage(),
+      builder: (BuildContext context, Widget child) {
+        /// 确保 loading 组件能覆盖在其他组件之上.
+        return FlutterEasyLoading(child: child);
+      },
 //      home: LoginPage(),
     );
   }

@@ -63,7 +63,7 @@ class DioUtils {
       // 当请求失败时做一些预处理
       return createErrorEntity(e);
     }));
-    dio.interceptors.add(DioLogInterceptor());
+    //dio.interceptors.add(DioLogInterceptor());
   }
   /*
    * 获取token
@@ -73,7 +73,7 @@ class DioUtils {
   }
 
   /// get 操作
-  Future get(String path, {dynamic params,Options options,}) async {
+  Future get<T>(String path, {dynamic params,Options options,}) async {
     try {
       Options requestOptions = options ?? Options();
       /// 以下三行代码为获取token然后将其合并到header的操作
@@ -81,7 +81,7 @@ class DioUtils {
 //      if (_authorization != null) {
 //        requestOptions = requestOptions.merge(headers: _authorization);
 //      }
-      var response = await dio.get(
+      var response = await dio.get<T>(
         path,
         queryParameters: params,
         options: requestOptions,
