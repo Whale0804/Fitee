@@ -23,7 +23,6 @@ class EventProvider with ChangeNotifier {
 
   fetchEvent() async{
     List<Event> res = await EventApi.fetchEvent(page: currentPage);
-    notifyListeners();
     if(currentPage == 1){
       result = new List<Event>();
       result = res;
@@ -31,6 +30,7 @@ class EventProvider with ChangeNotifier {
       result.addAll(res);
     }
     loading = false;
+    notifyListeners();
     return result;
   }
 }

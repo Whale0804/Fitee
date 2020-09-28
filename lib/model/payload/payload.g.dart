@@ -27,7 +27,7 @@ Payload _$PayloadFromJson(Map<String, dynamic> json) {
     repositoryUrl: json['repository_url'] as String,
     commentsUrl: json['comments_url'] as String,
     htmlUrl: json['html_url'] as String,
-    number: json['number'] as String,
+    number: json['number'],
     state: json['state'] as String,
     title: json['title'] as String,
     body: json['body'] as String,

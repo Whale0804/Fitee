@@ -141,6 +141,14 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                                       return state.loading ?
                                       FiteeLoading() :
                                       EasyRefresh.custom(
+                                        emptyWidget: state.result.length == 0 ? Container(
+                                          color: Colors.white,
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                          child: Center(
+                                            child: Image.asset('assets/state/empty_list.png'),
+                                          ),
+                                        ) : null,
                                         header: BezierHourGlassHeader(
                                           backgroundColor: Colors.transparent,
                                           color: AppTheme.dismissibleBackground,

@@ -37,7 +37,7 @@ class Payload {
   String commentsUrl;
   @JsonKey(name: "html_url")
   String htmlUrl;
-  String number;
+  dynamic number;
   String state;
   String title;
   String body;
