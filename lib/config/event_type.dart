@@ -28,4 +28,6 @@ class EventType {
  static String MEMBER_EVENT = "MemberEvent";
  // ignore: non_constant_identifier_names
  static String PUBLIC_EVENT = "PublicEvent";
+ // ignore: non_constant_identifier_names
+ static String STAR_EVENT = "StarEvent";
 }

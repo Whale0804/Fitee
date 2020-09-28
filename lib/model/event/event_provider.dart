@@ -4,33 +4,49 @@ import 'package:flutter/material.dart';
 
 class EventProvider with ChangeNotifier {
 
-  bool loading = true;
+  bool allLoading = true;
+  bool myLoading = true;
 
-  List<Event> result;
+  List<Event> allResult;
+  List<Event> myResult;
 
-  int currentPage = 1;
+  int currentAllPage = 1;
+  int currentMyPage = 1;
 
-  EventProvider(){
-    fetchEvent();
+  setAllPage ({int page = 1}){
+    currentAllPage = page;
+    fetchAllEvent();
+    notifyListeners();
   }
-
-  setPage ({int page = 1}){
-    currentPage = page;
-    print("currentPage $currentPage");
-    fetchEvent();
+  setMyPage ({int page = 1}){
+    currentMyPage = page;
+    fetchMyEvent();
     notifyListeners();
   }
 
-  fetchEvent() async{
-    List<Event> res = await EventApi.fetchEvent(page: currentPage);
-    if(currentPage == 1){
-      result = new List<Event>();
-      result = res;
+  fetchAllEvent() async{
+    List<Event> res = await EventApi.fetchAllEvent(page: currentAllPage);
+    if(currentAllPage == 1){
+      allResult = new List<Event>();
+      allResult = res;
     }else {
-      result.addAll(res);
+      allResult.addAll(res);
     }
-    loading = false;
+    allLoading = false;
     notifyListeners();
-    return result;
+    return allResult;
+  }
+
+  fetchMyEvent() async{
+    List<Event> res = await EventApi.fetchMyEvent(page: currentMyPage);
+    if(currentMyPage == 1){
+      myResult = new List<Event>();
+      myResult = res;
+    }else {
+      myResult.addAll(res);
+    }
+    myLoading = false;
+    notifyListeners();
+    return myResult;
   }
 }

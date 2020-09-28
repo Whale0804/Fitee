@@ -4,7 +4,6 @@ import 'package:fitee/services/login_service.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider with ChangeNotifier {
-
   User user;
 
   getUser() async{
