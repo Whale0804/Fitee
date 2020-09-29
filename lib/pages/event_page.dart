@@ -35,7 +35,6 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
   void initState() {
     super.initState();
     eventProvider = Provider.of<EventProvider>(NavUtil.ctx);
-    print(eventProvider.runtimeType);
     _controller = TabController(
       length: 2,
       vsync: ScrollableState(),
@@ -68,7 +67,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.white,
+      color: Colors.transparent,
       child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
         AppBarWidget(
             title: 'Feed'
@@ -139,18 +138,14 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
               ),
               //TabView
               Expanded(
-                child: Container(
-                  color: Colors.white,
-                  width: double.infinity,
-                  child: TabBarView(
-                    controller: _controller,
-                    children: <Widget>[
-                      _AllEventList(context: context),
-                      _MyEventList(context: context),
-                    ],
-                  ),
+                child: TabBarView(
+                  controller: _controller,
+                  children: <Widget>[
+                    _AllEventList(context: context),
+                    _MyEventList(context: context),
+                  ],
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -179,13 +174,12 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                   child: Image.asset('assets/state/empty_list.png'),
                 ),
               ) : null,
-              header: BezierHourGlassHeader(
-                backgroundColor: Colors.transparent,
-                color: AppTheme.dismissibleBackground,
+              header: TaurusHeader(
+                backgroundColor: AppTheme.dismissibleBackground
               ),
-              footer: TaurusFooter(
-                  backgroundColor: AppTheme.dismissibleBackground
-              ),
+              // footer: TaurusFooter(
+              //     backgroundColor: AppTheme.dismissibleBackground
+              // ),
               onRefresh: () async{
                 setState(() {
                   page = 1;
@@ -206,7 +200,11 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                           (context, index) {
                         Event event = state.allResult[index];
                         return Padding(
-                          padding: EdgeInsets.only(top: duSetHeight(index == 0 ? 12: 0), left: duSetWidth(16), right: duSetWidth(16)),
+                          padding: EdgeInsets.only(
+                              top: duSetHeight(index == 0 ? 12: 0),
+                              left: duSetWidth(16),
+                              right: duSetWidth(16)
+                          ),
                           child: AnimationConfiguration.staggeredList(
                             position: index,
                             duration: const Duration(milliseconds: 475),
@@ -221,13 +219,12 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                       },
                       childCount: state.allResult.length
                   )),
-                )
+                ),
               ],
             );
           }
           ),
         ),
-        SizedBox(height: duSetHeight(75))
       ],
     );
   }
@@ -251,13 +248,12 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                   child: Image.asset('assets/state/empty_list.png'),
                 ),
               ) : null,
-              header: BezierHourGlassHeader(
-                backgroundColor: Colors.transparent,
-                color: AppTheme.dismissibleBackground,
-              ),
-              footer: TaurusFooter(
+              header: TaurusHeader(
                   backgroundColor: AppTheme.dismissibleBackground
               ),
+              // footer: TaurusFooter(
+              //     backgroundColor: AppTheme.dismissibleBackground
+              // ),
               onRefresh: () async{
                 setState(() {
                   page = 1;
@@ -299,7 +295,6 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
           }
           ),
         ),
-        SizedBox(height: duSetHeight(75))
       ],
     );
   }
@@ -380,7 +375,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                               )),
                               TextSpan(text: '的'),
                               TextSpan(text: ' ' + event.payload.ref + ' '),
-                              TextSpan(text: '分支。'),
+                              TextSpan(text: '分支'),
                             ]),
                       ),
                     ),
@@ -463,7 +458,6 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                                 color: HexColor('#6B9BF2'),
                                 fontSize: duSetFontSize(AppConfig.EVENT_CONTENT_SIZE)
                             )),
-                            TextSpan(text: '。'),
                           ]),
                     ),
                   ),
@@ -633,7 +627,6 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                                 color: HexColor('#6B9BF2'),
                                 fontSize: duSetFontSize(AppConfig.EVENT_CONTENT_SIZE)
                             )),
-                            TextSpan(text: '。'),
                           ]),
                     ),
                   ),
@@ -716,7 +709,6 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                                 color: HexColor('#6B9BF2'),
                                 fontSize: duSetFontSize(AppConfig.EVENT_CONTENT_SIZE)
                             )),
-                            TextSpan(text: '。'),
                           ]),
                     ),
                   ),
@@ -808,7 +800,6 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                                 color: AppTheme.dark_grey,
                                 fontSize: duSetFontSize(AppConfig.EVENT_CONTENT_SIZE)
                             )),
-                            TextSpan(text: '。'),
                           ]),
                     ),
                   ),
@@ -900,7 +891,6 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                                 color: AppTheme.dark_grey,
                                 fontSize: duSetFontSize(AppConfig.EVENT_CONTENT_SIZE)
                             )),
-                            TextSpan(text: '。'),
                           ]),
                     ),
                   ),
@@ -984,7 +974,6 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                                 fontSize: duSetFontSize(AppConfig.EVENT_CONTENT_SIZE)
                             )),
                             TextSpan(text: '进行了 PullRequest 操作'),
-                            TextSpan(text: '。'),
                           ]),
                     ),
                   ),
@@ -1067,7 +1056,6 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                                 color: HexColor('#6B9BF2'),
                                 fontSize: duSetFontSize(AppConfig.EVENT_CONTENT_SIZE)
                             )),
-                            TextSpan(text: '。'),
                           ]),
                     ),
                   ),
@@ -1150,7 +1138,6 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                                 color: HexColor('#6B9BF2'),
                                 fontSize: duSetFontSize(AppConfig.EVENT_CONTENT_SIZE)
                             )),
-                            TextSpan(text: '。'),
                           ]),
                     ),
                   ),
@@ -1232,7 +1219,6 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                             fontSize: duSetFontSize(AppConfig.EVENT_CONTENT_SIZE)
                         )),
                         TextSpan(text: '添加了新成员'),
-                        TextSpan(text: '。'),
                       ]),
                     ),
                   ),
@@ -1314,7 +1300,6 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                             fontSize: duSetFontSize(AppConfig.EVENT_CONTENT_SIZE)
                         )),
                         TextSpan(text: '这个仓库'),
-                        TextSpan(text: '。'),
                       ]),
                     ),
                   ),
