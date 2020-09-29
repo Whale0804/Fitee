@@ -68,7 +68,7 @@ class _BasePageState extends State<BasePage> {
       if(index == 0) {
         tabBody = HomePage();
       } else if(index == 1){
-        tabBody = DiscoveryPage();
+        tabBody = EventPage();
       } else if(index == 2){
         tabBody = NoticePage();
       }else if(index == 3) {

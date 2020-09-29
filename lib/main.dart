@@ -66,6 +66,7 @@ class MyApp extends StatelessWidget {
     return _darkMode == 2 ?
     MaterialApp(
       title: 'Fitee',
+      navigatorKey: NavKey.navKey,
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData.dark(),
       theme: ThemeData(

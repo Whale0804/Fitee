@@ -1,29 +1,27 @@
 import 'package:fitee/config/config.dart';
 import 'package:fitee/config/event_type.dart';
-import 'package:fitee/main.dart';
 import 'package:fitee/model/event/event.dart';
 import 'package:fitee/model/event/event_provider.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/relative_date_format.dart';
 import 'package:fitee/utils/screen.dart';
+import 'package:fitee/utils/store.dart';
 import 'package:fitee/utils/utils.dart';
 import 'package:fitee/widgets/loading/FiteeLoading.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 
-class DiscoveryPage extends StatefulWidget {
+class EventPage extends StatefulWidget {
   
   @override
-  _DiscoveryPageState createState()=> _DiscoveryPageState();
+  _EventPageState createState()=> _EventPageState();
 }
 
-class _DiscoveryPageState extends State<DiscoveryPage> {
+class _EventPageState extends State<EventPage> {
 
   EventProvider eventProvider;
   TabController _controller;
@@ -34,7 +32,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
   @override
   void initState() {
     super.initState();
-    eventProvider = Provider.of<EventProvider>(NavUtil.ctx);
+    eventProvider = Store.value<EventProvider>(NavUtil.ctx);
     _controller = TabController(
       length: 2,
       vsync: ScrollableState(),
@@ -162,7 +160,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
       children: [
         SizedBox(height: duSetHeight(6)),
         Expanded(
-          child: Consumer<EventProvider>(builder: (context, state, child){
+          child: Store.connect<EventProvider>(builder: (context, state, child){
             return state.allLoading ?
             FiteeLoading() :
             EasyRefresh.custom(
@@ -175,7 +173,8 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                 ),
               ) : null,
               header: TaurusHeader(
-                backgroundColor: AppTheme.dismissibleBackground
+                backgroundColor: AppTheme.dismissibleBackground,
+                completeDuration: Duration(milliseconds: 1200)
               ),
               // footer: TaurusFooter(
               //     backgroundColor: AppTheme.dismissibleBackground
@@ -196,8 +195,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
               },
               slivers: <Widget>[
                 AnimationLimiter(
-                  child: SliverList(delegate: SliverChildBuilderDelegate(
-                          (context, index) {
+                  child: SliverList(delegate: SliverChildBuilderDelegate((context, index) {
                         Event event = state.allResult[index];
                         return Padding(
                           padding: EdgeInsets.only(
@@ -218,7 +216,16 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                         );
                       },
                       childCount: state.allResult.length
-                  )),
+                    )
+                  ),
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate((content, index) {
+                    return Container(
+                      height: duSetHeight(50),
+                      color: Colors.transparent,
+                    );
+                  }, childCount: 1),
                 ),
               ],
             );
@@ -249,7 +256,8 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                 ),
               ) : null,
               header: TaurusHeader(
-                  backgroundColor: AppTheme.dismissibleBackground
+                backgroundColor: AppTheme.dismissibleBackground,
+                completeDuration: Duration(milliseconds: 1200)
               ),
               // footer: TaurusFooter(
               //     backgroundColor: AppTheme.dismissibleBackground
@@ -270,8 +278,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
               },
               slivers: <Widget>[
                 AnimationLimiter(
-                  child: SliverList(delegate: SliverChildBuilderDelegate(
-                          (context, index) {
+                  child: SliverList(delegate: SliverChildBuilderDelegate((context, index) {
                         Event event = state.myResult[index];
                         return Padding(
                           padding: EdgeInsets.only(top: duSetHeight(index == 0 ? 12: 0), left: duSetWidth(16), right: duSetWidth(16)),
@@ -289,7 +296,15 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                       },
                       childCount: state.myResult.length
                   )),
-                )
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate((content, index) {
+                    return Container(
+                      height: duSetHeight(50),
+                      color: Colors.transparent,
+                    );
+                  }, childCount: 1),
+                ),
               ],
             );
           }
@@ -321,19 +336,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(14.0))
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(14.0),
-                  child: Image.network(event.actor.avatar_url,
-                    width: duSetWidth(60),
-                    height: duSetHeight(55),
-                  ),
-                ),
-              ),
+              _AvatarWidget(url: event.actor.avatar_url),
               SizedBox(width: duSetWidth(12),),
               Expanded(
                 child: Column(
@@ -406,19 +409,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(14.0))
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(14.0),
-                child: Image.network(event.actor.avatar_url,
-                  width: duSetWidth(60),
-                  height: duSetHeight(55),
-                ),
-              ),
-            ),
+            _AvatarWidget(url: event.actor.avatar_url),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -488,19 +479,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(14.0))
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(14.0),
-                child: Image.network(event.actor.avatar_url,
-                  width: duSetWidth(60),
-                  height: duSetHeight(55),
-                ),
-              ),
-            ),
+            _AvatarWidget(url: event.actor.avatar_url),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -575,19 +554,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(14.0))
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(14.0),
-                child: Image.network(event.actor.avatar_url,
-                  width: duSetWidth(60),
-                  height: duSetHeight(55),
-                ),
-              ),
-            ),
+            _AvatarWidget(url: event.actor.avatar_url),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -657,19 +624,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(14.0))
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(14.0),
-                child: Image.network(event.actor.avatar_url,
-                  width: duSetWidth(60),
-                  height: duSetHeight(55),
-                ),
-              ),
-            ),
+            _AvatarWidget(url: event.actor.avatar_url),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -739,19 +694,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(14.0))
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(14.0),
-                child: Image.network(event.actor.avatar_url,
-                  width: duSetWidth(60),
-                  height: duSetHeight(55),
-                ),
-              ),
-            ),
+            _AvatarWidget(url: event.actor.avatar_url),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -830,19 +773,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(14.0))
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(14.0),
-                child: Image.network(event.actor.avatar_url,
-                  width: duSetWidth(60),
-                  height: duSetHeight(55),
-                ),
-              ),
-            ),
+            _AvatarWidget(url: event.actor.avatar_url),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -921,19 +852,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(14.0))
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(14.0),
-                child: Image.network(event.actor.avatar_url,
-                  width: duSetWidth(60),
-                  height: duSetHeight(55),
-                ),
-              ),
-            ),
+            _AvatarWidget(url: event.actor.avatar_url),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -1004,19 +923,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(14.0))
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(14.0),
-                child: Image.network(event.actor.avatar_url,
-                  width: duSetWidth(60),
-                  height: duSetHeight(55),
-                ),
-              ),
-            ),
+            _AvatarWidget(url: event.actor.avatar_url),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -1086,19 +993,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(14.0))
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(14.0),
-                child: Image.network(event.actor.avatar_url,
-                  width: duSetWidth(60),
-                  height: duSetHeight(55),
-                ),
-              ),
-            ),
+            _AvatarWidget(url: event.actor.avatar_url),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -1168,19 +1063,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(14.0))
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(14.0),
-                child: Image.network(event.actor.avatar_url,
-                  width: duSetWidth(60),
-                  height: duSetHeight(55),
-                ),
-              ),
-            ),
+            _AvatarWidget(url: event.actor.avatar_url),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -1249,19 +1132,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(14.0))
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(14.0),
-                child: Image.network(event.actor.avatar_url,
-                  width: duSetWidth(60),
-                  height: duSetHeight(55),
-                ),
-              ),
-            ),
+            _AvatarWidget(url: event.actor.avatar_url),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -1312,5 +1183,21 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
     }else {
       return SizedBox();
     }
+  }
+
+  Widget _AvatarWidget ({String url}) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.grey.withOpacity(.2),
+          borderRadius: BorderRadius.all(Radius.circular(14.0))
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(14.0),
+        child: Image.network(url,
+          width: duSetWidth(56),
+          height: duSetHeight(52),
+        ),
+      ),
+    );
   }
 }

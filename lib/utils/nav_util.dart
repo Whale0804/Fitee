@@ -58,3 +58,7 @@ class NavUtil {
     );
   }
 }
+
+class NavKey {
+  static final navKey = GlobalKey<NavigatorState>();
+}
