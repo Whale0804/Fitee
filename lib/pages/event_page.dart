@@ -235,6 +235,7 @@ class _EventPageState extends State<EventPage> {
       ],
     );
   }
+  /// 我的事件列表
   _MyEventList({BuildContext context}){
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -1184,11 +1185,11 @@ class _EventPageState extends State<EventPage> {
       return SizedBox();
     }
   }
-
+  /// 头像组件
   Widget _AvatarWidget ({String url}) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(.2),
+          color: Colors.grey.withOpacity(.05),
           borderRadius: BorderRadius.all(Radius.circular(14.0))
       ),
       child: ClipRRect(
