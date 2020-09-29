@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
-
 import 'cache/local_storage.dart';
 import 'model/event/event_provider.dart';
+import 'model/notify/notify_provider.dart';
 import 'model/user/user_provider.dart';
 
 Future<void> main() async {
@@ -26,6 +26,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_)=> ThemeModel()),
         ChangeNotifierProvider(create: (_)=> UserProvider()),
         ChangeNotifierProvider(create: (_)=> EventProvider()),
+        ChangeNotifierProvider(create: (_)=> NotifyProvider()),
       ],
       child: MyApp(isLogin: isLogin),
     )

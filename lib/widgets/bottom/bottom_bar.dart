@@ -1,5 +1,8 @@
 import 'dart:math' as math;
+import 'package:badges/badges.dart';
+import 'package:fitee/model/notify/notify_provider.dart';
 import 'package:fitee/utils/screen.dart';
+import 'package:fitee/utils/store.dart';
 import 'package:fitee/utils/utils.dart';
 import 'package:fitee/widgets/bottom/TabIconData.dart';
 import 'package:flutter/material.dart';
@@ -58,54 +61,57 @@ class _BottomBarWidgetState extends State<BottomBarWidget> with TickerProviderSt
                       height: 52,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8, right: 8, top: 4),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: TabIcon(
-                                tabIconData: widget.tabIconsList[0],
-                                removeAllSelect: (){
-                                  setRemoveAllSelection(widget.tabIconsList[0]);
-                                  widget.onChangeIndex(0);
-                                },
+                        child: Store.connect<NotifyProvider>(builder: (context, state, child){
+                          return Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: TabIcon(
+                                  tabIconData: widget.tabIconsList[0],
+                                  removeAllSelect: (){
+                                    setRemoveAllSelection(widget.tabIconsList[0]);
+                                    widget.onChangeIndex(0);
+                                  },
+                                ),
                               ),
-                            ),
-                            Expanded(
-                              child: TabIcon(
-                                tabIconData: widget.tabIconsList[1],
-                                removeAllSelect: (){
-                                  setRemoveAllSelection(widget.tabIconsList[1]);
-                                  widget.onChangeIndex(1);
-                                },
+                              Expanded(
+                                child: TabIcon(
+                                  tabIconData: widget.tabIconsList[1],
+                                  removeAllSelect: (){
+                                    setRemoveAllSelection(widget.tabIconsList[1]);
+                                    widget.onChangeIndex(1);
+                                  },
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              width: Tween<double>(begin: 0.0, end: 1.0)
-                                  .animate(CurvedAnimation(
-                                  parent: animationController,
-                                  curve: Curves.fastOutSlowIn))
-                                  .value *
-                                  64.0,
-                            ),
-                            Expanded(
-                              child: TabIcon(
-                                tabIconData: widget.tabIconsList[2],
-                                removeAllSelect: (){
-                                  setRemoveAllSelection(widget.tabIconsList[2]);
-                                  widget.onChangeIndex(2);
-                                },
+                              SizedBox(
+                                width: Tween<double>(begin: 0.0, end: 1.0)
+                                    .animate(CurvedAnimation(
+                                    parent: animationController,
+                                    curve: Curves.fastOutSlowIn))
+                                    .value *
+                                    64.0,
                               ),
-                            ),
-                            Expanded(
-                              child: TabIcon(
-                                tabIconData: widget.tabIconsList[3],
-                                removeAllSelect: (){
-                                  setRemoveAllSelection(widget.tabIconsList[3]);
-                                  widget.onChangeIndex(3);
-                                },
+                              Expanded(
+                                child: TabIcon(
+                                  tabIconData: widget.tabIconsList[2],
+                                  isHaveRead: state.isHaveNotify,
+                                  removeAllSelect: (){
+                                    setRemoveAllSelection(widget.tabIconsList[2]);
+                                    widget.onChangeIndex(2);
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                              Expanded(
+                                child: TabIcon(
+                                  tabIconData: widget.tabIconsList[3],
+                                  removeAllSelect: (){
+                                    setRemoveAllSelection(widget.tabIconsList[3]);
+                                    widget.onChangeIndex(3);
+                                  },
+                                ),
+                              ),
+                            ],
+                          );
+                        }),
                       ),
                     ),
                     SizedBox(
@@ -196,8 +202,9 @@ class TabIcon extends StatefulWidget {
 
   final TabIconData tabIconData;
   final Function removeAllSelect;
+  final isHaveRead;
 
-  TabIcon({Key key, this.tabIconData, this.removeAllSelect}): super(key: key);
+  TabIcon({Key key, this.tabIconData, this.removeAllSelect, this.isHaveRead = false}): super(key: key);
 
   @override
   _TabIconState createState()=> _TabIconState();
@@ -225,7 +232,6 @@ class _TabIconState extends State<TabIcon> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     //AspectRatio组件是固定宽高比的组件，如果组件的宽度固定，希望高是宽的1/2
-    //AspectRatio组件是固定宽高比的组件，如果组件的宽度固定，希望高是宽的1/2
     return AspectRatio(
       aspectRatio: 1,
       child: Center(
@@ -249,7 +255,15 @@ class _TabIconState extends State<TabIcon> with TickerProviderStateMixin{
                    alignment: Alignment.center,
                    scale: Tween<double>(begin: 0.88, end: 1.0).animate(CurvedAnimation(parent: widget.tabIconData.animationController,
                       curve: Interval(0.1, 1.0, curve: Curves.fastOutSlowIn))),
-                   child: Image.asset(widget.tabIconData.isSelected
+                   child: widget.isHaveRead ? Badge(
+                     position: BadgePosition.topEnd(top: -4, end: -4),
+                     toAnimate: true,
+                     badgeContent: null,
+                     child: Image.asset(widget.tabIconData.isSelected
+                         ? widget.tabIconData.selectImagePath
+                         : widget.tabIconData.imagePath,width: duSetWidth(30), height: duSetHeight(30)),
+                   ) :
+                   Image.asset(widget.tabIconData.isSelected
                    ? widget.tabIconData.selectImagePath
                    : widget.tabIconData.imagePath,width: duSetWidth(30), height: duSetHeight(30)),
                  ),

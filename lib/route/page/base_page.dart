@@ -1,6 +1,7 @@
 
 import 'dart:math';
 
+import 'package:fitee/model/notify/notify_provider.dart';
 import 'package:fitee/model/user/user_provider.dart';
 import 'package:fitee/pages/event_page.dart';
 import 'package:fitee/pages/home_page.dart';
@@ -8,6 +9,7 @@ import 'package:fitee/pages/mine_page.dart';
 import 'package:fitee/pages/notice_page.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
+import 'package:fitee/utils/store.dart';
 import 'package:fitee/widgets/bottom/TabIconData.dart';
 import 'package:fitee/widgets/bottom/bottom_widget.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +34,10 @@ class _BasePageState extends State<BasePage> {
   }
 
   _initData(BuildContext context) async{
-    final _userProvider = Provider.of<UserProvider>(context);
+    final _userProvider = Store.value<UserProvider>(context);
     await _userProvider.getUser();
+    final _notifyProvider = Store.value<NotifyProvider>(context);
+    await _notifyProvider.fetchCount();
   }
 
   @override
