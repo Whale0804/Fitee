@@ -1,5 +1,6 @@
 
 import 'package:fitee/cache/local_storage.dart';
+import 'package:fitee/config/config.dart';
 import 'package:fitee/plugin/toast.dart';
 import 'package:fitee/route/base/base_route.dart';
 import 'package:fitee/services/login_service.dart';
@@ -31,9 +32,10 @@ class _LoginPageState extends State<LoginPage> {
     if ((_formKey.currentState as FormState).validate()) {
       var res = await LoginApi.login(username: _unameController.text, password: _pwdController.text);
       if(res != null && res['access_token'] != null){
-        LocalStorage.set('access_token', res['access_token']);
-        LocalStorage.set('user_name', _unameController.text);
-        LocalStorage.setBool('is_login', true);
+        LocalStorage.set(AppConfig.TOKEN_KEY, res['access_token']);
+        LocalStorage.set(AppConfig.USER_NAME_KEY, _unameController.text);
+        LocalStorage.set(AppConfig.USER_PASS_KEY, _pwdController.text);
+        LocalStorage.setBool(AppConfig.LOGIN_KEY, true);
         NavUtil.pushReplacement(BaseRoute());
         Toast.toast(
           context,

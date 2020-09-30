@@ -1,6 +1,3 @@
-
-import 'dart:convert';
-
 import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/config/config.dart';
 import 'package:fitee/model/event/event.dart';
@@ -8,7 +5,7 @@ import 'package:fitee/plugin/request/request.dart';
 
 class EventApi {
   static Future<List<Event>> fetchAllEvent({int page = 1}) async{
-    String userName = await LocalStorage.get("login_name");
+    String userName = await LocalStorage.get(AppConfig.LOGIN_NAME_KEY);
     Map<String, dynamic> params = {
       "access_token": await DioUtils().getAuthorizationHeader(),
       "page": page,
@@ -19,7 +16,7 @@ class EventApi {
   }
 
   static Future<List<Event>> fetchMyEvent({int page = 1}) async{
-    String userName = await LocalStorage.get("login_name");
+    String userName = await LocalStorage.get(AppConfig.LOGIN_NAME_KEY);
     Map<String, dynamic> params = {
       "access_token": await DioUtils().getAuthorizationHeader(),
       "page": page,

@@ -1,4 +1,5 @@
 import 'package:fitee/cache/local_storage.dart';
+import 'package:fitee/config/config.dart';
 import 'package:fitee/model/user/user_provider.dart';
 import 'package:fitee/pages/about/about_page.dart';
 import 'package:fitee/pages/settings/setting_page.dart';
@@ -34,7 +35,9 @@ class _MinePageState extends State<MinePage> {
               title: '我 的',
               icon: Icon(Icons.settings),
               back: widget.back,
-              callBack: ()=> NavUtil.push(SettingPage()),
+              callBack: () {
+                NavUtil.push(SettingPage());
+              },
             ),
             Expanded(
               child: Container(
@@ -256,7 +259,7 @@ class _MinePageState extends State<MinePage> {
                             colorBrightness: Brightness.dark,
                             shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                             onPressed: () async {
-                              print(await LocalStorage.get('access_token'));
+                              print(await LocalStorage.get(AppConfig.TOKEN_KEY));
                             },
                             child: Text(
                               "私 信",

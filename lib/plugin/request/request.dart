@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/config/config.dart';
 import 'package:fitee/pages/login/login_page.dart';
+import 'package:fitee/route/base/base_route.dart';
+import 'package:fitee/services/login_service.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -69,7 +71,7 @@ class DioUtils {
    * 获取token
    */
   getAuthorizationHeader() async {
-    return LocalStorage.getString('access_token');
+    return LocalStorage.getString(AppConfig.TOKEN_KEY);
   }
 
   /// get 操作
@@ -200,7 +202,7 @@ ErrorEntity createErrorEntity(DioError error) {
               break;
             case 401:
               {
-                NavUtil.pushReplacement(LoginPage());
+                _forwardLogin();
                 return ErrorEntity(code: errCode, message: "没有权限");
               }
               break;
@@ -256,8 +258,29 @@ ErrorEntity createErrorEntity(DioError error) {
         return ErrorEntity(code: -1, message: error.message);
       }
   }
-}
 
+}
+  _forwardLogin () async{
+    var fingerprintEnable = LocalStorage.getBool(AppConfig.FINGERPRINT_KEY)?? false;
+    if(fingerprintEnable) {
+      var username = LocalStorage.getString(AppConfig.USER_NAME_KEY) ?? '';
+      var password = LocalStorage.getString(AppConfig.USER_PASS_KEY) ?? '';
+      if(username != '' && password != '') {
+        var res = await LoginApi.login(username: username, password: password);
+        if(res != null && res['access_token'] != null){
+          LocalStorage.set(AppConfig.TOKEN_KEY, res['access_token']);
+          LocalStorage.setBool(AppConfig.LOGIN_KEY, true);
+          NavUtil.pushReplacement(BaseRoute());
+        }else {
+          NavUtil.push(LoginPage(enableArrow: true));
+        }
+      }else{
+        NavUtil.push(LoginPage(enableArrow: true));
+      }
+    }else {
+      NavUtil.push(LoginPage(enableArrow: true));
+    }
+  }
 /// 异常处理
 class ErrorEntity implements Exception {
   int code;

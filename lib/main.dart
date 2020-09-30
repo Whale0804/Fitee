@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'cache/local_storage.dart';
+import 'config/config.dart';
 import 'model/event/event_provider.dart';
 import 'model/notify/notify_provider.dart';
 import 'model/user/user_provider.dart';
@@ -17,7 +18,7 @@ import 'model/user/user_provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // 查看是否登录
-  bool isLogin = await LocalStorage.getBool('is_login') ?? false;
+  bool isLogin = await LocalStorage.getBool(AppConfig.LOGIN_KEY) ?? false;
   await SystemChrome
       .setPreferredOrientations(<DeviceOrientation>[DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((_) => runApp(
@@ -81,6 +82,7 @@ class MyApp extends StatelessWidget {
       },
     ) : MaterialApp(
       title: 'Fitee',
+      navigatorKey: NavKey.navKey,
       debugShowCheckedModeBanner: false,
       theme: _darkMode == 1 ? ThemeData.dark() : ThemeData(
         textTheme: AppTheme.textTheme,

@@ -41,6 +41,8 @@ dependencies:
   flustars: ^0.3.3
   # 角标
   badges: ^1.1.3
+  # 生物认证
+  local_auth: ^0.6.3+2
 
 dev_dependencies:
   flutter_test:

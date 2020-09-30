@@ -1,10 +1,15 @@
+import 'package:fitee/cache/local_storage.dart';
+import 'package:fitee/config/config.dart';
 import 'package:fitee/pages/settings/work_page.dart';
+import 'package:fitee/plugin/auth/fingerprint_util.dart';
+import 'package:fitee/plugin/toast.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/screen.dart';
 import 'package:fitee/utils/utils.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 
 class SettingPage extends StatefulWidget {
 
@@ -14,6 +19,20 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
 
   bool fingerprintEnable = false;
+
+  @override
+  void initState() {
+    super.initState();
+    print(fingerprintEnable);
+    _initData();
+  }
+
+  _initData() async {
+    var temp = await LocalStorage.getBool(AppConfig.FINGERPRINT_KEY) ?? false;
+    setState(() {
+      fingerprintEnable = temp;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -205,10 +224,41 @@ class _SettingPageState extends State<SettingPage> {
                                 value: this.fingerprintEnable,
                                 activeColor: AppTheme.descText,     // 激活时原点颜色
                                 activeTrackColor: HexColor('#171717'),
-                                onChanged: (value) {
-                                  this.setState(() {
-                                    this.fingerprintEnable = !this.fingerprintEnable;
-                                  });
+                                onChanged: (value) async{
+                                  if(!this.fingerprintEnable){
+                                    bool isCheck = await FingerPrintUtil.checkTouchId();
+                                    if(isCheck){
+                                      this.setState(()  {
+                                        this.fingerprintEnable = true;
+                                      });
+                                      LocalStorage.setBool(AppConfig.FINGERPRINT_KEY, true);
+                                      Toast.toast(
+                                          context,
+                                          msg: '指纹认证已开启~~',
+                                          showTime: 3000,
+                                          position: 'bottom'
+                                      );
+                                    }else {
+                                      Toast.toast(
+                                          context,
+                                          msg: '指纹认证开启失败！',
+                                          showTime: 3000,
+                                          position: 'bottom'
+                                      );
+                                      LocalStorage.setBool(AppConfig.FINGERPRINT_KEY, false);
+                                    }
+                                  }else {
+                                    Toast.toast(
+                                        context,
+                                        msg: '指纹认证已关闭！',
+                                        showTime: 3000,
+                                        position: 'bottom'
+                                    );
+                                    this.setState(()  {
+                                      this.fingerprintEnable = false;
+                                    });
+                                    LocalStorage.setBool(AppConfig.FINGERPRINT_KEY, false);
+                                  }
                                 },
                               ),
                             ),
