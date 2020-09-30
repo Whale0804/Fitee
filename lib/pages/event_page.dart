@@ -2,6 +2,7 @@ import 'package:fitee/config/config.dart';
 import 'package:fitee/config/event_type.dart';
 import 'package:fitee/model/event/event.dart';
 import 'package:fitee/model/event/event_provider.dart';
+import 'package:fitee/pages/mine_page.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/relative_date_format.dart';
@@ -337,7 +338,7 @@ class _EventPageState extends State<EventPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _AvatarWidget(url: event.actor.avatar_url),
+              _AvatarWidget(event: event),
               SizedBox(width: duSetWidth(12),),
               Expanded(
                 child: Column(
@@ -410,7 +411,7 @@ class _EventPageState extends State<EventPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _AvatarWidget(url: event.actor.avatar_url),
+            _AvatarWidget(event: event),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -480,7 +481,7 @@ class _EventPageState extends State<EventPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _AvatarWidget(url: event.actor.avatar_url),
+            _AvatarWidget(event: event),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -555,7 +556,7 @@ class _EventPageState extends State<EventPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _AvatarWidget(url: event.actor.avatar_url),
+            _AvatarWidget(event: event),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -625,7 +626,7 @@ class _EventPageState extends State<EventPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _AvatarWidget(url: event.actor.avatar_url),
+            _AvatarWidget(event: event),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -695,7 +696,7 @@ class _EventPageState extends State<EventPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _AvatarWidget(url: event.actor.avatar_url),
+            _AvatarWidget(event: event),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -774,7 +775,7 @@ class _EventPageState extends State<EventPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _AvatarWidget(url: event.actor.avatar_url),
+            _AvatarWidget(event: event),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -853,7 +854,7 @@ class _EventPageState extends State<EventPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _AvatarWidget(url: event.actor.avatar_url),
+            _AvatarWidget(event: event),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -924,7 +925,7 @@ class _EventPageState extends State<EventPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _AvatarWidget(url: event.actor.avatar_url),
+            _AvatarWidget(event: event),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -994,7 +995,7 @@ class _EventPageState extends State<EventPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _AvatarWidget(url: event.actor.avatar_url),
+            _AvatarWidget(event: event),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -1064,7 +1065,7 @@ class _EventPageState extends State<EventPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _AvatarWidget(url: event.actor.avatar_url),
+            _AvatarWidget(event: event),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -1133,7 +1134,7 @@ class _EventPageState extends State<EventPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _AvatarWidget(url: event.actor.avatar_url),
+            _AvatarWidget(event: event),
             SizedBox(width: duSetWidth(12),),
             Expanded(
               child: Column(
@@ -1186,18 +1187,24 @@ class _EventPageState extends State<EventPage> {
     }
   }
   /// 头像组件
-  Widget _AvatarWidget ({String url}) {
+  Widget _AvatarWidget ({Event event}) {
     return Container(
       decoration: BoxDecoration(
           color: Colors.grey.withOpacity(.05),
           borderRadius: BorderRadius.all(Radius.circular(14.0))
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(14.0),
-        child: Image.network(url,
-          width: duSetWidth(56),
-          height: duSetHeight(52),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(14.0),
+          child: Image.network(event.actor.avatar_url,
+            width: duSetWidth(56),
+            height: duSetHeight(52),
+          ),
         ),
+        onTap: () {
+          NavUtil.push(MinePage(isCurrent: false, back: true, username: event.actor.login));
+        },
       ),
     );
   }

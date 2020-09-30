@@ -1,6 +1,9 @@
 
+import 'package:fitee/model/letter/letter_provider.dart';
 import 'package:fitee/theme/app_theme.dart';
+import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/screen.dart';
+import 'package:fitee/utils/store.dart';
 import 'package:fitee/utils/utils.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +15,7 @@ class NoticePage extends StatefulWidget{
 }
 
 class _NoticePageState extends State<NoticePage> {
-
+  LetterProvider _letterProvider;
   TabController _controller;
 
   int tabIndex = 0;
@@ -21,7 +24,7 @@ class _NoticePageState extends State<NoticePage> {
   @override
   void initState() {
     super.initState();
-
+    _letterProvider = Store.value<LetterProvider>(NavUtil.ctx);
     _controller = TabController(
       length: 3,
       vsync: ScrollableState(),
@@ -30,8 +33,18 @@ class _NoticePageState extends State<NoticePage> {
       setState(() {
         tabIndex = _controller.index;
         page = 1;
+        _initData();
       });
     });
+    _initData();
+  }
+
+  _initData() async {
+    if(tabIndex == 0) {
+      _letterProvider.fetchLetter();
+    }else if(tabIndex == 1){
+    }else {
+    }
   }
 
   @override

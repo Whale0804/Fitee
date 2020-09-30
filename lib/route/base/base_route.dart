@@ -1,5 +1,8 @@
 
+import 'package:fitee/cache/local_storage.dart';
+import 'package:fitee/config/config.dart';
 import 'package:fitee/pages/about/about_page.dart';
+import 'package:fitee/pages/login/login_page.dart';
 import 'package:fitee/route/page/base_page.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
@@ -20,11 +23,20 @@ class _BaseRouteState extends State<BaseRoute> {
 
   @override
   void initState() {
-    drawerIndex = DrawerIndex.HOME;
-    screenView = BasePage();
-    super.initState();
-    // 保存 ctx
     NavUtil.ctx = this.context;
+    _initData();
+    super.initState();
+  }
+
+  _initData() async{
+    // 查看是否登录
+    bool isLogin = await LocalStorage.getBool(AppConfig.LOGIN_KEY) ?? false;
+    if(!isLogin){
+      NavUtil.push(LoginPage());
+    }else {
+      drawerIndex = DrawerIndex.HOME;
+      screenView = BasePage();
+    }
   }
 
   @override

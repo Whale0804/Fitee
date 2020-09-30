@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'cache/local_storage.dart';
 import 'config/config.dart';
 import 'model/event/event_provider.dart';
+import 'model/letter/letter_provider.dart';
 import 'model/notify/notify_provider.dart';
 import 'model/user/user_provider.dart';
 
@@ -28,16 +29,14 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_)=> UserProvider()),
         ChangeNotifierProvider(create: (_)=> EventProvider()),
         ChangeNotifierProvider(create: (_)=> NotifyProvider()),
+        ChangeNotifierProvider(create: (_)=> LetterProvider()),
       ],
-      child: MyApp(isLogin: isLogin),
+      child: MyApp(),
     )
   ));
 }
 
 class MyApp extends StatelessWidget {
-
-  final bool isLogin;
-  const MyApp({Key key, this.isLogin}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +87,7 @@ class MyApp extends StatelessWidget {
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
       ),
-      home: isLogin ? BaseRoute() : LoginPage(),
+      home: BaseRoute(),
       builder: (BuildContext context, Widget child) {
         /// 确保 loading 组件能覆盖在其他组件之上.
         return FlutterEasyLoading(child: child);

@@ -260,7 +260,7 @@ ErrorEntity createErrorEntity(DioError error) {
 
 }
   _forwardLogin () async{
-    var fingerprintEnable = LocalStorage.getBool(AppConfig.FINGERPRINT_KEY)?? false;
+    var fingerprintEnable = await LocalStorage.getBool(AppConfig.FINGERPRINT_KEY)?? false;
     if(fingerprintEnable) {
       var username = LocalStorage.getString(AppConfig.USER_NAME_KEY) ?? '';
       var password = LocalStorage.getString(AppConfig.USER_PASS_KEY) ?? '';

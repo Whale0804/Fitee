@@ -18,7 +18,6 @@ class AppBarWidget extends StatelessWidget{
     return back == true ? Container(
       color: Colors.white,
       child: AppBar(
-
         title: Text(title,
           style: TextStyle(
               fontSize: duSetFontSize(18),

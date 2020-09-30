@@ -7,82 +7,106 @@ import 'package:fitee/plugin/toast.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/screen.dart';
+import 'package:fitee/utils/store.dart';
 import 'package:fitee/utils/utils.dart';
+import 'package:fitee/widgets/loading/FiteeLoading.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MinePage extends StatefulWidget {
-  final bool isCurrent;
-  final bool back;
+  bool isCurrent;
+  bool back;
+  String username;
 
-  MinePage({Key key, this.isCurrent = true, this.back = false}): super(key: key);
+  MinePage({Key key, this.isCurrent = true, this.back = false, this.username}): super(key: key);
 
   @override
   _MinePageState createState()=> _MinePageState();
 }
 
 class _MinePageState extends State<MinePage> {
+
+  UserProvider _userProvider;
+
+  @override
+  void initState() {
+    _userProvider = Store.value<UserProvider>(NavUtil.ctx);
+    _initData();
+    super.initState();
+  }
+
+  _initData() async {
+    if(widget.isCurrent){
+      String username = await LocalStorage.getString(AppConfig.LOGIN_NAME_KEY);
+      _userProvider.fetchUser(username: username);
+    }else {
+      _userProvider.fetchUser(username: widget.username);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            AppBarWidget(
-              title: '我 的',
-              icon: Icon(Icons.settings),
-              back: widget.back,
-              callBack: () {
-                NavUtil.push(SettingPage());
-              },
-            ),
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                child: Stack(
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(height: duSetHeight(120)),
-                        Expanded(
-                          child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                                color: HexColor('#E2E7F3'),
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40))
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    ListView(
-                      padding: EdgeInsets.only(top: duSetHeight(12)),
-                      children: [
-                        // 用户信息
-                        _UserCard(context),
-                        // 仓库等信息
-                        _ReposCard(context),
-                        // 操作列表
-                        _ActionCard(context),
-                        // 用户信息
-                        _InfoCard(context),
-                        // 其他操作
-                        widget.isCurrent ? _OtherCard(context) : SizedBox(),
-                        SizedBox(height: duSetHeight(65))
-                      ],
-                    )
-                  ],
-                ),
+    return Store.connect<UserProvider>(builder: (context, state,child) {
+      return state.loading ? FiteeLoading() : Container(
+        color: Colors.white,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              AppBarWidget(
+                title: '我 的',
+                icon: widget.back ? null : Icon(Icons.settings),
+                back: widget.back,
+                callBack: () {
+                  NavUtil.push(SettingPage());
+                },
               ),
-            )
-          ]
-      ),
-    );
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  child: Stack(
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(height: duSetHeight(120)),
+                          Expanded(
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  color: HexColor('#E2E7F3'),
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40))
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      ListView(
+                        padding: EdgeInsets.only(top: duSetHeight(12)),
+                        children: [
+                          // 用户信息
+                          _UserCard(context),
+                          // 仓库等信息
+                          _ReposCard(context),
+                          // 操作列表
+                          _ActionCard(context),
+                          // 用户信息
+                          _InfoCard(context),
+                          // 其他操作
+                          widget.isCurrent ? _OtherCard(context) : SizedBox(),
+                          SizedBox(height: duSetHeight(65))
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ]
+        ),
+      );
+    });
   }
 
   // Widgets
@@ -115,9 +139,12 @@ class _MinePageState extends State<MinePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(6.0),
-                      child: state.user != null ? Image.network(state.user.avatar_url, width: 110,height: 110) : Image.asset('assets/daniel.jpg', width: 110,height: 110),
+                    Container(
+                      color: Colors.grey.withOpacity(.05),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(6.0),
+                        child: state.user != null ? Image.network(state.user.avatar_url, width: 110,height: 110) : Image.asset('assets/daniel.jpg', width: 110,height: 110),
+                      ),
                     ),
                     SizedBox(width: 15),
                     Expanded(
@@ -128,7 +155,7 @@ class _MinePageState extends State<MinePage> {
                           Text(state.user != null ? state.user.name : 'Fitee',
                             style: TextStyle(
                                 color: Colors.black87,
-                                fontSize: duSetFontSize(24),
+                                fontSize: duSetFontSize(22),
                                 fontWeight: FontWeight.w600
                             ),
                             textAlign: TextAlign.left,

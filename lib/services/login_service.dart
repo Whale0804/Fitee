@@ -1,8 +1,7 @@
-import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/config/config.dart';
 import 'package:fitee/model/user/user.dart';
 import 'package:fitee/plugin/request/request.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class LoginApi {
 
