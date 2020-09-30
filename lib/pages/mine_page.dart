@@ -141,9 +141,17 @@ class _MinePageState extends State<MinePage> {
                   children: <Widget>[
                     Container(
                       color: Colors.grey.withOpacity(.05),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(6.0),
-                        child: state.user != null ? Image.network(state.user.avatar_url, width: 110,height: 110) : Image.asset('assets/daniel.jpg', width: 110,height: 110),
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 375),
+                        transitionBuilder: (Widget child, Animation<double> animation) {
+                          // 执行动画
+                          return ScaleTransition(child: child,scale: animation);
+                        },
+                        child: ClipRRect(
+                          key: ValueKey<int>( state.user != null ? state.user.id : 0),
+                          borderRadius: BorderRadius.circular(6.0),
+                          child: state.user != null ? Image.network(state.user.avatar_url, width: 110,height: 110) : Image.asset('assets/icon/user.png', width: 110,height: 110),
+                        ),
                       ),
                     ),
                     SizedBox(width: 15),
@@ -152,13 +160,20 @@ class _MinePageState extends State<MinePage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(state.user != null ? state.user.name : 'Fitee',
-                            style: TextStyle(
-                                color: Colors.black87,
-                                fontSize: duSetFontSize(22),
-                                fontWeight: FontWeight.w600
-                            ),
-                            textAlign: TextAlign.left,
+                          AnimatedSwitcher(duration: const Duration(milliseconds: 375),
+                              transitionBuilder: (Widget child, Animation<double> animation) {
+                                // 执行动画
+                                return ScaleTransition(child: child,scale: animation);
+                              },
+                              child: Text(state.user != null ? state.user.name : 'Fitee',
+                                key: ValueKey<int>( state.user != null ? state.user.id : 0),
+                                style: TextStyle(
+                                    color: Colors.black87,
+                                    fontSize: duSetFontSize(22),
+                                    fontWeight: FontWeight.w600
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
                           ),
                           SizedBox(height: duSetHeight(4)),
                           Text(state.user != null ? '@' + state.user.login : '一个程序员',

@@ -1,3 +1,5 @@
+import 'package:flustars/flustars.dart';
+
 class RelativeDateFormat {
   static final num ONE_MINUTE = 60000;
   static final num ONE_HOUR = 3600000;
@@ -30,17 +32,18 @@ class RelativeDateFormat {
     if (delta < 48 * ONE_HOUR) {
       return "昨天";
     }
-    if (delta < 30 * ONE_DAY) {
-      num days = toDays(delta);
-      return (days <= 0 ? 1 : days).toInt().toString() + ONE_DAY_AGO;
-    }
-    if (delta < 12 * 4 * ONE_WEEK) {
-      num months = toMonths(delta);
-      return (months <= 0 ? 1 : months).toInt().toString() + ONE_MONTH_AGO;
-    } else {
-      num years = toYears(delta);
-      return (years <= 0 ? 1 : years).toInt().toString() + ONE_YEAR_AGO;
-    }
+    return DateUtil.formatDate(date,format: DateFormats.zh_y_mo_d);
+    // if (delta < 30 * ONE_DAY) {
+    //   num days = toDays(delta);
+    //   return (days <= 0 ? 1 : days).toInt().toString() + ONE_DAY_AGO;
+    // }
+    // if (delta < 12 * 4 * ONE_WEEK) {
+    //   num months = toMonths(delta);
+    //   return (months <= 0 ? 1 : months).toInt().toString() + ONE_MONTH_AGO;
+    // } else {
+    //   num years = toYears(delta);
+    //   return (years <= 0 ? 1 : years).toInt().toString() + ONE_YEAR_AGO;
+    // }
   }
 
   static num toSeconds(num date) {

@@ -10,14 +10,14 @@ class LetterProvider with ChangeNotifier{
 
   int currentPage = 1;
 
-  setAllPage ({int page = 1}){
+  setPage ({int page = 1}){
     currentPage = page;
     fetchLetter();
     notifyListeners();
   }
 
   fetchLetter() async{
-    List<Letter> res = await LetterApi.fetchAllEvent(page: currentPage);
+    List<Letter> res = await LetterApi.fetchLetter(page: currentPage);
     if(currentPage == 1){
       result = new List<Letter>();
       result = res;

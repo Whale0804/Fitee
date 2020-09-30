@@ -1,12 +1,19 @@
 
+import 'package:fitee/config/config.dart';
+import 'package:fitee/model/letter/letter.dart';
 import 'package:fitee/model/letter/letter_provider.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
+import 'package:fitee/utils/relative_date_format.dart';
 import 'package:fitee/utils/screen.dart';
 import 'package:fitee/utils/store.dart';
 import 'package:fitee/utils/utils.dart';
+import 'package:fitee/widgets/avatar/avatar.dart';
+import 'package:fitee/widgets/loading/FiteeLoading.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class NoticePage extends StatefulWidget{
 
@@ -14,9 +21,12 @@ class NoticePage extends StatefulWidget{
   _NoticePageState createState()=> _NoticePageState();
 }
 
-class _NoticePageState extends State<NoticePage> {
+class _NoticePageState extends State<NoticePage> with TickerProviderStateMixin{
   LetterProvider _letterProvider;
   TabController _controller;
+
+  AnimationController _animationController;
+  Animation<Color> _animation;
 
   int tabIndex = 0;
   int page = 1;
@@ -36,6 +46,13 @@ class _NoticePageState extends State<NoticePage> {
         _initData();
       });
     });
+
+    _animationController =
+        AnimationController(duration: Duration(seconds: 1), vsync: this);
+
+    _animation = Tween<Color>(begin: AppTheme.dismissibleBackground.withOpacity(.3), end: AppTheme.dismissibleBackground)
+        .animate(_animationController);
+
     _initData();
   }
 
@@ -80,19 +97,19 @@ class _NoticePageState extends State<NoticePage> {
                         unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400),
                         indicatorSize: TabBarIndicatorSize.label,
                         tabs: <Widget>[
-                          _TabItem(
+                          _tabItem(
                             image: Image.asset('assets/icon/letter.png', width: duSetWidth(21), height: duSetHeight(21),
                               color: tabIndex == 0 ? HexColor('#171717') : AppTheme.descText,
                             ),
                             text: '私信',
                           ),
-                          _TabItem(
+                          _tabItem(
                               image: Image.asset('assets/icon/message.png', width: duSetWidth(21), height: duSetHeight(21),
                                 color: tabIndex == 1 ? HexColor('#171717') : AppTheme.descText,
                               ),
                               text: '通知',
                           ),
-                          _TabItem(
+                          _tabItem(
                               image: Image.asset('assets/icon/at.png', width: duSetWidth(20), height: duSetHeight(20),
                                 color: tabIndex == 2 ? HexColor('#171717') : AppTheme.descText,
                               ),
@@ -105,9 +122,7 @@ class _NoticePageState extends State<NoticePage> {
                       child: TabBarView(
                         controller: _controller,
                         children: <Widget>[
-                          Container(
-                            child: Icon(Icons.ac_unit),
-                          ),
+                          _letterList(context),
                           Container(
                             child: Icon(Icons.accessibility),
                           ),
@@ -125,7 +140,156 @@ class _NoticePageState extends State<NoticePage> {
     );
   }
 
-  Widget _TabItem({Image image, String text}){
+  Widget _letterList(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(height: duSetHeight(6)),
+        Expanded(
+          child: Store.connect<LetterProvider>(
+            builder: (context, state, child) {
+              return state.loading ?
+              FiteeLoading() :
+              EasyRefresh.custom(
+                emptyWidget: state.result.length == 0 ? Container(
+                  color: Colors.white,
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: Center(
+                    child: Image.asset('assets/state/empty_list.png'),
+                  ),
+                ) : null,
+                header: TaurusHeader(
+                    backgroundColor: AppTheme.dismissibleBackground,
+                    completeDuration: Duration(milliseconds: 1200)
+                ),
+                footer: MaterialFooter(
+                    valueColor: _animation,
+                ),
+                onRefresh: () async{
+                  setState(() {
+                    page = 1;
+                  });
+                  _letterProvider.setPage(page: page);
+                },
+                onLoad: () async {
+                  setState(() {
+                    page++;
+                  });
+                  _letterProvider.setPage(page: page);
+                },
+                slivers: <Widget>[
+                  AnimationLimiter(
+                    child: SliverList(delegate: SliverChildBuilderDelegate((context, index) {
+                      Letter letter = state.result[index];
+                      return Padding(
+                        padding: EdgeInsets.only(
+                            top: duSetHeight(index == 0 ? 12: 0),
+                            left: duSetWidth(16),
+                            right: duSetWidth(16)
+                        ),
+                        child: AnimationConfiguration.staggeredList(
+                          position: index,
+                          duration: const Duration(milliseconds: 475),
+                          child: SlideAnimation(
+                            verticalOffset: 50.0,
+                            child: FadeInAnimation(
+                              child: _letterItem(letter: letter),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                        childCount: state.result.length
+                    )
+                    ),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate((content, index) {
+                      return Container(
+                        height: duSetHeight(15),
+                        color: Colors.transparent,
+                      );
+                    }, childCount: 1),
+                  ),
+                ],
+              );
+            }
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _letterItem({@required Letter letter}) {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.only(bottom: duSetHeight(10)),
+      padding: EdgeInsets.all(duSetFontSize(12)),
+      decoration: BoxDecoration(
+          color: HexColor('#FAFDFC'),
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+          //border: Border.all(width: 1, color: Colors.grey.withOpacity(.4)),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey.withOpacity(.16),
+                blurRadius: 15.0, //阴影模糊程度
+                spreadRadius: 0.5 //阴影扩散程度
+            ),
+          ]
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Avatar(url: letter.sender.avatar_url, name: letter.sender.login),
+          SizedBox(width: duSetWidth(12),),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(letter.sender.name,
+                  style: TextStyle(
+                      color: HexColor('#6B9BF2'),
+                      fontSize: duSetFontSize(AppConfig.EVENT_NAME_SIZE),
+                      fontWeight: FontWeight.w500
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(height: duSetHeight(6)),
+                Text(RelativeDateFormat.format(letter.updatedAt),
+                  style: TextStyle(
+                      color: AppTheme.descText,
+                      fontSize: duSetFontSize(AppConfig.EVENT_TIME_SIZE),
+                      fontWeight: FontWeight.w400
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(height: duSetHeight(6)),
+                Container(
+                  width: double.infinity,
+                  child: RichText(
+                    textAlign: TextAlign.start,
+                    text: TextSpan(
+                        style: TextStyle(
+                          fontSize: duSetFontSize(AppConfig.EVENT_CONTENT_SIZE),
+                          color: AppTheme.darkText,
+                        ),
+                        children: <InlineSpan>[
+                          TextSpan(text: letter.content)
+                        ]),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+  Widget _tabItem({Image image, String text}){
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Row(

@@ -9,6 +9,7 @@ import 'package:fitee/utils/relative_date_format.dart';
 import 'package:fitee/utils/screen.dart';
 import 'package:fitee/utils/store.dart';
 import 'package:fitee/utils/utils.dart';
+import 'package:fitee/widgets/avatar/avatar.dart';
 import 'package:fitee/widgets/loading/FiteeLoading.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +23,13 @@ class EventPage extends StatefulWidget {
   _EventPageState createState()=> _EventPageState();
 }
 
-class _EventPageState extends State<EventPage> {
+class _EventPageState extends State<EventPage> with TickerProviderStateMixin{
 
   EventProvider eventProvider;
   TabController _controller;
+
+  AnimationController _animationController;
+  Animation<Color> _animation;
 
   int tabIndex = 0;
   int page = 1;
@@ -45,6 +49,13 @@ class _EventPageState extends State<EventPage> {
         _initData(eventProvider);
       });
     });
+
+    _animationController =
+        AnimationController(duration: Duration(seconds: 1), vsync: this);
+
+    _animation = Tween<Color>(begin: AppTheme.dismissibleBackground.withOpacity(.3), end: AppTheme.dismissibleBackground)
+        .animate(_animationController);
+
     _initData(eventProvider);
   }
 
@@ -177,9 +188,9 @@ class _EventPageState extends State<EventPage> {
                 backgroundColor: AppTheme.dismissibleBackground,
                 completeDuration: Duration(milliseconds: 1200)
               ),
-              // footer: TaurusFooter(
-              //     backgroundColor: AppTheme.dismissibleBackground
-              // ),
+              footer: MaterialFooter(
+                valueColor: _animation
+              ),
               onRefresh: () async{
                 setState(() {
                   page = 1;
@@ -223,7 +234,7 @@ class _EventPageState extends State<EventPage> {
                 SliverList(
                   delegate: SliverChildBuilderDelegate((content, index) {
                     return Container(
-                      height: duSetHeight(50),
+                      height: duSetHeight(15),
                       color: Colors.transparent,
                     );
                   }, childCount: 1),
@@ -261,9 +272,9 @@ class _EventPageState extends State<EventPage> {
                 backgroundColor: AppTheme.dismissibleBackground,
                 completeDuration: Duration(milliseconds: 1200)
               ),
-              // footer: TaurusFooter(
-              //     backgroundColor: AppTheme.dismissibleBackground
-              // ),
+              footer: MaterialFooter(
+                  valueColor: _animation
+              ),
               onRefresh: () async{
                 setState(() {
                   page = 1;
@@ -302,7 +313,7 @@ class _EventPageState extends State<EventPage> {
                 SliverList(
                   delegate: SliverChildBuilderDelegate((content, index) {
                     return Container(
-                      height: duSetHeight(50),
+                      height: duSetHeight(15),
                       color: Colors.transparent,
                     );
                   }, childCount: 1),
@@ -1188,24 +1199,6 @@ class _EventPageState extends State<EventPage> {
   }
   /// 头像组件
   Widget _AvatarWidget ({Event event}) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(.05),
-          borderRadius: BorderRadius.all(Radius.circular(14.0))
-      ),
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(14.0),
-          child: Image.network(event.actor.avatar_url,
-            width: duSetWidth(56),
-            height: duSetHeight(52),
-          ),
-        ),
-        onTap: () {
-          NavUtil.push(MinePage(isCurrent: false, back: true, username: event.actor.login));
-        },
-      ),
-    );
+    return Avatar(url: event.actor.avatar_url, name: event.actor.login);
   }
 }
