@@ -6,7 +6,6 @@ import 'package:fitee/pages/login/login_page.dart';
 import 'package:fitee/route/base/base_route.dart';
 import 'package:fitee/services/login_service.dart';
 import 'package:fitee/utils/nav_util.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 /*
   * 请求 操作类
