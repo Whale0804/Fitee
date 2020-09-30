@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
         LocalStorage.set(AppConfig.USER_NAME_KEY, _unameController.text);
         LocalStorage.set(AppConfig.USER_PASS_KEY, _pwdController.text);
         LocalStorage.setBool(AppConfig.LOGIN_KEY, true);
-        NavUtil.pushReplacement(BaseRoute());
+        NavUtil.pushReplacement(BaseRoute(),context: context);
         Toast.toast(
           context,
           msg: '登录成功，欢迎回来～～～',
@@ -54,10 +54,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    // 保存 ctx
-    NavUtil.ctx = context;
-
     /// 根据iphone X 高度适配,高度去掉 顶部、底部
     ScreenUtil.init(context,
         width: 375, height: 812 - 44 - 34, allowFontScaling: true);

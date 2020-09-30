@@ -23,13 +23,12 @@ class _BaseRouteState extends State<BaseRoute> {
     drawerIndex = DrawerIndex.HOME;
     screenView = BasePage();
     super.initState();
+    // 保存 ctx
+    NavUtil.ctx = this.context;
   }
 
   @override
   Widget build(BuildContext context) {
-    // 保存 ctx
-    NavUtil.ctx = context;
-
     return Container(
       color: AppTheme.nearlyWhite,
       child: SafeArea(
