@@ -9,6 +9,7 @@ import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/screen.dart';
 import 'package:fitee/utils/store.dart';
 import 'package:fitee/utils/utils.dart';
+import 'package:fitee/widgets/avatar/avatar.dart';
 import 'package:fitee/widgets/loading/FiteeLoading.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,10 @@ class MinePage extends StatefulWidget {
   bool isCurrent;
   bool back;
   String username;
+  String avatar;
+  bool netImage;
 
-  MinePage({Key key, this.isCurrent = true, this.back = false, this.username}): super(key: key);
+  MinePage({Key key, this.isCurrent = true, this.back = false, this.username, this.avatar = '', this.netImage = true}): super(key: key);
 
   @override
   _MinePageState createState()=> _MinePageState();
@@ -142,7 +145,7 @@ class _MinePageState extends State<MinePage> {
                     Container(
                       color: Colors.grey.withOpacity(.05),
                       child: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 375),
+                        duration: const Duration(milliseconds: 0),
                         transitionBuilder: (Widget child, Animation<double> animation) {
                           // 执行动画
                           return ScaleTransition(child: child,scale: animation);
@@ -150,7 +153,7 @@ class _MinePageState extends State<MinePage> {
                         child: ClipRRect(
                           key: ValueKey<int>( state.user != null ? state.user.id : 0),
                           borderRadius: BorderRadius.circular(6.0),
-                          child: state.user != null ? Image.network(state.user.avatar_url, width: 110,height: 110) : Image.asset('assets/icon/user.png', width: 110,height: 110),
+                          child: widget.avatar != '' ?  _ImageAvatar() :  state.user != null ? Image.network(state.user.avatar_url, width: 110,height: 110) : Image.asset('assets/icon/user.png', width: 110,height: 110),
                         ),
                       ),
                     ),
@@ -160,12 +163,12 @@ class _MinePageState extends State<MinePage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          AnimatedSwitcher(duration: const Duration(milliseconds: 375),
+                          AnimatedSwitcher(duration: const Duration(milliseconds: 0),
                               transitionBuilder: (Widget child, Animation<double> animation) {
                                 // 执行动画
                                 return ScaleTransition(child: child,scale: animation);
                               },
-                              child: Text(state.user != null ? state.user.name : 'Fitee',
+                              child: Text(state.user != null ? state.user.name : '',
                                 key: ValueKey<int>( state.user != null ? state.user.id : 0),
                                 style: TextStyle(
                                     color: Colors.black87,
@@ -347,6 +350,16 @@ class _MinePageState extends State<MinePage> {
         },
       ),
     );
+  }
+
+  Widget _ImageAvatar () {
+    print(widget.avatar);
+    print(widget.netImage);
+    if(widget.avatar != '' && widget.netImage) {
+      return Image.network(widget.avatar, width: 110, height: 110);
+    }else {
+      return Image.asset(widget.avatar, width: 110, height: 110);
+    }
   }
   Widget _ReposCard(BuildContext context) {
     return Padding(

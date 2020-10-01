@@ -10,9 +10,9 @@ class AppConfig {
   /// ================================ 分页字体配置 START ============================
   //每页的数量，最大为 100
   static const int PRE_PAGE = 10;
-  static const double EVENT_NAME_SIZE = 20;
-  static const double EVENT_TIME_SIZE = 18;
-  static const double EVENT_CONTENT_SIZE = 18;
+  static const double EVENT_NAME_SIZE = 18;
+  static const double EVENT_TIME_SIZE = 16;
+  static const double EVENT_CONTENT_SIZE = 16;
   /// ================================ 分页字体配置 END ============================
 
 

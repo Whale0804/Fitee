@@ -29,14 +29,8 @@ class _BaseRouteState extends State<BaseRoute> {
   }
 
   _initData() async{
-    // 查看是否登录
-    bool isLogin = await LocalStorage.getBool(AppConfig.LOGIN_KEY) ?? false;
-    if(!isLogin){
-      NavUtil.push(LoginPage());
-    }else {
-      drawerIndex = DrawerIndex.HOME;
-      screenView = BasePage();
-    }
+    drawerIndex = DrawerIndex.HOME;
+    screenView = BasePage();
   }
 
   @override

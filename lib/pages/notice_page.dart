@@ -208,7 +208,7 @@ class _NoticePageState extends State<NoticePage> with TickerProviderStateMixin{
                   SliverList(
                     delegate: SliverChildBuilderDelegate((content, index) {
                       return Container(
-                        height: duSetHeight(15),
+                        height: duSetHeight(35),
                         color: Colors.transparent,
                       );
                     }, childCount: 1),

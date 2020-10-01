@@ -34,10 +34,8 @@ class _BasePageState extends State<BasePage> {
   }
 
   _initData(BuildContext context) async{
-    final _userProvider = Store.value<UserProvider>(context);
-    await _userProvider.getUser();
-    final _notifyProvider = Store.value<NotifyProvider>(context);
-    await _notifyProvider.fetchCount();
+    Store.value<UserProvider>(context).getUser();
+    Store.value<NotifyProvider>(context).fetchCount();
   }
 
   @override

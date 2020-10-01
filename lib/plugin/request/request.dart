@@ -271,13 +271,13 @@ ErrorEntity createErrorEntity(DioError error) {
           LocalStorage.setBool(AppConfig.LOGIN_KEY, true);
           NavUtil.pushReplacement(BaseRoute());
         }else {
-          NavUtil.push(LoginPage());
+          NavUtil.pushAndRemove(LoginPage());
         }
       }else{
-        NavUtil.push(LoginPage());
+        NavUtil.pushAndRemove(LoginPage());
       }
     }else {
-      NavUtil.push(LoginPage());
+      NavUtil.pushAndRemove(LoginPage());
     }
   }
 /// 异常处理

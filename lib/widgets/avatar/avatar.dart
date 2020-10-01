@@ -10,10 +10,13 @@ class Avatar extends StatelessWidget{
 
   String url;
   String name;
+  double width;
+  double height;
 
-  Avatar({this.url,this.name});
+  Avatar({this.url,this.name = '', this.width = 56, this.height = 52});
   @override
   Widget build(BuildContext context) {
+    var tempUrl = getRandomInt();
     return Container(
       decoration: BoxDecoration(
           color: Colors.grey.withOpacity(.05),
@@ -23,7 +26,7 @@ class Avatar extends StatelessWidget{
         behavior: HitTestBehavior.opaque,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(14.0),
-          child: url.contains('no_portrait') ? Image.asset('assets/avatar/${getRandomInt()}.png',
+          child: url.contains('no_portrait') ? Image.asset(tempUrl,
             width: duSetWidth(56),
             height: duSetHeight(52),
           ) : Image.network(url,
@@ -32,7 +35,13 @@ class Avatar extends StatelessWidget{
           ),
         ),
         onTap: () {
-          NavUtil.push(MinePage(isCurrent: false, back: true, username: name));
+          if(name != ''){
+            if(!url.contains('no_portrait')) {
+              tempUrl = url;
+            }
+            NavUtil.push(MinePage(isCurrent: false, back: true, username: name
+                , avatar: tempUrl, netImage: !url.contains('no_portrait'),));
+          }
         },
       ),
     );
@@ -40,7 +49,7 @@ class Avatar extends StatelessWidget{
 
   getRandomInt() {
     var rng = Random();
-    return rng.nextInt(8);
+    return 'assets/avatar/${rng.nextInt(8)}.png';
   }
 
 }

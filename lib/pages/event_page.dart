@@ -2,7 +2,6 @@ import 'package:fitee/config/config.dart';
 import 'package:fitee/config/event_type.dart';
 import 'package:fitee/model/event/event.dart';
 import 'package:fitee/model/event/event_provider.dart';
-import 'package:fitee/pages/mine_page.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/relative_date_format.dart';
@@ -234,7 +233,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin{
                 SliverList(
                   delegate: SliverChildBuilderDelegate((content, index) {
                     return Container(
-                      height: duSetHeight(15),
+                      height: duSetHeight(35),
                       color: Colors.transparent,
                     );
                   }, childCount: 1),
@@ -313,7 +312,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin{
                 SliverList(
                   delegate: SliverChildBuilderDelegate((content, index) {
                     return Container(
-                      height: duSetHeight(15),
+                      height: duSetHeight(35),
                       color: Colors.transparent,
                     );
                   }, childCount: 1),

@@ -2,8 +2,11 @@
 import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/config/config.dart';
 import 'package:fitee/theme/app_theme.dart';
+import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
+
+import 'login/login_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,6 +14,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  @override
+  void initState() {
+    super.initState();
+    _initData();
+  }
+
+
+  _initData() async{
+    // 查看是否登录
+    bool isLogin = await LocalStorage.getBool(AppConfig.LOGIN_KEY) ?? false;
+    if(!isLogin){
+      NavUtil.pushAndRemove(LoginPage(enableArrow: false));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
