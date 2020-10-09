@@ -102,7 +102,6 @@ class _DrawerCustomState extends State<DrawerCustom> {
                               borderRadius: const BorderRadius.all((Radius.circular(50.0))),
                               child: Consumer<UserProvider>(
                                   builder: (context, state, child) {
-                                    print("hahhhh$state");
                                     return state != null && state.currentUser != null ? Image.network(state.currentUser.avatar_url) : Image.asset('assets/daniel.jpg') ;
                                   }
                                 ),

@@ -14,7 +14,7 @@ class LetterApi {
     Map<String, dynamic> result = await DioUtils().get("/api/v5/notifications/messages", params: params);
     if(result != null){
        List<dynamic> list = result['list'];
-      return list.map((i) => Letter.fromJson(i)).toList();
+       return list.map((i) => Letter.fromJson(i)).toList();
      }
     return List<Letter>();
   }

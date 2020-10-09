@@ -1,6 +1,7 @@
 
 import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/config/config.dart';
+import 'package:fitee/model/notify/notify.dart';
 import 'package:fitee/model/notify/notify_count.dart';
 import 'package:fitee/plugin/request/request.dart';
 
@@ -18,5 +19,22 @@ class NotifyApi {
       return NotifyCount.fromJson(result);
     }
     return null;
+  }
+
+  // 查询通知
+  static Future<List<Notify>> fetchNotify({int page = 1, String type = 'event'}) async {
+    Map<String, dynamic> params = {
+      "access_token": await DioUtils().getAuthorizationHeader(),
+      "page": page,
+      "per_page": AppConfig.PRE_PAGE,
+      "unread": false,
+      "type": type
+    };
+    Map<String, dynamic> result = await DioUtils().get("/api/v5/notifications/threads", params: params);
+    if(result != null){
+      List<dynamic> list = result['list'];
+      return list.map((i) => Notify.fromJson(i)).toList();
+    }
+    return List<Notify>();
   }
 }

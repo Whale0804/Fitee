@@ -9,6 +9,7 @@ import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/widgets/drawer/drawer_custom.dart';
 import 'package:fitee/widgets/drawer/drawer_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 
 class BaseRoute extends StatefulWidget {
 
@@ -24,6 +25,8 @@ class _BaseRouteState extends State<BaseRoute> {
   @override
   void initState() {
     NavUtil.ctx = this.context;
+    //1、初始化context
+    YYDialog.init(this.context);
     _initData();
     super.initState();
   }

@@ -6,6 +6,8 @@ import 'package:fitee/pages/login/login_page.dart';
 import 'package:fitee/route/base/base_route.dart';
 import 'package:fitee/services/login_service.dart';
 import 'package:fitee/utils/nav_util.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 
 /*
   * 请求 操作类
@@ -260,24 +262,28 @@ ErrorEntity createErrorEntity(DioError error) {
 
 }
   _forwardLogin () async{
-    var fingerprintEnable = await LocalStorage.getBool(AppConfig.FINGERPRINT_KEY)?? false;
-    if(fingerprintEnable) {
-      var username = LocalStorage.getString(AppConfig.USER_NAME_KEY) ?? '';
-      var password = LocalStorage.getString(AppConfig.USER_PASS_KEY) ?? '';
-      if(username != '' && password != '') {
-        var res = await LoginApi.login(username: username, password: password);
-        if(res != null && res['access_token'] != null){
-          LocalStorage.set(AppConfig.TOKEN_KEY, res['access_token']);
-          LocalStorage.setBool(AppConfig.LOGIN_KEY, true);
-          NavUtil.pushReplacement(BaseRoute());
-        }else {
+    try {
+      var fingerprintEnable = await LocalStorage.getBool(AppConfig.FINGERPRINT_KEY) ?? false;
+      if (fingerprintEnable) {
+        var username = LocalStorage.getString(AppConfig.USER_NAME_KEY) ?? '';
+        var password = LocalStorage.getString(AppConfig.USER_PASS_KEY) ?? '';
+        if (username != '' && password != '') {
+          var res = await LoginApi.login(username: username, password: password);
+          if (res != null && res['access_token'] != null) {
+            LocalStorage.set(AppConfig.TOKEN_KEY, res['access_token']);
+            LocalStorage.setBool(AppConfig.LOGIN_KEY, true);
+            NavUtil.pushReplacement(BaseRoute());
+          } else {
+            NavUtil.pushAndRemove(LoginPage());
+          }
+        } else {
           NavUtil.pushAndRemove(LoginPage());
         }
-      }else{
+      } else {
         NavUtil.pushAndRemove(LoginPage());
       }
-    }else {
-      NavUtil.pushAndRemove(LoginPage());
+    }catch (e) {
+      print(e.toString());
     }
   }
 /// 异常处理
