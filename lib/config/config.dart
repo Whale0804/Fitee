@@ -30,4 +30,14 @@ class AppConfig {
   // login name key
   static const String LOGIN_NAME_KEY = "login_name_key";
 /// ================================ 缓存配置 END ============================
+
+
+/// ================================ 页面状态 START ============================
+  // normal state
+  static const String NORMAL_STATE = '0';
+  // empty state
+  static const String EMPTY_STATE = '1';
+  // error state
+  static const String ERROR_STATE = '2';
+/// ================================ 页面状态 END ============================
 }

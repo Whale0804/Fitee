@@ -31,7 +31,7 @@ class DioUtils {
       connectTimeout: 10000,
 
       // 响应流上前后两次接受到数据的间隔，单位为毫秒。
-      receiveTimeout: 5000,
+      receiveTimeout: 3000,
 
       // Http请求头.
       headers: {},
@@ -259,7 +259,6 @@ ErrorEntity createErrorEntity(DioError error) {
         return ErrorEntity(code: -1, message: error.message);
       }
   }
-
 }
   _forwardLogin () async{
     try {

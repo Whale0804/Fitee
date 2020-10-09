@@ -12,6 +12,7 @@ import 'package:fitee/utils/store.dart';
 import 'package:fitee/utils/utils.dart';
 import 'package:fitee/widgets/avatar/avatar.dart';
 import 'package:fitee/widgets/loading/FiteeLoading.dart';
+import 'package:fitee/widgets/state/state_page.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -154,14 +155,7 @@ class _NoticePageState extends State<NoticePage> with TickerProviderStateMixin{
               return state.loading ?
               FiteeLoading() :
               EasyRefresh.custom(
-                emptyWidget: state.result.length == 0 ? Container(
-                  color: Colors.white,
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: Center(
-                    child: Image.asset('assets/state/empty_list.png'),
-                  ),
-                ) : null,
+                emptyWidget: state.status == AppConfig.NORMAL_STATE ? null : StatePage(state: state.status),
                 header: TaurusHeader(
                     backgroundColor: AppTheme.dismissibleBackground,
                     completeDuration: Duration(milliseconds: 1200)
@@ -236,14 +230,7 @@ class _NoticePageState extends State<NoticePage> with TickerProviderStateMixin{
                 return state.allLoading ?
                 FiteeLoading() :
                 EasyRefresh.custom(
-                  emptyWidget: state.allResult.length == 0 ? Container(
-                    color: Colors.white,
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: Center(
-                      child: Image.asset('assets/state/empty_list.png'),
-                    ),
-                  ) : null,
+                  emptyWidget: state.allStatus == AppConfig.NORMAL_STATE ? null : StatePage(state: state.allStatus),
                   header: TaurusHeader(
                       backgroundColor: AppTheme.dismissibleBackground,
                       completeDuration: Duration(milliseconds: 1200)
@@ -318,14 +305,7 @@ class _NoticePageState extends State<NoticePage> with TickerProviderStateMixin{
                 return state.myLoading ?
                 FiteeLoading() :
                 EasyRefresh.custom(
-                  emptyWidget: state.myResult.length == 0 ? Container(
-                    color: Colors.white,
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: Center(
-                      child: Image.asset('assets/state/empty_list.png'),
-                    ),
-                  ) : null,
+                  emptyWidget: state.myStatus == AppConfig.NORMAL_STATE ? null : StatePage(state: state.myStatus),
                   header: TaurusHeader(
                       backgroundColor: AppTheme.dismissibleBackground,
                       completeDuration: Duration(milliseconds: 1200)
