@@ -23,7 +23,6 @@ class _SettingPageState extends State<SettingPage> {
   @override
   void initState() {
     super.initState();
-    print(fingerprintEnable);
     _initData();
   }
 

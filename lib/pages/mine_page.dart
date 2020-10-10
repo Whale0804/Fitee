@@ -302,12 +302,12 @@ class _MinePageState extends State<MinePage> {
                           ),
                           child: FlatButton(
                             colorBrightness: Brightness.dark,
-                            shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            onPressed: () async {
-                              print(await LocalStorage.get(AppConfig.TOKEN_KEY));
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            onPressed: () {
+                              print('1');
                             },
                             child: Text(
-                              "私 信",
+                              "Follow",
                               style: TextStyle(
                                   fontSize: duSetFontSize(15),
                                   fontWeight: FontWeight.w500,
@@ -327,10 +327,12 @@ class _MinePageState extends State<MinePage> {
                           height: duSetHeight(40),
                           child: FlatButton(
                             colorBrightness: Brightness.dark,
-                            shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            onPressed: ()=> {},
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            onPressed: () async{
+                              print('2');
+                            },
                             child: Text(
-                              "关 注",
+                              "Chat",
                               style: TextStyle(
                                   fontSize: duSetFontSize(15),
                                   fontWeight: FontWeight.w500,
@@ -353,8 +355,6 @@ class _MinePageState extends State<MinePage> {
   }
 
   Widget _ImageAvatar () {
-    print(widget.avatar);
-    print(widget.netImage);
     if(widget.avatar != '' && widget.netImage) {
       return Image.network(widget.avatar, width: 110, height: 110);
     }else {
