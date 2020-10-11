@@ -60,7 +60,7 @@ class _MinePageState extends State<MinePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               AppBarWidget(
-                title: '我 的',
+                title: widget.isCurrent ? '我 的' : state.user != null ? state.user.name : '我的',
                 icon: widget.back ? null : Icon(Icons.settings),
                 back: widget.back,
                 callBack: () {
@@ -893,6 +893,25 @@ class _MinePageState extends State<MinePage> {
                                       ),
                                     ),
                                   ),
+                                  SizedBox(width: duSetWidth(10)),
+                                  Container(
+                                    padding: EdgeInsets.only(right: duSetWidth(2)),
+                                    width: duSetHeight(40),
+                                    height: duSetWidth(40),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppTheme.white,
+                                    ),
+                                    child: InkWell(
+                                      child: Center(
+                                        child: Image.asset('assets/icon/send.png', width: duSetWidth(26), height: duSetHeight(26),),
+                                      ),
+                                      onTap: () {
+                                        print('click');
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: duSetWidth(8)),
                                 ],
                               ),
                             )
