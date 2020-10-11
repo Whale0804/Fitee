@@ -11,6 +11,7 @@ import 'package:fitee/utils/screen.dart';
 import 'package:fitee/utils/store.dart';
 import 'package:fitee/utils/utils.dart';
 import 'package:fitee/widgets/avatar/avatar.dart';
+import 'package:fitee/widgets/bubble%20/bubble.dart';
 import 'package:fitee/widgets/dashes_separator.dart';
 import 'package:fitee/widgets/loading/FiteeLoading.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
@@ -89,6 +90,7 @@ class _MinePageState extends State<MinePage> {
                         ],
                       ),
                       ListView(
+                        physics: ClampingScrollPhysics(),
                         padding: EdgeInsets.only(top: duSetHeight(12)),
                         children: [
                           // 用户信息
@@ -814,9 +816,6 @@ class _MinePageState extends State<MinePage> {
               ),
               decoration: BoxDecoration(borderRadius: BorderRadius.vertical(top: Radius.circular(40)), color: Colors.white), //圆角
               child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
                     width: double.infinity,
@@ -860,10 +859,59 @@ class _MinePageState extends State<MinePage> {
                     child: Stack(
                       children: <Widget>[
                         Container(
-                          width: double.infinity,
                           color: HexColor('#F6F7F9'),
-                          child: Center(
-                            child: Text('哈哈')
+                          child: Column(
+                            children: <Widget>[
+                              Flexible(
+                                child: ListView.builder(
+                                  physics: ClampingScrollPhysics(),
+                                  itemCount: 1,
+                                  reverse: true,
+                                  shrinkWrap: true,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(vertical: duSetHeight(6)),
+                                            child: Text(
+                                              'Feb 25, 2018',
+                                              style:
+                                              TextStyle(color: Colors.grey, fontSize: duSetFontSize(13)),
+                                            ),
+                                          ),
+                                          Bubble(
+                                            message: 'Hi How are you ?',
+                                            isMe: true,
+                                          ),
+                                          Bubble(
+                                            message: 'have you seen the docs yet?',
+                                            isMe: true,
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(vertical: duSetHeight(6)),
+                                            child: Text(
+                                              'Today',
+                                              style:
+                                              TextStyle(color: Colors.grey, fontSize: duSetFontSize(13)),
+                                            ),
+                                          ),
+                                          Bubble(
+                                            message: 'i am fine !',
+                                            isMe: false,
+                                          ),
+                                          Bubble(
+                                            message: 'yes i\'ve seen the docs',
+                                            isMe: false,
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         Positioned(
@@ -927,4 +975,5 @@ class _MinePageState extends State<MinePage> {
           );
         });
   }
+
 }
