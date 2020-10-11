@@ -1,5 +1,6 @@
 import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/config/config.dart';
+import 'package:fitee/model/user/user.dart';
 import 'package:fitee/model/user/user_provider.dart';
 import 'package:fitee/pages/about/about_page.dart';
 import 'package:fitee/pages/settings/setting_page.dart';
@@ -10,6 +11,7 @@ import 'package:fitee/utils/screen.dart';
 import 'package:fitee/utils/store.dart';
 import 'package:fitee/utils/utils.dart';
 import 'package:fitee/widgets/avatar/avatar.dart';
+import 'package:fitee/widgets/dashes_separator.dart';
 import 'package:fitee/widgets/loading/FiteeLoading.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
@@ -304,7 +306,7 @@ class _MinePageState extends State<MinePage> {
                             colorBrightness: Brightness.dark,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                             onPressed: () {
-                              print('1');
+
                             },
                             child: Text(
                               "Follow",
@@ -314,7 +316,6 @@ class _MinePageState extends State<MinePage> {
                                   color: HexColor('#607383')
                               ),
                             ),
-                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -329,7 +330,7 @@ class _MinePageState extends State<MinePage> {
                             colorBrightness: Brightness.dark,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                             onPressed: () async{
-                              print('2');
+                              _openChatWidget(context: context, user: state.user);
                             },
                             child: Text(
                               "Chat",
@@ -354,11 +355,11 @@ class _MinePageState extends State<MinePage> {
     );
   }
 
-  Widget _ImageAvatar () {
+  Widget _ImageAvatar ({double width = 110, double height = 110}) {
     if(widget.avatar != '' && widget.netImage) {
-      return Image.network(widget.avatar, width: 110, height: 110);
+      return Image.network(widget.avatar, width: width, height: height);
     }else {
-      return Image.asset(widget.avatar, width: 110, height: 110);
+      return Image.asset(widget.avatar, width: width, height: height);
     }
   }
   Widget _ReposCard(BuildContext context) {
@@ -790,5 +791,121 @@ class _MinePageState extends State<MinePage> {
       thickness: 1.2,
       color: Colors.grey.withOpacity(.2),
     );
+  }
+
+  _openChatWidget({BuildContext context, User user}) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true, //可滚动 解除showModalBottomSheet最大显示屏幕一半的限制
+        shape: RoundedRectangleBorder(
+          //圆角
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+        ),
+        builder: (BuildContext context) {
+          return AnimatedPadding(
+            //showModalBottomSheet 键盘弹出时自适应
+            padding: MediaQuery.of(context).viewInsets, //边距（必要）
+            duration: const Duration(milliseconds: 100), //时常 （必要）
+            child: Container(
+              // height: 180,
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height / 1.2, //设置最小高度（必要）
+                maxHeight: MediaQuery.of(context).size.height / 1.2, //设置最大高度（必要）
+              ),
+              decoration: BoxDecoration(borderRadius: BorderRadius.vertical(top: Radius.circular(40)), color: Colors.white), //圆角
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    width: double.infinity,
+                    height: duSetHeight(60),
+                    padding: EdgeInsets.symmetric(vertical: duSetHeight(5)),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          ClipRRect(
+                            child: widget.avatar != '' ?  _ImageAvatar(width: 50, height: 50)
+                                : Image.network(user.avatar_url, width: 50, height: 50),
+                            borderRadius: BorderRadius.circular(25)
+                          ),
+                          SizedBox(width: 10,),
+                          RichText(
+                            textAlign: TextAlign.start,
+                            text: TextSpan(style: TextStyle(
+                              fontSize: duSetFontSize(AppConfig.EVENT_CONTENT_SIZE),
+                              color: AppTheme.darkText,
+                            ), children: <InlineSpan>[
+                              TextSpan(text: user.name, style: TextStyle(
+                                  color: AppTheme.darkText,
+                                  fontSize: duSetFontSize(18.0),
+                                  fontWeight: FontWeight.w500
+                              )),
+                              TextSpan(text: '@' + user.login,style: TextStyle(
+                                color: HexColor('#6FA0FB'),
+                                fontSize: duSetFontSize(18.0),
+                                fontWeight: FontWeight.w400
+                              )),
+                            ]),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  DashesSeparator(color: Colors.grey[300].withOpacity(.8)),
+                  Expanded(
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                          width: double.infinity,
+                          color: HexColor('#F6F7F9'),
+                          child: Center(
+                            child: Text('哈哈')
+                          ),
+                        ),
+                        Positioned(
+                          width: MediaQuery.of(context).size.width,
+                          bottom: MediaQuery.of(context).padding.bottom,
+                          left: 0,
+                          child: Container(
+                            width: double.infinity,
+                            height: duSetHeight(50),
+                            padding: EdgeInsets.symmetric(horizontal: duSetWidth(10)),
+                            child: Container(
+                              padding: EdgeInsets.only(left: duSetWidth(25)),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(40)),
+                                color: HexColor('#BEDCFD')
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.text,
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter Message',
+                                        border: InputBorder.none,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                  //widget组件
+                ],
+              ),
+            ),
+          );
+        });
   }
 }
