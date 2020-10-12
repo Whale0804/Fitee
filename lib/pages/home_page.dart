@@ -1,6 +1,7 @@
 
 import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/config/config.dart';
+import 'package:fitee/pages/search/search_page.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/screen.dart';
@@ -17,7 +18,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  TextEditingController _searchController = TextEditingController();
+  bool _hasDeleteIcon = false;
+  String _inputText = "";
 
   @override
   void initState() {
@@ -27,6 +29,8 @@ class _HomePageState extends State<HomePage> {
 
 
   _initData() async{
+
+
     // 查看是否登录
     bool isLogin = await LocalStorage.getBool(AppConfig.LOGIN_KEY) ?? false;
     if(!isLogin){
@@ -36,10 +40,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
-    _searchController.addListener(() {
-      setState(() {});
-    });
+    TextEditingController _searchController = TextEditingController(text: _inputText);
 
     return Container(
       color: AppTheme.white,
@@ -97,6 +98,23 @@ class _HomePageState extends State<HomePage> {
                                     color: Colors.black45
                                   ),
                                   border: InputBorder.none,
+                                  suffixIcon: _hasDeleteIcon
+                                      ? new Container(
+                                    width: 20.0,
+                                    height: 20.0,
+                                    child: new IconButton(
+                                      alignment: Alignment.center,
+                                      padding: const EdgeInsets.all(0.0),
+                                      iconSize: 18.0,
+                                      icon: Icon(Icons.cancel),
+                                      onPressed: () {
+                                        setState(() {
+                                          _inputText = "";
+                                          _hasDeleteIcon = (_inputText.isNotEmpty);
+                                        });
+                                      },
+                                    ),
+                                  ) : new Text(""),
                                 ),
                                 maxLines: 1,
                                 textInputAction: TextInputAction.search,
@@ -104,10 +122,19 @@ class _HomePageState extends State<HomePage> {
                                   fontSize: duSetFontSize(16)
                                 ),
                                 onSubmitted: (value){
-                                  print(value);
+                                  if(value != '') {
+                                    NavUtil.push(SearchPage(searchTxt: value));
+                                  }
+                                },
+                                onChanged: (val) {
+                                  setState(() {
+                                    _inputText = val;
+                                    _hasDeleteIcon = (_inputText.isNotEmpty);
+                                  });
                                 },
                               ),
                             ),
+                            SizedBox(width: duSetWidth(10))
                           ],
                         ),
                       ),

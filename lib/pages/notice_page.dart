@@ -74,6 +74,7 @@ class _NoticePageState extends State<NoticePage> with TickerProviderStateMixin{
   @override
   void dispose() {
     _controller.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 

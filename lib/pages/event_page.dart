@@ -65,12 +65,12 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin{
     }else {
       await eventProvider.fetchMyEvent();
     }
-
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
