@@ -47,7 +47,9 @@ class _MinePageState extends State<MinePage> {
       String username = await LocalStorage.getString(AppConfig.LOGIN_NAME_KEY);
       _userProvider.fetchUser(username: username);
     }else {
+      // 根据用户名获取用户
       _userProvider.fetchUser(username: widget.username);
+      _userProvider.fetchCheckFollow(username: widget.username);
     }
   }
 
@@ -307,11 +309,15 @@ class _MinePageState extends State<MinePage> {
                           child: FlatButton(
                             colorBrightness: Brightness.dark,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            onPressed: () {
+                            onPressed: () async {
+                              if(state.isFollow) { // 取消关注
 
+                              }else { // 关注
+
+                              }
                             },
                             child: Text(
-                              "Follow",
+                              state.isFollow ? "已 关 注" : "关 注",
                               style: TextStyle(
                                   fontSize: duSetFontSize(15),
                                   fontWeight: FontWeight.w500,
@@ -335,7 +341,7 @@ class _MinePageState extends State<MinePage> {
                               _openChatWidget(context: context, user: state.user);
                             },
                             child: Text(
-                              "Chat",
+                              "私 信",
                               style: TextStyle(
                                   fontSize: duSetFontSize(15),
                                   fontWeight: FontWeight.w500,

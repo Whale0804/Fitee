@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/config/config.dart';
 import 'package:fitee/model/user/user.dart';
+import 'package:fitee/services/follow_service.dart';
 import 'package:fitee/services/login_service.dart';
 import 'package:fitee/services/user_service.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,9 @@ class UserProvider with ChangeNotifier {
   User user;
   User currentUser;
   bool loading = true;
+
+  // 是否关注改用户
+  bool isFollow = false;
 
   getUser() async{
     bool isLogin = await LocalStorage.getBool(AppConfig.LOGIN_KEY)?? false;
@@ -30,5 +34,16 @@ class UserProvider with ChangeNotifier {
     loading = false;
     notifyListeners();
     return user;
+  }
+
+  fetchCheckFollow({@required String username}) async{
+    try {
+      var res = await FollowApi.fetchCheckFollow(username: username);
+      isFollow = true;
+    } catch (e) {
+      isFollow = false;
+    }
+    notifyListeners();
+    return isFollow;
   }
 }
