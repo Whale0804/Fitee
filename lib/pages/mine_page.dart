@@ -158,7 +158,7 @@ class _MinePageState extends State<MinePage> {
                         },
                         child: ClipRRect(
                           key: ValueKey<int>( state.user != null ? state.user.id : 0),
-                          borderRadius: BorderRadius.circular(6.0),
+                          borderRadius: BorderRadius.circular(110.0),
                           child: widget.avatar != '' ?  _ImageAvatar() :  state.user != null ? Image.network(state.user.avatar_url, width: 110,height: 110) : Image.asset('assets/icon/user.png', width: 110,height: 110),
                         ),
                       ),
@@ -311,9 +311,9 @@ class _MinePageState extends State<MinePage> {
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                             onPressed: () async {
                               if(state.isFollow) { // 取消关注
-
+                                await state.fetchUnFollow(username: state.user.login);
                               }else { // 关注
-
+                                await state.fetchFollow(username: state.user.login);
                               }
                             },
                             child: Text(

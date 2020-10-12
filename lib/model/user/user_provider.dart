@@ -38,10 +38,32 @@ class UserProvider with ChangeNotifier {
 
   fetchCheckFollow({@required String username}) async{
     try {
-      var res = await FollowApi.fetchCheckFollow(username: username);
+      await FollowApi.fetchCheckFollow(username: username);
       isFollow = true;
     } catch (e) {
       isFollow = false;
+    }
+    notifyListeners();
+    return isFollow;
+  }
+
+  fetchFollow({@required String username}) async {
+    try {
+      await FollowApi.fetchFollow(username: username);
+      isFollow = true;
+    } catch(e) {
+      isFollow = false;
+    }
+    notifyListeners();
+    return isFollow;
+  }
+
+  fetchUnFollow({@required String username}) async {
+    try {
+      await FollowApi.fetchUnFollow(username: username);
+      isFollow = false;
+    } catch(e) {
+      isFollow = true;
     }
     notifyListeners();
     return isFollow;
