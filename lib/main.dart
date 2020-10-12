@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:fitee/pages/login/login_page.dart';
+import 'package:fitee/plugin/no_splash.dart';
 import 'package:fitee/route/base/base_route.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/theme/model/theme_model.dart';
@@ -73,6 +74,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
+        highlightColor: Colors.transparent,
+        splashFactory: NoSplashFactory()
       ),
       home: BaseRoute(),
       builder: (BuildContext context, Widget child) {
@@ -86,6 +89,8 @@ class MyApp extends StatelessWidget {
       theme: _darkMode == 1 ? ThemeData.dark() : ThemeData(
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
+        highlightColor: Colors.transparent,
+        splashFactory: NoSplashFactory()
       ),
       home: BaseRoute(),
       builder: (BuildContext context, Widget child) {
