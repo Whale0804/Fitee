@@ -282,7 +282,7 @@ ErrorEntity createErrorEntity(DioError error) {
         NavUtil.pushAndRemove(LoginPage());
       }
     }catch (e) {
-      print(e.toString());
+      NavUtil.pushAndRemove(LoginPage());
     }
   }
 /// 异常处理

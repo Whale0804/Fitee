@@ -149,7 +149,7 @@ class _MinePageState extends State<MinePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      color: Colors.grey.withOpacity(.05),
+                      //color: Colors.grey.withOpacity(.05),
                       child: AnimatedSwitcher(
                         duration: const Duration(milliseconds: 0),
                         transitionBuilder: (Widget child, Animation<double> animation) {
@@ -312,6 +312,7 @@ class _MinePageState extends State<MinePage> {
                             onPressed: () async {
                               if(state.isFollow) { // 取消关注
                                 await state.fetchUnFollow(username: state.user.login);
+                                print(state.isFollow);
                               }else { // 关注
                                 await state.fetchFollow(username: state.user.login);
                               }
@@ -817,8 +818,8 @@ class _MinePageState extends State<MinePage> {
             child: Container(
               // height: 180,
               constraints: BoxConstraints(
-                minHeight: MediaQuery.of(context).size.height / 1.2, //设置最小高度（必要）
-                maxHeight: MediaQuery.of(context).size.height / 1.2, //设置最大高度（必要）
+                minHeight: MediaQuery.of(context).size.height / 1.3, //设置最小高度（必要）
+                maxHeight: MediaQuery.of(context).size.height / 1.3, //设置最大高度（必要）
               ),
               decoration: BoxDecoration(borderRadius: BorderRadius.vertical(top: Radius.circular(40)), color: Colors.white), //圆角
               child: Column(
@@ -922,7 +923,7 @@ class _MinePageState extends State<MinePage> {
                         ),
                         Positioned(
                           width: MediaQuery.of(context).size.width,
-                          bottom: MediaQuery.of(context).padding.bottom,
+                          bottom: MediaQuery.of(context).padding.bottom + 10,
                           left: 0,
                           child: Container(
                             width: double.infinity,
@@ -970,7 +971,8 @@ class _MinePageState extends State<MinePage> {
                               ),
                             )
                           ),
-                        )
+                        ),
+                        SizedBox(height: duSetHeight(10),)
                       ],
                     ),
                   )

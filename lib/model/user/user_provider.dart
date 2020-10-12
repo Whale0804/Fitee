@@ -52,6 +52,7 @@ class UserProvider with ChangeNotifier {
       await FollowApi.fetchFollow(username: username);
       isFollow = true;
     } catch(e) {
+      print(e.toString());
       isFollow = false;
     }
     notifyListeners();
@@ -63,6 +64,7 @@ class UserProvider with ChangeNotifier {
       await FollowApi.fetchUnFollow(username: username);
       isFollow = false;
     } catch(e) {
+      print(e.toString());
       isFollow = true;
     }
     notifyListeners();
