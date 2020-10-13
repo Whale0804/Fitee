@@ -176,6 +176,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.2.10"
+  date_format:
+    dependency: "direct main"
+    description:
+      name: date_format
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.9"
   decimal:
     dependency: transitive
     description:
@@ -251,6 +258,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.5"
+  flutter_picker:
+    dependency: "direct main"
+    description:
+      name: flutter_picker
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.1.5"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
