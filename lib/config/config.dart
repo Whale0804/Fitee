@@ -45,7 +45,19 @@ class AppConfig {
   // normal state
   static const SEARCH_DATA = [
     ['最佳匹配','收藏数量','Fork 数量', '关注数量','更新时间',],
-    ['1','2']
+    [ 'All', 'Java', 'JavaScript', 'PHP', 'Python', 'C#', 'Android',
+    'Objective-C', 'Go', 'C++', 'HTML', 'C', 'NodeJS', 'Swift'
+    'TypeScript', 'Ruby', 'Shell', 'Dart', 'CSS', 'Docker',
+    'Lua', 'Scala', 'Matlab', 'Delphi', 'Visual Basic', 'TeX/LaTex',
+    'ASP', 'Verilog', 'R', 'ActionScript', 'Groovy', 'Erlang',
+    'VimL', 'Perl', 'Assembly', 'Arduino', 'FORTRAM', 'QML', 'PowerShell',
+    'Pascal', 'Emacs Lisp', 'Clojure', 'CoffeeScript', 'AutoHotkey',
+    'Julia', 'VHDL', 'Elixir', 'Haskell', 'M', 'D', 'Scheme', 'XSLT'
+    'Common Lisp', 'Logos', 'Racket', 'OCaml', 'DOT', 'Haxe', 'Coq',
+    'Vala', 'Puppet', 'LiveScript', 'Smalltalk', 'Nemerle', 'Eiffel'
+    'Prolog', 'Standard ML', 'eC', 'Scilab', 'Ada', 'Slash', 'Awk',
+    'ColdFusion', 'wechat', 'Crystal', 'Kotlin', 'SQL', 'Lisp', 'XML',
+    'C/C++', 'HTML/CSS', '易语言', '汇编', 'other', 'Pawn', 'Zephir']
   ];
 /// ================================ 查询条件 END ============================
 

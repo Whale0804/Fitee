@@ -4,6 +4,7 @@ import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/screen.dart';
 import 'package:fitee/utils/utils.dart';
+import 'package:fitee/widgets/dashes_separator.dart';
 import 'package:fitee/widgets/picker/picker_tool.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
@@ -180,7 +181,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                         ),
                         child: Center(
                           child: Text(
-                            descTxt + ' / ' + languageTxt,
+                            descTxt + ' & ' + languageTxt,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: duSetFontSize(18)
@@ -190,7 +191,8 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                       ),
                     ),
                     onTap: (){
-                      _openSearchPicker(context: context);
+                      //_openSearchPicker(context: context);
+                      _openSearchSheet(context);
                     },
                   ),
                 ),
@@ -209,5 +211,138 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
         print(index);
         print(strData);
       });
+  }
+
+  _openSearchSheet(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      ),
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (ctx, setBottomState) {
+            return AnimatedPadding(
+              padding: MediaQuery.of(context).viewInsets,
+              duration: const Duration(milliseconds: 100),
+              child: Container(
+                constraints: BoxConstraints(
+                    minHeight: MediaQuery.of(context).size.height / 1.9,
+                    maxHeight: MediaQuery.of(context).size.height / 1.9
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(40)),color: Colors.white
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      width: double.infinity,
+                      height: duSetHeight(60),
+                      child: Center(
+                        child: Text(descTxt + ' & ' + languageTxt,
+                          style: TextStyle(
+                              color: AppTheme.darkText,
+                              fontSize: duSetFontSize(18.0),
+                              fontWeight: FontWeight.w500
+                          ),
+                        ),
+                      ),
+                    ),
+                    DashesSeparator(color: Colors.grey[300].withOpacity(.8)),
+                    SizedBox(height: duSetHeight(6)),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: Container(
+                              width: double.infinity,
+                              child: ListView.builder(
+                                physics: ClampingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return _itemWidget(context, title: AppConfig.SEARCH_DATA[0][index], index: index,
+                                    callBack: (title) {
+                                      setBottomState((){
+                                        descTxt = title;
+                                      });
+                                      setState(() {
+                                        descTxt = title;
+                                      });
+                                    }
+                                  );
+                                },
+                                itemCount: AppConfig.SEARCH_DATA[0].length,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              width: double.infinity,
+                              child: ListView.builder(
+                                physics: ClampingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return _itemWidget(context, title: AppConfig.SEARCH_DATA[1][index], index: index,
+                                    callBack: (title) {
+                                      setBottomState((){
+                                        languageTxt = title;
+                                      });
+                                      setState(() {
+                                        languageTxt = title;
+                                      });
+                                    }
+                                  );
+                                },
+                                itemCount: AppConfig.SEARCH_DATA[1].length,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: duSetHeight(MediaQuery.of(context).padding.bottom)),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      }
+    );
+  }
+
+  Widget _itemWidget(BuildContext context, {@required String title, int index, Function callBack}){
+    return Column(
+      children: [
+        GestureDetector(
+          child: Container(
+            height: duSetHeight(50),
+            child: Center(
+              child: Text(title,
+                style: TextStyle(
+                    fontSize: duSetFontSize(18),
+                    color: AppTheme.darkText
+                ),
+              ),
+            ),
+          ),
+          onTap: (){
+            callBack(title);
+          },
+        )
+        //index != (AppConfig.SEARCH_DATA[0].length -1) ? _divider() : SizedBox(),
+      ],
+    );
+  }
+
+  Widget _divider() {
+    return Divider(
+      height: 1.2,
+      indent: 12,
+      endIndent: 12,
+      thickness: 1,
+      color: Colors.grey.withOpacity(.15),
+    );
   }
 }

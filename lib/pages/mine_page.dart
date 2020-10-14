@@ -496,7 +496,7 @@ class _MinePageState extends State<MinePage> {
 
                   },
                 ),
-                _Divider(),
+                _divider(),
                 InkWell(
                   child: Container(
                     padding: EdgeInsets.only(left: 10, right: 10),
@@ -586,7 +586,7 @@ class _MinePageState extends State<MinePage> {
                         ),
                       )
                   ),
-                  _Divider(),
+                  _divider(),
                   Container(
                       padding: EdgeInsets.only(left: 10, right: 10),
                       height: duSetHeight(40),
@@ -623,7 +623,7 @@ class _MinePageState extends State<MinePage> {
                         ),
                       )
                   ),
-                  _Divider(),
+                  _divider(),
                   Container(
                       padding: EdgeInsets.only(left: 10, right: 10),
                       height: duSetHeight(40),
@@ -667,7 +667,7 @@ class _MinePageState extends State<MinePage> {
                         },
                       )
                   ),
-                  _Divider(),
+                  _divider(),
                   Container(
                       padding: EdgeInsets.only(left: 10, right: 10),
                       height: duSetHeight(40),
@@ -755,7 +755,7 @@ class _MinePageState extends State<MinePage> {
 
                 },
               ),
-              _Divider(),
+              _divider(),
               InkWell(
                 child: Container(
                   padding: EdgeInsets.only(left: 10, right: 10),
@@ -792,7 +792,7 @@ class _MinePageState extends State<MinePage> {
         )
     );
   }
-  Widget _Divider() {
+  Widget _divider() {
     return Divider(
       height: 1.2,
       indent: 12,
