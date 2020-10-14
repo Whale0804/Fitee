@@ -44,7 +44,7 @@ class AppConfig {
 /// ================================ 查询条件 START ============================
   // normal state
   static const SEARCH_DATA = [
-    ['最佳匹配','收藏数量','Fork 数量', '关注数量','更新时间',],
+    ['最佳匹配','收藏数量','Fork数量', '关注数量','更新时间',],
     [ 'All', 'Java', 'JavaScript', 'PHP', 'Python', 'C#', 'Android',
     'Objective-C', 'Go', 'C++', 'HTML', 'C', 'NodeJS', 'Swift'
     'TypeScript', 'Ruby', 'Shell', 'Dart', 'CSS', 'Docker',
