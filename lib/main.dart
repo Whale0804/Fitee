@@ -15,6 +15,7 @@ import 'config/config.dart';
 import 'model/event/event_provider.dart';
 import 'model/letter/letter_provider.dart';
 import 'model/notify/notify_provider.dart';
+import 'model/search/search_provider.dart';
 import 'model/user/user_provider.dart';
 
 Future<void> main() async {
@@ -31,6 +32,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_)=> EventProvider()),
         ChangeNotifierProvider(create: (_)=> NotifyProvider()),
         ChangeNotifierProvider(create: (_)=> LetterProvider()),
+        ChangeNotifierProvider(create: (_)=> SearchProvider()),
       ],
       child: MyApp(),
     )

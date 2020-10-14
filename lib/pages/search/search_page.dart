@@ -1,13 +1,21 @@
 import 'package:fitee/config/config.dart';
-import 'package:fitee/plugin/toast.dart';
+import 'package:fitee/model/search/search_provider.dart';
+import 'package:fitee/model/search/search_repos.dart';
+import 'package:fitee/model/user/user.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/screen.dart';
+import 'package:fitee/utils/store.dart';
 import 'package:fitee/utils/utils.dart';
 import 'package:fitee/widgets/dashes_separator.dart';
+import 'package:fitee/widgets/loading/FiteeLoading.dart';
 import 'package:fitee/widgets/picker/picker_tool.dart';
+import 'package:fitee/widgets/state/state_page.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
 
@@ -21,6 +29,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
 
   TabController _controller;
+  SearchProvider _searchProvider;
 
   AnimationController _animationController;
   Animation<Color> _animation;
@@ -28,12 +37,15 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   int tabIndex = 0;
   int page = 1;
 
-  String descTxt = '最佳匹配';
+  String sortTxt = '最佳匹配';
   String languageTxt = 'All';
 
   @override
   void initState() {
     super.initState();
+
+    _searchProvider = Store.value<SearchProvider>(NavUtil.ctx);
+
     _controller = TabController(
       length: 2,
       vsync: ScrollableState(),
@@ -52,14 +64,11 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
     _animation = Tween<Color>(begin: AppTheme.dismissibleBackground.withOpacity(.3), end: AppTheme.dismissibleBackground)
         .animate(_animationController);
 
+    _initData();
   }
 
   _initData() async {
-    if(tabIndex == 0) {
-
-    }else {
-
-    }
+    _searchProvider.setKeyTxt(keyTxt: widget.searchTxt);
   }
 
 
@@ -151,16 +160,8 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                         child: TabBarView(
                           controller: _controller,
                           children: <Widget>[
-                            Container(
-                              child: Center(
-                                child: Image.asset("assets/icon/repository.png", width: duSetWidth(100), height: duSetHeight(100)),
-                              ),
-                            ),
-                            Container(
-                              child: Center(
-                                child: Image.asset("assets/icon/my_feed.png", width: duSetWidth(100), height: duSetHeight(100)),
-                              ),
-                            ),
+                            _reposList(context: context),
+                            _userList(context: context),
                           ],
                         )
                     ),
@@ -181,7 +182,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                         ),
                         child: Center(
                           child: Text(
-                            descTxt + ' & ' + languageTxt,
+                            sortTxt + ' & ' + languageTxt,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: duSetFontSize(18)
@@ -203,6 +204,181 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
       ),
     );
   }
+
+  Widget _reposList({@required BuildContext context}){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        SizedBox(height: duSetHeight(6)),
+        Expanded(
+          child: Store.connect<SearchProvider>(builder: (context, state, child){
+            return state.loading ?
+            FiteeLoading() :
+            EasyRefresh.custom(
+                emptyWidget: state.reposStatus == AppConfig.NORMAL_STATE ? null : StatePage(state: state.reposStatus),
+                header: TaurusHeader(
+                    backgroundColor: AppTheme.dismissibleBackground,
+                    completeDuration: Duration(milliseconds: 1200)
+                ),
+                footer: BallPulseFooter(
+                    color: AppTheme.darkText
+                ),
+                onRefresh: () async {
+                  setState(() {
+                    page = 1;
+                  });
+                  _searchProvider.setReposPage(page: page);
+                },
+                onLoad: () async {
+                  setState(() {
+                    page++;
+                  });
+                  _searchProvider.setReposPage(page: page);
+                },
+                slivers: <Widget>[
+                  AnimationLimiter(
+                    child: SliverList(delegate: SliverChildBuilderDelegate((context, index) {
+                      SearchRepos repos = state.reposResult[index];
+                      return Padding(
+                        padding: EdgeInsets.only(
+                            top: duSetHeight(index == 0 ? 12: 0),
+                            left: duSetWidth(16),
+                            right: duSetWidth(16)
+                        ),
+                        child: AnimationConfiguration.staggeredList(
+                            position: index,
+                            duration: const Duration(milliseconds: 475),
+                            child: SlideAnimation(
+                              verticalOffset: 50.0,
+                              child: FadeInAnimation(
+                                child: _reposItem(repos:repos),
+                              ),
+                            )
+                        ),
+                      );
+                    },
+                        childCount: state.reposResult.length
+                    )
+                    ),
+                  )
+                ]
+            );
+          }),
+        )
+      ],
+    );
+  }
+
+  Widget _reposItem({SearchRepos repos}) {
+    return Container(
+      margin: EdgeInsets.only(bottom: duSetHeight(10)),
+      padding: EdgeInsets.all(duSetFontSize(12)),
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: HexColor('#FAFDFC'),
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+          //border: Border.all(width: 1, color: Colors.grey.withOpacity(.4)),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey.withOpacity(.16),
+                blurRadius: 15.0, //阴影模糊程度
+                spreadRadius: 0.5 //阴影扩散程度
+            ),
+          ]
+      ),
+      child: Text(repos.name),
+    );
+  }
+
+  Widget _userList({@required BuildContext context}){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        SizedBox(height: duSetHeight(6)),
+        Expanded(
+          child: Store.connect<SearchProvider>(builder: (context, state, child){
+            return state.loading ?
+            FiteeLoading() :
+            EasyRefresh.custom(
+              emptyWidget: state.reposStatus == AppConfig.NORMAL_STATE ? null : StatePage(state: state.userStatus),
+              header: TaurusHeader(
+                backgroundColor: AppTheme.dismissibleBackground,
+                completeDuration: Duration(milliseconds: 1200)
+              ),
+              footer: BallPulseFooter(
+                color: AppTheme.darkText
+              ),
+              onRefresh: () async {
+                setState(() {
+                  page = 1;
+                });
+                _searchProvider.setUsersPage(page: page);
+              },
+              onLoad: () async {
+                setState(() {
+                  page++;
+                });
+                _searchProvider.setUsersPage(page: page);
+              },
+              slivers: <Widget>[
+                AnimationLimiter(
+                      child: SliverList(delegate: SliverChildBuilderDelegate((context, index) {
+                        User user = state.userResult[index];
+                        return Padding(
+                          padding: EdgeInsets.only(
+                              top: duSetHeight(index == 0 ? 12: 0),
+                              left: duSetWidth(16),
+                              right: duSetWidth(16)
+                          ),
+                          child: AnimationConfiguration.staggeredList(
+                              position: index,
+                              duration: const Duration(milliseconds: 475),
+                              child: SlideAnimation(
+                                verticalOffset: 50.0,
+                                child: FadeInAnimation(
+                                  child: _userItem(user: user),
+                                ),
+                              )
+                          ),
+                        );
+                      },
+                      childCount: state.userResult.length
+                    )
+                  ),
+                )
+              ]
+            );
+          }),
+        )
+      ],
+    );
+  }
+
+  Widget _userItem({User user}) {
+    return Container(
+      margin: EdgeInsets.only(bottom: duSetHeight(10)),
+      padding: EdgeInsets.all(duSetFontSize(12)),
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: HexColor('#FAFDFC'),
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+          //border: Border.all(width: 1, color: Colors.grey.withOpacity(.4)),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey.withOpacity(.16),
+                blurRadius: 15.0, //阴影模糊程度
+                spreadRadius: 0.5 //阴影扩散程度
+            ),
+          ]
+      ),
+      child: Text(user.name),
+    );
+  }
+
   _openSearchPicker({@required BuildContext context}) {
     PickerTool.showArrayPicker(context,
       title: '',
@@ -240,7 +416,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                       width: double.infinity,
                       height: duSetHeight(60),
                       child: Center(
-                        child: Text(descTxt + ' & ' + languageTxt,
+                        child: Text(sortTxt + ' & ' + languageTxt,
                           style: TextStyle(
                               color: AppTheme.darkText,
                               fontSize: duSetFontSize(18.0),
@@ -264,12 +440,23 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                                 itemBuilder: (context, index) {
                                   return _itemWidget(context, title: AppConfig.SEARCH_DATA[0][index], index: index,
                                     callBack: (title) {
+                                      var temp;
+                                      if(title == '收藏数量') {
+                                        temp = 'stars_count';
+                                      }else if(title == 'Fork数量') {
+                                        temp = 'forks_count';
+                                      }else if(title == '关注数量') {
+                                        temp = 'watches_count';
+                                      }else if(title == '更新时间') {
+                                        temp = 'last_push_at';
+                                      }
                                       setBottomState((){
-                                        descTxt = title;
+                                        sortTxt = title;
                                       });
                                       setState(() {
-                                        descTxt = title;
+                                        sortTxt = title;
                                       });
+                                      _searchProvider.fetchRepos(language: languageTxt, sort: temp);
                                     }
                                   );
                                 },
@@ -285,12 +472,17 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                                 itemBuilder: (context, index) {
                                   return _itemWidget(context, title: AppConfig.SEARCH_DATA[1][index], index: index,
                                     callBack: (title) {
+                                      var temp;
+                                      if(temp != 'All') {
+                                        temp = title;
+                                      }
                                       setBottomState((){
-                                        languageTxt = title;
+                                        languageTxt = temp;
                                       });
                                       setState(() {
-                                        languageTxt = title;
+                                        languageTxt = temp;
                                       });
+                                      _searchProvider.fetchRepos(language: languageTxt, sort: sortTxt);
                                     }
                                   );
                                 },

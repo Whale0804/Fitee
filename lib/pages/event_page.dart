@@ -25,7 +25,7 @@ class EventPage extends StatefulWidget {
 
 class _EventPageState extends State<EventPage> with TickerProviderStateMixin{
 
-  EventProvider eventProvider;
+  EventProvider _eventProvider;
   TabController _controller;
 
   AnimationController _animationController;
@@ -37,7 +37,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin{
   @override
   void initState() {
     super.initState();
-    eventProvider = Store.value<EventProvider>(NavUtil.ctx);
+    _eventProvider = Store.value<EventProvider>(NavUtil.ctx);
     _controller = TabController(
       length: 2,
       vsync: ScrollableState(),
@@ -46,7 +46,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin{
       setState(() {
         tabIndex = _controller.index;
         page = 1;
-        _initData(eventProvider);
+        _initData(_eventProvider);
       });
     });
 
@@ -56,7 +56,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin{
     _animation = Tween<Color>(begin: AppTheme.dismissibleBackground.withOpacity(.3), end: AppTheme.dismissibleBackground)
         .animate(_animationController);
 
-    _initData(eventProvider);
+    _initData(_eventProvider);
   }
 
   _initData(EventProvider eventProvider) async {

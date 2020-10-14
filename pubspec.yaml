@@ -49,6 +49,9 @@ dependencies:
   flutter_picker: ^1.1.5
   # 时间格式化
   date_format: ^1.0.9
+  # Customer Snackbar
+  flushbar: ^1.10.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
