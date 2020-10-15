@@ -39,6 +39,8 @@ class AppConfig {
   static const String EMPTY_STATE = '1';
   // error state
   static const String ERROR_STATE = '2';
+  // no more state
+  static const String NO_MORE_STATE = '3';
 /// ================================ 页面状态 END ============================
 
 /// ================================ 查询条件 START ============================

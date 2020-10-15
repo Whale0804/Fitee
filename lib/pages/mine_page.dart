@@ -311,7 +311,6 @@ class _MinePageState extends State<MinePage> {
                             onPressed: () async {
                               if(state.isFollow) { // 取消关注
                                 await state.fetchUnFollow(username: state.user.login);
-                                print(state.isFollow);
                               }else { // 关注
                                 await state.fetchFollow(username: state.user.login);
                               }
@@ -850,7 +849,7 @@ class _MinePageState extends State<MinePage> {
                                   fontWeight: FontWeight.w500
                               )),
                               TextSpan(text: '@' + user.login,style: TextStyle(
-                                color: HexColor('#6FA0FB'),
+                                color: AppTheme.url,
                                 fontSize: duSetFontSize(18.0),
                                 fontWeight: FontWeight.w400
                               )),

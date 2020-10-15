@@ -41,7 +41,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController _searchController = TextEditingController(text: _inputText);
-
+    _searchController.selection = (
+      TextSelection.fromPosition(TextPosition(offset: _searchController.text.length))
+    );
     return Container(
       color: AppTheme.white,
       child: Column(

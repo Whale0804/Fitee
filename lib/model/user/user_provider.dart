@@ -35,7 +35,7 @@ class UserProvider with ChangeNotifier {
     return user;
   }
 
-  fetchCheckFollow({@required String username}) async{
+  Future<bool> fetchCheckFollow({@required String username}) async{
     try {
       await FollowApi.fetchCheckFollow(username: username);
       isFollow = true;
@@ -46,7 +46,7 @@ class UserProvider with ChangeNotifier {
     return isFollow;
   }
 
-  fetchFollow({@required String username}) async {
+  Future<bool> fetchFollow({@required String username}) async {
     try {
       await FollowApi.fetchFollow(username: username);
       isFollow = true;
@@ -58,7 +58,7 @@ class UserProvider with ChangeNotifier {
     return isFollow;
   }
 
-  fetchUnFollow({@required String username}) async {
+  Future<bool> fetchUnFollow({@required String username}) async {
     try {
       await FollowApi.fetchUnFollow(username: username);
       isFollow = false;

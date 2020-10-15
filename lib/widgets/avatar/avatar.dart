@@ -19,7 +19,7 @@ class Avatar extends StatelessWidget{
     var tempUrl = getRandomInt();
     return Container(
       decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(.05),
+          color: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(14.0))
       ),
       child: GestureDetector(
@@ -27,11 +27,11 @@ class Avatar extends StatelessWidget{
         child: ClipRRect(
           borderRadius: BorderRadius.circular(14.0),
           child: url.contains('no_portrait') ? Image.asset(tempUrl,
-            width: duSetWidth(56),
-            height: duSetHeight(52),
+            width: duSetWidth(width),
+            height: duSetHeight(height),
           ) : Image.network(url,
-            width: duSetWidth(56),
-            height: duSetHeight(52),
+            width: duSetWidth(width),
+            height: duSetHeight(height),
           ),
         ),
         onTap: () {

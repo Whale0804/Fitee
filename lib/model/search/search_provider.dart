@@ -21,7 +21,9 @@ class SearchProvider with ChangeNotifier {
 
   setKeyTxt({@required String keyTxt}) async {
     this.keyTxt = keyTxt;
+    reposResult = new List<SearchRepos>();
     await fetchRepos();
+    userResult = new List<User>();
     await fetchUsers();
     loading = false;
     notifyListeners();
@@ -41,13 +43,16 @@ class SearchProvider with ChangeNotifier {
     try {
       List<SearchRepos> res = await SearchApi.fetchRepos(keyTxt, page: currentReposPage, language: language, sort: sort);
       if (currentReposPage == 1) {
-        reposResult = new List<SearchRepos>();
         reposResult = res;
       } else {
         reposResult.addAll(res);
       }
       if(reposResult.length == 0){
         reposStatus = AppConfig.EMPTY_STATE;
+      }else {
+        if(res.length == 0){
+          reposStatus = AppConfig.NO_MORE_STATE;
+        }
       }
     } catch (e) {
       reposResult = new List<SearchRepos>();
@@ -71,15 +76,18 @@ class SearchProvider with ChangeNotifier {
 
   fetchUsers() async {
     try {
-      List<User> res = await SearchApi.fetchUsers(keyTxt, page: currentReposPage);
-      if (currentReposPage == 1) {
-        userResult = new List<User>();
+      List<User> res = await SearchApi.fetchUsers(keyTxt, page: currentUserPage);
+      if (currentUserPage == 1) {
         userResult = res;
       } else {
         userResult.addAll(res);
       }
-      if(reposResult.length == 0){
+      if(userResult.length == 0){
         userStatus = AppConfig.EMPTY_STATE;
+      }else {
+        if(res.length == 0){
+          userStatus = AppConfig.NO_MORE_STATE;
+        }
       }
     } catch (e) {
       userResult = new List<User>();

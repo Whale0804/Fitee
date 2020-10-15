@@ -43,8 +43,8 @@ class User {
   int following;
   int stared;
   int watched;
-  String created_at;
-  String updated_at;
+  DateTime created_at;
+  DateTime updated_at;
   String email;
 
   User({this.id,
