@@ -1,8 +1,5 @@
 
-import 'package:fitee/cache/local_storage.dart';
-import 'package:fitee/config/config.dart';
 import 'package:fitee/pages/about/about_page.dart';
-import 'package:fitee/pages/login/login_page.dart';
 import 'package:fitee/route/page/base_page.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';

@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 
 class Avatar extends StatelessWidget{
 
-  String url;
-  String name;
-  double width;
-  double height;
+  final String url;
+  final String name;
+  final double width;
+  final double height;
 
   Avatar({this.url,this.name = '', this.width = 56, this.height = 52});
   @override

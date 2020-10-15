@@ -9,7 +9,6 @@ import 'package:fitee/utils/screen.dart';
 import 'package:fitee/utils/utils.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:local_auth/local_auth.dart';
 
 class SettingPage extends StatefulWidget {
 

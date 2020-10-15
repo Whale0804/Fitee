@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/config/config.dart';
@@ -6,8 +7,6 @@ import 'package:fitee/pages/login/login_page.dart';
 import 'package:fitee/route/base/base_route.dart';
 import 'package:fitee/services/login_service.dart';
 import 'package:fitee/utils/nav_util.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 
 /*
   * 请求 操作类
@@ -358,7 +357,7 @@ class DioLogInterceptor extends Interceptor {
     if (response.data != null) {
       responseStr += "- BODY:\n ${_parseResponse(response)}";
     }
-    responseStr + "\n==================== Response End ====================\n";
+    responseStr += "\n==================== Response End ====================\n";
     printWrapped(responseStr);
     return response;
   }

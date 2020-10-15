@@ -15,11 +15,10 @@ import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
 
-  String searchTxt;
+  final String searchTxt;
 
   SearchPage({Key key, @required this.searchTxt}): super(key: key);
 
@@ -82,7 +81,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppTheme.background,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,6 +99,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                   children: <Widget>[
                     Container(
                       width: double.infinity,
+                      color: AppTheme.white,
                       child: TabBar(
                         controller: _controller,
                         labelColor: AppTheme.darkText,
@@ -361,7 +361,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   Widget _userItem({User user}) {
     return Container(
       margin: EdgeInsets.only(bottom: duSetHeight(10)),
-      padding: EdgeInsets.all(duSetFontSize(12)),
+      padding: EdgeInsets.all(duSetHeight(12)),
       width: double.infinity,
       decoration: BoxDecoration(
           color: HexColor('#FAFDFC'),
@@ -375,7 +375,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
             ),
           ]
       ),
-      child: Text(user.name),
+      child: SizedBox(),
     );
   }
 

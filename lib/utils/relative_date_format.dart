@@ -17,7 +17,7 @@ class RelativeDateFormat {
   static String format(DateTime date) {
     num delta = DateTime.now().millisecondsSinceEpoch - date.millisecondsSinceEpoch;
     if (delta < 1 * ONE_MINUTE) {
-      num seconds = toSeconds(delta);
+      //num seconds = toSeconds(delta);
       //return (seconds <= 0 ? 1 : seconds).toInt().toString() + ONE_SECOND_AGO;
       return '刚刚';
     }

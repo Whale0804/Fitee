@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(height: duSetHeight(80)),
                           Form(
                             key: _formKey,
-                            autovalidate: false,
+                            autovalidateMode: AutovalidateMode.disabled,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,

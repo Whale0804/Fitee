@@ -10,7 +10,6 @@ import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/screen.dart';
 import 'package:fitee/utils/store.dart';
 import 'package:fitee/utils/utils.dart';
-import 'package:fitee/widgets/avatar/avatar.dart';
 import 'package:fitee/widgets/bubble%20/bubble.dart';
 import 'package:fitee/widgets/dashes_separator.dart';
 import 'package:fitee/widgets/loading/FiteeLoading.dart';
@@ -19,11 +18,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MinePage extends StatefulWidget {
-  bool isCurrent;
-  bool back;
-  String username;
-  String avatar;
-  bool netImage;
+  final bool isCurrent;
+  final bool back;
+  final String username;
+  final String avatar;
+  final bool netImage;
 
   MinePage({Key key, this.isCurrent = true, this.back = false, this.username, this.avatar = '', this.netImage = true}): super(key: key);
 
@@ -866,7 +865,7 @@ class _MinePageState extends State<MinePage> {
                     child: Stack(
                       children: <Widget>[
                         Container(
-                          color: HexColor('#F6F7F9'),
+                          color: AppTheme.background,
                           child: Column(
                             children: <Widget>[
                               Flexible(

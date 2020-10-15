@@ -1,6 +1,5 @@
-import 'package:fitee/model/repository/repository.dart';
-import 'package:fitee/model/user/user.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part 'subject.g.dart';
 
 @JsonSerializable()

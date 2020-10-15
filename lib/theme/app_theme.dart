@@ -20,6 +20,7 @@ class AppTheme {
   static const Color chipBackground = Color(0xFFEEF1F3);
   static const Color spacer = Color(0xFFF2F2F2);
   static const String fontName = 'WorkSans';
+  static Color background = HexColor('#F6F7F9');
 
   static const TextTheme textTheme = TextTheme(
     headline4: display1,

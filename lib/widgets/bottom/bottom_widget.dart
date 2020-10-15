@@ -5,8 +5,8 @@ import 'TabIconData.dart';
 
 class BottomWidget extends StatefulWidget {
 
-  List<TabIconData> tabIconList;
-  Function(int index) navigationRoute;
+  final List<TabIconData> tabIconList;
+  final Function(int index) navigationRoute;
 
   BottomWidget({Key key, this.tabIconList, this.navigationRoute}): super(key: key);
 

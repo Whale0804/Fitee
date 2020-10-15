@@ -1,5 +1,4 @@
 
-import 'dart:math';
 
 import 'package:fitee/model/notify/notify_provider.dart';
 import 'package:fitee/model/user/user_provider.dart';
@@ -13,7 +12,6 @@ import 'package:fitee/utils/store.dart';
 import 'package:fitee/widgets/bottom/TabIconData.dart';
 import 'package:fitee/widgets/bottom/bottom_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class BasePage extends StatefulWidget {
   @override

@@ -81,7 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           SizedBox(height: duSetHeight(70)),
                           Form(
                             key: _formKey,
-                            autovalidate: false,
+                            autovalidateMode: AutovalidateMode.disabled,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,

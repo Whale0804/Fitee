@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:fitee/pages/login/login_page.dart';
 import 'package:fitee/plugin/no_splash.dart';
 import 'package:fitee/route/base/base_route.dart';
 import 'package:fitee/theme/app_theme.dart';
@@ -10,8 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
-import 'cache/local_storage.dart';
-import 'config/config.dart';
+
 import 'model/event/event_provider.dart';
 import 'model/letter/letter_provider.dart';
 import 'model/notify/notify_provider.dart';
@@ -21,7 +19,7 @@ import 'model/user/user_provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // 查看是否登录
-  bool isLogin = await LocalStorage.getBool(AppConfig.LOGIN_KEY) ?? false;
+  //bool isLogin = await LocalStorage.getBool(AppConfig.LOGIN_KEY) ?? false;
   await SystemChrome
       .setPreferredOrientations(<DeviceOrientation>[DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((_) => runApp(

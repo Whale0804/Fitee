@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 /// 0: 正常， 1: 数据为空， 2: 查询报错
 class StatePage extends StatelessWidget {
 
-  String state;
+  final String state;
 
   StatePage({Key key, this.state = '0'}): super(key: key);
 
