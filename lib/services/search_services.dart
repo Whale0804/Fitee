@@ -17,7 +17,8 @@ class SearchApi {
       "per_page" : AppConfig.PRE_PAGE,
       "q" : q,
       "language" : language == 'All' ? null : language,
-      "sort" : sort
+      "sort" : sort,
+      "order" : "desc"
     };
     List<dynamic> result = await DioUtils().get('/api/v5/search/repositories', params: params);
     return result.map((i) => SearchRepos.fromJson(i)).toList();

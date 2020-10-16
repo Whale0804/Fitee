@@ -14,6 +14,7 @@ import 'package:fitee/utils/screen.dart';
 import 'package:fitee/utils/store.dart';
 import 'package:fitee/utils/utils.dart';
 import 'package:fitee/widgets/avatar/avatar.dart';
+import 'package:fitee/widgets/avatar/stack_avatar.dart';
 import 'package:fitee/widgets/dashes_separator.dart';
 import 'package:fitee/widgets/foot/no_more_footer.dart';
 import 'package:fitee/widgets/loading/FiteeLoading.dart';
@@ -89,130 +90,132 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppTheme.background,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            AppBarWidget(
-              title: widget.searchTxt,
-              back: true,
-            ),
-            Expanded(
-              child: Stack(
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: double.infinity,
-                        color: AppTheme.white,
-                        child: TabBar(
-                          controller: _controller,
-                          labelColor: AppTheme.darkText,
-                          unselectedLabelColor: AppTheme.descText,
-                          indicatorColor: Colors.transparent,
-                          indicatorWeight: duSetHeight(1.0),
-                          labelStyle: TextStyle(
-                              fontWeight: FontWeight.w500
-                          ),
-                          unselectedLabelStyle: TextStyle(
-                              fontWeight: FontWeight.w400
-                          ),
-                          indicatorSize: TabBarIndicatorSize.label,
-                          tabs: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  //Tab(icon: Icon(Icons.local_florist)),
-                                  Image.asset("assets/icon/repository.png", width: duSetWidth(21), height: duSetHeight(21),
-                                    color: tabIndex == 0 ? HexColor('#171717') : AppTheme.descText,
-                                  ),
-                                  const SizedBox(width: 12,),
-                                  Text('Repos',
-                                    style: TextStyle(
-                                        fontSize: duSetFontSize(18),
-                                        fontWeight: FontWeight.w400
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Image.asset("assets/icon/my_feed.png", width: duSetWidth(21), height: duSetHeight(21),
-                                    color: tabIndex == 1 ? HexColor('#171717') : AppTheme.descText,
-                                  ),
-                                  const SizedBox(width: 12,),
-                                  Text('Users',
-                                    style: TextStyle(
-                                        fontSize: duSetFontSize(18),
-                                        fontWeight: FontWeight.w400
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                          child: TabBarView(
-                            controller: _controller,
-                            children: <Widget>[
-                              _reposList(context: context),
-                              _userList(context: context),
-                            ],
-                          )
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    width: MediaQuery.of(context).size.width - duSetWidth(72),
-                    bottom: MediaQuery.of(context).padding.bottom + 40,
-                    left: MediaQuery.of(context).size.width * 0.1,
-                    child: GestureDetector(
-                      child: Container(
-                        height: duSetHeight(40),
-                        padding: EdgeInsets.symmetric(horizontal: duSetWidth(36)),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(40)),
-                              color: HexColor('#BEDCFD')
-                          ),
-                          child: Center(
-                            child: Text(
-                              sortTxt + ' & ' + languageTxt,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: duSetFontSize(18)
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      onTap: (){
-                        //_openSearchPicker(context: context);
-                        _openSearchSheet(context);
-                      },
-                    ),
-                  ),
-                ],
+    return Container(
+      color: AppTheme.mainBackground,
+      child: SafeArea(
+        child: Scaffold(
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              AppBarWidget(
+                title: widget.searchTxt,
+                back: true,
               ),
-            )
-          ],
-        ),
-      )
+              Expanded(
+                child: Stack(
+                  children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          width: double.infinity,
+                          color: AppTheme.white,
+                          child: TabBar(
+                            controller: _controller,
+                            labelColor: AppTheme.darkText,
+                            unselectedLabelColor: AppTheme.descText,
+                            indicatorColor: Colors.transparent,
+                            indicatorWeight: duSetHeight(1.0),
+                            labelStyle: TextStyle(
+                                fontWeight: FontWeight.w500
+                            ),
+                            unselectedLabelStyle: TextStyle(
+                                fontWeight: FontWeight.w400
+                            ),
+                            indicatorSize: TabBarIndicatorSize.label,
+                            tabs: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    //Tab(icon: Icon(Icons.local_florist)),
+                                    Image.asset("assets/icon/repository.png", width: duSetWidth(21), height: duSetHeight(21),
+                                      color: tabIndex == 0 ? HexColor('#171717') : AppTheme.descText,
+                                    ),
+                                    const SizedBox(width: 12,),
+                                    Text('Repos',
+                                      style: TextStyle(
+                                          fontSize: duSetFontSize(18),
+                                          fontWeight: FontWeight.w400
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Image.asset("assets/icon/my_feed.png", width: duSetWidth(21), height: duSetHeight(21),
+                                      color: tabIndex == 1 ? HexColor('#171717') : AppTheme.descText,
+                                    ),
+                                    const SizedBox(width: 12,),
+                                    Text('Users',
+                                      style: TextStyle(
+                                          fontSize: duSetFontSize(18),
+                                          fontWeight: FontWeight.w400
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                            child: TabBarView(
+                              controller: _controller,
+                              children: <Widget>[
+                                _reposList(context: context),
+                                _userList(context: context),
+                              ],
+                            )
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                      width: MediaQuery.of(context).size.width - duSetWidth(72),
+                      bottom: MediaQuery.of(context).padding.bottom + 40,
+                      left: MediaQuery.of(context).size.width * 0.1,
+                      child: GestureDetector(
+                        child: Container(
+                          height: duSetHeight(40),
+                          padding: EdgeInsets.symmetric(horizontal: duSetWidth(36)),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(40)),
+                                color: HexColor('#BEDCFD')
+                            ),
+                            child: Center(
+                              child: Text(
+                                sortTxt + ' & ' + languageTxt,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: duSetFontSize(18)
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        onTap: (){
+                          //_openSearchPicker(context: context);
+                          _openSearchSheet(context);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        )
+      ),
     );
   }
 
@@ -266,7 +269,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                             child: SlideAnimation(
                               verticalOffset: 50.0,
                               child: FadeInAnimation(
-                                child: _reposItem(repos:repos),
+                                child: RepoItem(repos:repos),
                               ),
                             )
                         ),
@@ -281,27 +284,6 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
           }),
         )
       ],
-    );
-  }
-
-  Widget _reposItem({SearchRepos repos}) {
-    return Container(
-      margin: EdgeInsets.only(bottom: duSetHeight(10)),
-      padding: EdgeInsets.all(duSetFontSize(12)),
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: HexColor('#FAFDFC'),
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-          //border: Border.all(width: 1, color: Colors.grey.withOpacity(.4)),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.grey.withOpacity(.16),
-                blurRadius: 15.0, //阴影模糊程度
-                spreadRadius: 0.5 //阴影扩散程度
-            ),
-          ]
-      ),
-      child: Text(repos.name),
     );
   }
 
@@ -434,23 +416,13 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                                 itemBuilder: (context, index) {
                                   return _itemWidget(context, title: AppConfig.SEARCH_DATA[0][index], index: index,
                                     callBack: (title) {
-                                      var temp;
-                                      if(title == '收藏数量') {
-                                        temp = 'stars_count';
-                                      }else if(title == 'Fork数量') {
-                                        temp = 'forks_count';
-                                      }else if(title == '关注数量') {
-                                        temp = 'watches_count';
-                                      }else if(title == '更新时间') {
-                                        temp = 'last_push_at';
-                                      }
                                       setBottomState((){
                                         sortTxt = title;
                                       });
                                       setState(() {
                                         sortTxt = title;
                                       });
-                                      _searchProvider.fetchRepos(language: languageTxt, sort: temp);
+                                      _searchProvider.fetchRepos(language: languageTxt, sort: _checkSearch(title), page: 1);
                                     }
                                   );
                                 },
@@ -476,7 +448,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                                       setState(() {
                                         languageTxt = temp;
                                       });
-                                      _searchProvider.fetchRepos(language: languageTxt, sort: sortTxt);
+                                      _searchProvider.fetchRepos(language: languageTxt, sort: _checkSearch(title), page: 1);
                                     }
                                   );
                                 },
@@ -496,6 +468,19 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
         );
       }
     );
+  }
+
+  String _checkSearch(String val){
+    if(val == '收藏数量') {
+      return 'stars_count';
+    }else if(val == 'Fork数量') {
+      return 'forks_count';
+    }else if(val == '关注数量') {
+      return 'watches_count';
+    }else if(val == '更新时间') {
+      return 'last_push_at';
+    }
+    return null;
   }
 
   Widget _itemWidget(BuildContext context, {@required String title, int index, Function callBack}){
@@ -530,6 +515,301 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
       thickness: 1,
       color: Colors.grey.withOpacity(.15),
     );
+  }
+}
+
+class RepoItem extends StatefulWidget {
+
+  final SearchRepos repos;
+
+  RepoItem({Key key, this.repos}): super(key: key);
+
+  _RepoItemState createState() => _RepoItemState();
+}
+
+class _RepoItemState extends State<RepoItem> with TickerProviderStateMixin {
+
+  List<String> avatarList = new List<String>();
+
+  @override
+  void initState() {
+    super.initState();
+    _initData();
+  }
+
+  _initData() async {
+    await _fetchAvatar();
+  }
+
+  _fetchAvatar() async{
+    if(widget.repos.members.length > 1){
+      for(var i = 0; i < widget.repos.members.length; i++){
+        if(i < 4){
+          User user = await Store.value<UserProvider>(NavUtil.ctx).fetchUser(username: widget.repos.members[i]);
+          avatarList.add(user.avatar_url);
+        }
+      }
+      setState(() {
+        avatarList = avatarList;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: duSetHeight(10)),
+      padding: EdgeInsets.all(12),
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: HexColor('#FAFDFC'),
+          borderRadius: BorderRadius.only(
+            topLeft:Radius.circular(6),
+            topRight:Radius.circular(24),
+            bottomLeft:Radius.circular(24),
+            bottomRight:Radius.circular(24),
+          ),
+          //border: Border.all(width: 1, color: Colors.grey.withOpacity(.4)),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey.withOpacity(.16),
+                blurRadius: 15.0, //阴影模糊程度
+                spreadRadius: 0.5 //阴影扩散程度
+            ),
+          ]
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Expanded(child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    width: duSetWidth(56),
+                    height: duSetHeight(52),
+                    decoration: BoxDecoration(
+                      color: HexColor('#BEDCFD'),
+                      borderRadius: BorderRadius.only(
+                        topLeft:Radius.circular(18),
+                        topRight:Radius.circular(18),
+                        bottomLeft:Radius.circular(18),
+                        bottomRight:Radius.circular(4),
+                      ),
+                    ),
+                    child: Avatar(
+                      url: widget.repos.owner.avatar_url,
+                      name: widget.repos.owner.login,
+                      width: duSetWidth(56),
+                      height: duSetHeight(52),
+                      borderRadius: BorderRadius.only(
+                        topLeft:Radius.circular(18),
+                        topRight:Radius.circular(18),
+                        bottomLeft:Radius.circular(18),
+                        bottomRight:Radius.circular(4),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: duSetWidth(10)),
+                  Expanded(child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: duSetHeight(2)),
+                      Text(widget.repos.humanName,
+                        style: TextStyle(
+                            color: AppTheme.darkText,
+                            fontSize: duSetHeight(18),
+                            fontWeight: FontWeight.w500
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(height: duSetHeight(6)),
+                      Text(RelativeDateFormat.format(widget.repos.updatedAt),
+                        style: TextStyle(
+                          color: AppTheme.descText,
+                          fontSize: duSetHeight(14),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  )),
+                  SizedBox(width: duSetWidth(10)),
+                ],
+              )),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: duSetWidth(4)),
+                    decoration: BoxDecoration(
+                      color: HexColor('#BEDCFD').withOpacity(.4),
+                      borderRadius: BorderRadius.only(
+                        topLeft:Radius.circular(6),
+                        topRight:Radius.circular(6),
+                        bottomLeft:Radius.circular(6),
+                        bottomRight:Radius.circular(6),
+                      ),
+                    ),
+                    child: Center(
+                      child: GestureDetector(
+                        child: Icon(Icons.more_horiz,
+                          color: AppTheme.lightText,
+                          size: duSetFontSize(28),
+                        ),
+                        onTap: () {
+
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: duSetWidth(4))
+                ],
+              ),
+            ],
+          ),
+          widget.repos.description != null && widget.repos.description.isNotEmpty ? Container(
+            padding: EdgeInsets.all(12),
+            width: double.infinity,
+            child: RichText(
+              textAlign: TextAlign.start,
+              text: TextSpan(
+                  style: TextStyle(
+                    fontSize: duSetFontSize(17),
+                    color: AppTheme.descText,
+                  ),
+                  children: <InlineSpan>[
+                    TextSpan(text: widget.repos.description),
+                  ]
+              ),
+            ),
+          ) : SizedBox(height: 0),
+          Padding(
+            padding: EdgeInsets.only(bottom: duSetHeight(4), left: duSetWidth(6), right: duSetWidth(6)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.adjust),
+                    SizedBox(width: duSetWidth(6)),
+                    Text(widget.repos.language ?? 'Other',
+                      style: TextStyle(
+                        color: AppTheme.descText,
+                        fontSize: duSetFontSize(16)
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.star_border_outlined, size: duSetFontSize(24)),
+                    SizedBox(width: duSetWidth(6)),
+                    Text(_formatNum(widget.repos.stargazersCount),
+                      style: TextStyle(
+                          color: AppTheme.descText,
+                          fontSize: duSetFontSize(16)
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.alt_route),
+                    SizedBox(width: duSetWidth(6)),
+                    Text(_formatNum(widget.repos.forksCount),
+                      style: TextStyle(
+                          color: AppTheme.descText,
+                          fontSize: duSetFontSize(16)
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.visibility_outlined),
+                    SizedBox(width: duSetWidth(6)),
+                    Text(_formatNum(widget.repos.watchersCount),
+                      style: TextStyle(
+                          color: AppTheme.descText,
+                          fontSize: duSetFontSize(16)
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+          widget.repos.members.length > 1 ? Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: duSetWidth(6)),
+                height: widget.repos.members.length == 1 ? 0 : duSetHeight(28),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                      width: StackAvatar(width: 26, offset: 16).getImageStackWidth(widget.repos.members.length > 4 ? 4 : widget.repos.members.length),
+                      height: double.infinity,
+                      child: Stack(
+                        children: StackAvatar(width: 26, offset: 16).getStackItems(avatarList),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text('贡献者(${widget.repos.members.length})',
+                    style: TextStyle(
+                        fontSize: duSetFontSize(17),
+                        color: AppTheme.descText
+                    ),
+                  ),
+                  SizedBox(width: duSetWidth(6)),
+                  Icon(Icons.arrow_forward_ios, color: AppTheme.descText,size: duSetFontSize(18),),
+                  SizedBox(width: duSetWidth(2))
+                ],
+              ),
+            ],
+          ) : SizedBox(height: 0)
+        ],
+      ),
+    );
+  }
+
+  String _formatNum(int count) {
+    return (count / 1000) > 1 ? _formatNumStr((count / 1000),1) + 'k' : count.toString();
+  }
+  String _formatNumStr(double num,int postion){
+    if((num.toString().length-num.toString().lastIndexOf(".")-1)<postion){
+      //小数点后有几位小数
+      return (num.toStringAsFixed(postion).substring(0,num.toString().lastIndexOf(".")+postion+1).toString());
+    }else{
+      return (num.toString().substring(0,num.toString().lastIndexOf(".")+postion+1).toString());
+    }
   }
 }
 

@@ -304,7 +304,7 @@ class DioLogInterceptor extends Interceptor {
         "- URL:\n${options.baseUrl + options.path}\n"
         "- METHOD: ${options.method}\n";
 
-    requestStr += "- HEADER:\n${options.headers.mapToStructureString()}\n";
+    //requestStr += "- HEADER:\n${options.headers.mapToStructureString()}\n";
 
     final data = options.data;
     if (data != null) {
@@ -329,8 +329,7 @@ class DioLogInterceptor extends Interceptor {
         "- URL:\n${err.request.baseUrl + err.request.path}\n"
         "- METHOD: ${err.request.method}\n";
 
-    errorStr +=
-    "- HEADER:\n${err.response.headers.map.mapToStructureString()}\n";
+    //errorStr += "- HEADER:\n${err.response.headers.map.mapToStructureString()}\n";
     if (err.response != null && err.response.data != null) {
       print('╔ ${err.type.toString()}');
       errorStr += "- ERROR:\n${_parseResponse(err.response)}\n";

@@ -39,9 +39,9 @@ class SearchProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  fetchRepos({String language, String sort}) async {
+  fetchRepos({String language, String sort, int page}) async {
     try {
-      List<SearchRepos> res = await SearchApi.fetchRepos(keyTxt, page: currentReposPage, language: language, sort: sort);
+      List<SearchRepos> res = await SearchApi.fetchRepos(keyTxt, page: page ?? currentReposPage, language: language, sort: sort);
       if (currentReposPage == 1) {
         reposResult = res;
       } else {

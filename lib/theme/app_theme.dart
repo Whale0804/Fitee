@@ -22,6 +22,7 @@ class AppTheme {
   static const String fontName = 'WorkSans';
   static Color background = HexColor('#F6F7F9');
   static Color url = HexColor('#6FA0FB');
+  static Color mainBackground = HexColor('#f6f9fb');
 
   static const TextTheme textTheme = TextTheme(
     headline4: display1,

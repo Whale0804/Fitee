@@ -12,15 +12,16 @@ class Avatar extends StatelessWidget{
   final String name;
   final double width;
   final double height;
+  final BorderRadius borderRadius;
 
-  Avatar({this.url,this.name = '', this.width = 56, this.height = 52});
+  Avatar({this.url,this.name = '', this.width = 56, this.height = 52, this.borderRadius});
   @override
   Widget build(BuildContext context) {
     var tempUrl = getRandomInt();
     return Container(
       decoration: BoxDecoration(
           color: Colors.transparent,
-          borderRadius: BorderRadius.all(Radius.circular(14.0))
+          borderRadius: borderRadius == null ? BorderRadius.all(Radius.circular(14.0)): borderRadius
       ),
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
