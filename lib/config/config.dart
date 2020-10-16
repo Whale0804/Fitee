@@ -7,6 +7,13 @@ const CLIENT_SECRET = 'cc5f4639b918ad2df25a8f8e3578e52312522a7f61462029f3568e60e
 class AppConfig {
   AppConfig._();
 
+  /// ================================ 数据库配置 START ============================
+  //每页的数量，最大为 100
+  static const String DB_NAME = 'fitee.db';
+  static const int DB_VERSION = 1;
+  /// ================================ 数据库配置 END ============================
+
+
   /// ================================ 分页字体配置 START ============================
   //每页的数量，最大为 100
   static const int PRE_PAGE = 10;

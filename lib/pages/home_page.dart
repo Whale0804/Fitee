@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
 
   bool _hasDeleteIcon = false;
   String _inputText = "";
+  List<String> history = new List<String>();
 
   @override
   void initState() {

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fitee/plugin/db/db_helper.dart';
 import 'package:fitee/plugin/no_splash.dart';
 import 'package:fitee/route/base/base_route.dart';
 import 'package:fitee/theme/app_theme.dart';
@@ -18,6 +19,8 @@ import 'model/user/user_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // 初始化数据库
+  DBHelper.init();
   // 查看是否登录
   //bool isLogin = await LocalStorage.getBool(AppConfig.LOGIN_KEY) ?? false;
   await SystemChrome
