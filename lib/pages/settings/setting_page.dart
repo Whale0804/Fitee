@@ -1,5 +1,6 @@
 import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/config/config.dart';
+import 'package:fitee/model/setting/setting_db_table.dart';
 import 'package:fitee/pages/settings/work_page.dart';
 import 'package:fitee/plugin/auth/fingerprint_util.dart';
 import 'package:fitee/plugin/toast.dart';
@@ -26,7 +27,7 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   _initData() async {
-    var temp = await LocalStorage.getBool(AppConfig.FINGERPRINT_KEY) ?? false;
+    var temp = await SettingTable().queryByKey(AppConfig.FINGERPRINT_KEY) as bool ?? false;
     setState(() {
       fingerprintEnable = temp;
     });
@@ -229,7 +230,8 @@ class _SettingPageState extends State<SettingPage> {
                                       this.setState(()  {
                                         this.fingerprintEnable = true;
                                       });
-                                      LocalStorage.setBool(AppConfig.FINGERPRINT_KEY, true);
+                                      _settingFingerprint(true);
+                                      //LocalStorage.setBool(AppConfig.FINGERPRINT_KEY, true);
                                       Toast.toast(
                                           context,
                                           msg: '指纹认证已开启~~',
@@ -243,7 +245,8 @@ class _SettingPageState extends State<SettingPage> {
                                           showTime: 3000,
                                           position: 'bottom'
                                       );
-                                      LocalStorage.setBool(AppConfig.FINGERPRINT_KEY, false);
+                                      _settingFingerprint(false);
+                                      //LocalStorage.setBool(AppConfig.FINGERPRINT_KEY, false);
                                     }
                                   }else {
                                     Toast.toast(
@@ -255,7 +258,8 @@ class _SettingPageState extends State<SettingPage> {
                                     this.setState(()  {
                                       this.fingerprintEnable = false;
                                     });
-                                    LocalStorage.setBool(AppConfig.FINGERPRINT_KEY, false);
+                                    //LocalStorage.setBool(AppConfig.FINGERPRINT_KEY, false);
+                                    _settingFingerprint(false);
                                   }
                                 },
                               ),
@@ -355,4 +359,16 @@ class _SettingPageState extends State<SettingPage> {
       )
     );
   }
+
+  // 设置指纹配置
+  _settingFingerprint(bool value) async{
+    int count = await SettingTable().queryCount(AppConfig.FINGERPRINT_KEY);
+    if(count == 0) {
+      await SettingTable().insert(AppConfig.FINGERPRINT_KEY, value);
+    }else {
+      await SettingTable().update(AppConfig.FINGERPRINT_KEY, value);
+    }
+  }
+
+
 }

@@ -6,6 +6,7 @@ import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/widgets/drawer/drawer_custom.dart';
 import 'package:fitee/widgets/drawer/drawer_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 
 class BaseRoute extends StatefulWidget {
@@ -35,20 +36,23 @@ class _BaseRouteState extends State<BaseRoute> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppTheme.nearlyWhite,
-      child: SafeArea(
-        top: false,
-        bottom: false,
-        child: Container(
-          color: AppTheme.nearlyWhite,
-          child: DrawerWidget(
-            screenIndex: drawerIndex,
-            drawerWidth: MediaQuery.of(context).size.width * 0.75,
-            onCellClick: (DrawerIndex drawerIndex) {
-              changeIndex(drawerIndex);
-            },
-            screenView: screenView
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark,
+      child: Container(
+        color: AppTheme.nearlyWhite,
+        child: SafeArea(
+          top: false,
+          bottom: false,
+          child: Container(
+            color: AppTheme.nearlyWhite,
+            child: DrawerWidget(
+              screenIndex: drawerIndex,
+              drawerWidth: MediaQuery.of(context).size.width * 0.75,
+              onCellClick: (DrawerIndex drawerIndex) {
+                changeIndex(drawerIndex);
+              },
+              screenView: screenView
+            ),
           ),
         ),
       ),

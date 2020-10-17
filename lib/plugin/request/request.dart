@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/config/config.dart';
+import 'package:fitee/model/setting/setting_db_table.dart';
 import 'package:fitee/pages/login/login_page.dart';
 import 'package:fitee/route/base/base_route.dart';
 import 'package:fitee/services/login_service.dart';
@@ -261,7 +262,7 @@ ErrorEntity createErrorEntity(DioError error) {
 }
   _forwardLogin () async{
     try {
-      var fingerprintEnable = await LocalStorage.getBool(AppConfig.FINGERPRINT_KEY) ?? false;
+      var fingerprintEnable = await SettingTable().queryByKey(AppConfig.FINGERPRINT_KEY) as bool ?? false;
       if (fingerprintEnable) {
         var username = LocalStorage.getString(AppConfig.USER_NAME_KEY) ?? '';
         var password = LocalStorage.getString(AppConfig.USER_PASS_KEY) ?? '';

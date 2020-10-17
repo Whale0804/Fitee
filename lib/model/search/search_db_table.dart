@@ -1,6 +1,4 @@
 import 'package:fitee/plugin/db/db_provider.dart';
-import 'package:fitee/utils/code_utils.dart';
-import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SearchTable extends DBProvider {
@@ -63,4 +61,5 @@ class SearchTable extends DBProvider {
     }
     return list;
   }
+
 }

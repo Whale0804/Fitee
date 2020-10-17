@@ -91,7 +91,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.mainBackground,
+      color: AppTheme.white,
       child: SafeArea(
         child: Scaffold(
           body: Column(
@@ -169,12 +169,15 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                           ),
                         ),
                         Expanded(
-                            child: TabBarView(
-                              controller: _controller,
-                              children: <Widget>[
-                                _reposList(context: context),
-                                _userList(context: context),
-                              ],
+                            child: Container(
+                              color: AppTheme.mainBackground,
+                              child: TabBarView(
+                                controller: _controller,
+                                children: <Widget>[
+                                  _reposList(context: context),
+                                  _userList(context: context),
+                                ],
+                              ),
                             )
                         ),
                       ],
