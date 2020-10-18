@@ -44,7 +44,7 @@ class SettingTable extends DBProvider {
   }
 
   /// 新增数据
-  Future insert(String key, dynamic value) async{
+  Future insert(String key, String value) async{
     Database db = await getDataBase();
     return await db.insert(dbTableName, toMap(key, value));
   }
@@ -75,7 +75,7 @@ class SettingTable extends DBProvider {
   /// 更新数据
   Future<int> queryCount(String key) async {
     Database db = await getDataBase();
-    List<Map> list = await db.query(dbTableName,columns: [columnId, columnKey], where: columnKey, whereArgs: [key]);
+    List<Map> list = await db.rawQuery('SELECT * FROM $dbTableName WHERE $columnKey = ?', [key]);
     return list.length;
   }
 

@@ -2,7 +2,9 @@
 import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/config/config.dart';
 import 'package:fitee/model/search/search_db_table.dart';
+import 'package:fitee/model/setting/setting_db_table.dart';
 import 'package:fitee/pages/search/search_page.dart';
+import 'package:fitee/plugin/auth/fingerprint_util.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/screen.dart';
@@ -28,7 +30,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _initData();
   }
-
 
   _initData() async{
     // 查看是否登录

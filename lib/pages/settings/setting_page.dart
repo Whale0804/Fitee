@@ -27,9 +27,9 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   _initData() async {
-    var temp = await SettingTable().queryByKey(AppConfig.FINGERPRINT_KEY) as bool ?? false;
+    var temp = await SettingTable().queryByKey(AppConfig.FINGERPRINT_KEY)?? 'false';
     setState(() {
-      fingerprintEnable = temp;
+      fingerprintEnable = temp == 'true' ? true : false;
     });
   }
 
@@ -364,9 +364,9 @@ class _SettingPageState extends State<SettingPage> {
   _settingFingerprint(bool value) async{
     int count = await SettingTable().queryCount(AppConfig.FINGERPRINT_KEY);
     if(count == 0) {
-      await SettingTable().insert(AppConfig.FINGERPRINT_KEY, value);
+      await SettingTable().insert(AppConfig.FINGERPRINT_KEY, value.toString());
     }else {
-      await SettingTable().update(AppConfig.FINGERPRINT_KEY, value);
+      await SettingTable().update(AppConfig.FINGERPRINT_KEY, value.toString());
     }
   }
 

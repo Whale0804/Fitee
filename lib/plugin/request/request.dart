@@ -5,6 +5,8 @@ import 'package:fitee/cache/local_storage.dart';
 import 'package:fitee/config/config.dart';
 import 'package:fitee/model/setting/setting_db_table.dart';
 import 'package:fitee/pages/login/login_page.dart';
+import 'package:fitee/plugin/auth/fingerprint_util.dart';
+import 'package:fitee/plugin/toast.dart';
 import 'package:fitee/route/base/base_route.dart';
 import 'package:fitee/services/login_service.dart';
 import 'package:fitee/utils/nav_util.dart';
@@ -262,20 +264,27 @@ ErrorEntity createErrorEntity(DioError error) {
 }
   _forwardLogin () async{
     try {
-      var fingerprintEnable = await SettingTable().queryByKey(AppConfig.FINGERPRINT_KEY) as bool ?? false;
-      if (fingerprintEnable) {
-        var username = LocalStorage.getString(AppConfig.USER_NAME_KEY) ?? '';
-        var password = LocalStorage.getString(AppConfig.USER_PASS_KEY) ?? '';
-        if (username != '' && password != '') {
-          var res = await LoginApi.login(username: username, password: password);
-          if (res != null && res['access_token'] != null) {
-            LocalStorage.set(AppConfig.TOKEN_KEY, res['access_token']);
-            LocalStorage.setBool(AppConfig.LOGIN_KEY, true);
-            NavUtil.pushReplacement(BaseRoute());
+      var fingerprintEnable = await SettingTable().queryByKey(AppConfig.FINGERPRINT_KEY) ?? 'false';
+      var temp = fingerprintEnable == 'true' ? true : false;
+      if (temp) {
+        bool isCheck = await FingerPrintUtil.checkTouchId();
+        if(isCheck) {
+          var username = await LocalStorage.getString(AppConfig.USER_NAME_KEY) ?? '';
+          var password = await LocalStorage.getString(AppConfig.USER_PASS_KEY) ?? '';
+          if (username != '' && password != '') {
+            var res = await LoginApi.login(username: username, password: password);
+            if (res != null && res['access_token'] != null) {
+              LocalStorage.set(AppConfig.TOKEN_KEY, res['access_token']);
+              LocalStorage.setBool(AppConfig.LOGIN_KEY, true);
+              NavUtil.pushReplacement(BaseRoute());
+            } else {
+              NavUtil.pushAndRemove(LoginPage());
+            }
           } else {
             NavUtil.pushAndRemove(LoginPage());
           }
-        } else {
+        }else {
+          Toast.toast(NavUtil.ctx, msg: '验证失败~~');
           NavUtil.pushAndRemove(LoginPage());
         }
       } else {
