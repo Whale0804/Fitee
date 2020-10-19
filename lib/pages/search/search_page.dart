@@ -5,6 +5,7 @@ import 'package:fitee/model/search/search_provider.dart';
 import 'package:fitee/model/search/search_repos.dart';
 import 'package:fitee/model/user/user.dart';
 import 'package:fitee/model/user/user_provider.dart';
+import 'package:fitee/pages/detail/repos_detail.dart';
 import 'package:fitee/plugin/blur_rect.dart';
 import 'package:fitee/plugin/toast.dart';
 import 'package:fitee/theme/app_theme.dart';
@@ -669,7 +670,7 @@ class _RepoItemState extends State<RepoItem> with TickerProviderStateMixin {
                           size: duSetFontSize(28),
                         ),
                         onTap: () {
-
+                          _goReposPage(widget.repos.fullName);
                         },
                       ),
                     ),
@@ -679,86 +680,96 @@ class _RepoItemState extends State<RepoItem> with TickerProviderStateMixin {
               ),
             ],
           ),
-          widget.repos.description != null && widget.repos.description.isNotEmpty ? Container(
-            padding: EdgeInsets.all(12),
-            width: double.infinity,
-            child: RichText(
-              textAlign: TextAlign.start,
-              text: TextSpan(
-                  style: TextStyle(
-                    fontSize: duSetFontSize(17),
-                    color: AppTheme.descText,
-                  ),
-                  children: <InlineSpan>[
-                    TextSpan(text: widget.repos.description),
-                  ]
+          widget.repos.description != null && widget.repos.description.isNotEmpty ? GestureDetector(
+            child: Container(
+              padding: EdgeInsets.all(12),
+              width: double.infinity,
+              child: RichText(
+                textAlign: TextAlign.start,
+                text: TextSpan(
+                    style: TextStyle(
+                      fontSize: duSetFontSize(17),
+                      color: AppTheme.descText,
+                    ),
+                    children: <InlineSpan>[
+                      TextSpan(text: widget.repos.description),
+                    ]
+                ),
               ),
             ),
+            onTap: () {
+              _goReposPage(widget.repos.fullName);
+            },
           ) : SizedBox(height: 0),
-          Padding(
-            padding: EdgeInsets.only(bottom: duSetHeight(4), left: duSetWidth(6), right: duSetWidth(6)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.adjust),
-                    SizedBox(width: duSetWidth(6)),
-                    Text(widget.repos.language ?? 'Other',
-                      style: TextStyle(
-                        color: AppTheme.descText,
-                        fontSize: duSetFontSize(16)
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.star_border_outlined, size: duSetFontSize(24)),
-                    SizedBox(width: duSetWidth(6)),
-                    Text(_formatNum(widget.repos.stargazersCount),
-                      style: TextStyle(
-                          color: AppTheme.descText,
-                          fontSize: duSetFontSize(16)
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.alt_route),
-                    SizedBox(width: duSetWidth(6)),
-                    Text(_formatNum(widget.repos.forksCount),
-                      style: TextStyle(
-                          color: AppTheme.descText,
-                          fontSize: duSetFontSize(16)
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.visibility_outlined),
-                    SizedBox(width: duSetWidth(6)),
-                    Text(_formatNum(widget.repos.watchersCount),
-                      style: TextStyle(
-                          color: AppTheme.descText,
-                          fontSize: duSetFontSize(16)
-                      ),
-                    )
-                  ],
-                ),
-              ],
+          GestureDetector(
+            child: Padding(
+              padding: EdgeInsets.only(bottom: duSetHeight(4), left: duSetWidth(6), right: duSetWidth(6)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(Icons.adjust),
+                      SizedBox(width: duSetWidth(6)),
+                      Text(widget.repos.language ?? 'Other',
+                        style: TextStyle(
+                            color: AppTheme.descText,
+                            fontSize: duSetFontSize(16)
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(Icons.star_border_outlined, size: duSetFontSize(24)),
+                      SizedBox(width: duSetWidth(6)),
+                      Text(_formatNum(widget.repos.stargazersCount),
+                        style: TextStyle(
+                            color: AppTheme.descText,
+                            fontSize: duSetFontSize(16)
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(Icons.alt_route),
+                      SizedBox(width: duSetWidth(6)),
+                      Text(_formatNum(widget.repos.forksCount),
+                        style: TextStyle(
+                            color: AppTheme.descText,
+                            fontSize: duSetFontSize(16)
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(Icons.visibility_outlined),
+                      SizedBox(width: duSetWidth(6)),
+                      Text(_formatNum(widget.repos.watchersCount),
+                        style: TextStyle(
+                            color: AppTheme.descText,
+                            fontSize: duSetFontSize(16)
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
+            onTap: () {
+              _goReposPage(widget.repos.fullName);
+            },
           ),
           widget.repos.members.length > 1 ? Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -813,6 +824,10 @@ class _RepoItemState extends State<RepoItem> with TickerProviderStateMixin {
     }else{
       return (num.toString().substring(0,num.toString().lastIndexOf(".")+postion+1).toString());
     }
+  }
+
+  _goReposPage(String fullName) {
+    NavUtil.push(ReposDetailPage(fullName: fullName));
   }
 }
 
