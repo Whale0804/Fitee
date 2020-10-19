@@ -7,7 +7,11 @@ Gitee（码云）的Flutter版
  flutter packages pub run build_runner build
 ```
 
+### 计划
+- 优化 provider 
+
 ### 说明
+
 **此源码仅供交流学习，严禁以任何形式独立发布或用于商业用途；**
 
 ### 截图
