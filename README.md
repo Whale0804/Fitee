@@ -24,5 +24,4 @@ Gitee（码云）的Flutter版
 |![](https://raw.githubusercontent.com/githinkcn/Fitee/master/screenshot/13.png)|| |
 
 ### Q&A
-1. 没有账号密码？
-如果没有账号密码可以自行到[码云](https://gitee)注册。
+1. 没有账号密码？可以自行到[码云](https://gitee)注册。
