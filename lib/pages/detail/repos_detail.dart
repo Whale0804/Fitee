@@ -168,7 +168,6 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                               Container(
                                 width: double.infinity,
                                 height: 1000,
-                                color: Colors.amber,
                               ),
                             ],
                           ),
