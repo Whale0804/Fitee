@@ -9,31 +9,33 @@ class AppBarWidget extends StatelessWidget{
   final Function callBack;
   final Icon icon;
   final Color color;
+  final Color textColor;
+  final Color iconColor;
   final bool back;
 
-  AppBarWidget({Key key, this.title, this.callBack, this.icon, this.color, this.back = false}): super(key: key);
+  AppBarWidget({Key key, this.title, this.callBack, this.icon, this.color, this.textColor, this.iconColor, this.back = false}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return back == true ? Container(
-      color: Colors.white,
+      color: color ?? Colors.white,
       child: AppBar(
         title: Text(title,
           style: TextStyle(
               fontSize: duSetFontSize(18),
-              color: AppTheme.darkText,
+              color: textColor ?? AppTheme.darkText,
               fontWeight: FontWeight.w700
           ),
         ),
         leading: InkWell(
           borderRadius:
           BorderRadius.circular(AppBar().preferredSize.height),
-          child: Icon(Icons.arrow_back, color: Colors.black),
+          child: Icon(Icons.arrow_back, color: iconColor ?? Colors.black),
           onTap: ()=>{
             NavUtil.pop()
           },
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: color ?? Colors.transparent,
         elevation: 0,
         actions: <Widget>[
           InkWell(
@@ -51,7 +53,7 @@ class AppBarWidget extends StatelessWidget{
       ),
     ) :
     Container(
-      color: color == null ? Colors.white : color,
+      color: color ?? Colors.white,
       height: AppBar().preferredSize.height,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -70,7 +72,7 @@ class AppBarWidget extends StatelessWidget{
                 child: Text(title,
                   style: TextStyle(
                     fontSize: duSetFontSize(18),
-                    color: AppTheme.darkText,
+                    color: textColor ?? AppTheme.darkText,
                     fontWeight: FontWeight.w700
                   ),
                 ),
@@ -89,7 +91,7 @@ class AppBarWidget extends StatelessWidget{
                   BorderRadius.circular(AppBar().preferredSize.height),
                   child: icon == null ? const SizedBox() : Icon(
                     icon.icon,
-                    color: AppTheme.dark_grey,
+                    color: iconColor ?? AppTheme.dark_grey,
                   ),
                   onTap: () {
                    callBack();

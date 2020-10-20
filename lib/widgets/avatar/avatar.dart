@@ -20,13 +20,13 @@ class Avatar extends StatelessWidget{
     var tempUrl = getRandomInt();
     return Container(
       decoration: BoxDecoration(
-          color: Colors.transparent,
+          color: Colors.white,
           borderRadius: borderRadius == null ? BorderRadius.all(Radius.circular(14.0)): borderRadius
       ),
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(14.0),
+          borderRadius: borderRadius == null ? BorderRadius.all(Radius.circular(14.0)): borderRadius,
           child: url.contains('no_portrait') ? Image.asset(tempUrl,
             width: duSetWidth(width),
             height: duSetHeight(height),

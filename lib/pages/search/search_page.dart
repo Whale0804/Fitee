@@ -670,7 +670,7 @@ class _RepoItemState extends State<RepoItem> with TickerProviderStateMixin {
                           size: duSetFontSize(28),
                         ),
                         onTap: () {
-                          _goReposPage(widget.repos.fullName);
+                          _goReposPage(widget.repos.fullName, widget.repos.humanName);
                         },
                       ),
                     ),
@@ -698,7 +698,7 @@ class _RepoItemState extends State<RepoItem> with TickerProviderStateMixin {
               ),
             ),
             onTap: () {
-              _goReposPage(widget.repos.fullName);
+              _goReposPage(widget.repos.fullName, widget.repos.humanName);
             },
           ) : SizedBox(height: 0),
           GestureDetector(
@@ -768,7 +768,7 @@ class _RepoItemState extends State<RepoItem> with TickerProviderStateMixin {
               ),
             ),
             onTap: () {
-              _goReposPage(widget.repos.fullName);
+              _goReposPage(widget.repos.fullName, widget.repos.humanName);
             },
           ),
           widget.repos.members.length > 1 ? Row(
@@ -826,8 +826,8 @@ class _RepoItemState extends State<RepoItem> with TickerProviderStateMixin {
     }
   }
 
-  _goReposPage(String fullName) {
-    NavUtil.push(ReposDetailPage(fullName: fullName));
+  _goReposPage(String fullName, String humanName) {
+    NavUtil.push(ReposDetailPage(fullName: fullName, humanName: humanName));
   }
 }
 

@@ -8,7 +8,7 @@ class FiteeLoading extends StatelessWidget {
   Widget build(BuildContext context) {
    return Container(
      width: double.infinity,
-     height: double.infinity,
+     height: MediaQuery.of(context).size.height,
      child: Center(
        child: SizedBox(
          height: duSetHeight(100),
