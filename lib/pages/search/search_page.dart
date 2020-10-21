@@ -24,6 +24,7 @@ import 'package:fitee/widgets/state/state_page.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
@@ -81,7 +82,6 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
     _searchProvider.setKeyTxt(keyTxt: widget.searchTxt);
   }
 
-
   @override
   void dispose() {
     _controller.dispose();
@@ -91,8 +91,9 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     return Container(
-      color: AppTheme.white,
+      color: Colors.white,
       child: SafeArea(
         child: Scaffold(
           body: Column(
@@ -561,7 +562,9 @@ class _RepoItemState extends State<RepoItem> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark,
+      child:Container(
       margin: EdgeInsets.only(bottom: duSetHeight(10)),
       padding: EdgeInsets.all(12),
       width: double.infinity,
@@ -740,7 +743,7 @@ class _RepoItemState extends State<RepoItem> with TickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Icon(Icons.alt_route),
+                      Icon(Icons.alt_route, size: 22,),
                       SizedBox(width: duSetWidth(6)),
                       Text(_formatNum(widget.repos.forksCount),
                         style: TextStyle(
@@ -811,6 +814,7 @@ class _RepoItemState extends State<RepoItem> with TickerProviderStateMixin {
           ) : SizedBox(height: 0)
         ],
       ),
+    )
     );
   }
 

@@ -3,7 +3,7 @@ import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/screen.dart';
 import 'package:flutter/material.dart';
 
-class AppBarWidget extends StatelessWidget{
+class AppBarWidget extends StatefulWidget {
 
   final String title;
   final Function callBack;
@@ -12,48 +12,59 @@ class AppBarWidget extends StatelessWidget{
   final Color textColor;
   final Color iconColor;
   final bool back;
+  final int status;
 
-  AppBarWidget({Key key, this.title, this.callBack, this.icon, this.color, this.textColor, this.iconColor, this.back = false}): super(key: key);
+  AppBarWidget({Key key, this.title, this.callBack, this.icon, this.color, this.textColor, this.iconColor, this.back = false, this.status = 0}): super(key: key);
+
+  @override
+  _AppBarWidgetState createState()=> _AppBarWidgetState();
+
+}
+
+class _AppBarWidgetState extends State<AppBarWidget>{
+
+
 
   @override
   Widget build(BuildContext context) {
-    return back == true ? Container(
-      color: color ?? Colors.white,
+    return widget.back == true ? Container(
+      color: widget.color ?? Colors.white,
       child: AppBar(
-        title: Text(title,
+        brightness: widget.status == 0 ? Brightness.light : Brightness.dark,
+        title: Text(widget.title,
           style: TextStyle(
               fontSize: duSetFontSize(18),
-              color: textColor ?? AppTheme.darkText,
+              color: widget.textColor ?? AppTheme.darkText,
               fontWeight: FontWeight.w700
           ),
         ),
         leading: InkWell(
           borderRadius:
           BorderRadius.circular(AppBar().preferredSize.height),
-          child: Icon(Icons.arrow_back, color: iconColor ?? Colors.black),
+          child: Icon(Icons.arrow_back, color: widget.iconColor ?? Colors.black),
           onTap: ()=>{
             NavUtil.pop()
           },
         ),
-        backgroundColor: color ?? Colors.transparent,
+        backgroundColor: widget.color ?? Colors.transparent,
         elevation: 0,
         actions: <Widget>[
           InkWell(
             borderRadius:
             BorderRadius.circular(AppBar().preferredSize.height),
-            child: icon == null ? const SizedBox() : Icon(
-              icon.icon,
+            child: widget.icon == null ? const SizedBox() : Icon(
+              widget.icon.icon,
               color: AppTheme.dark_grey,
             ),
             onTap: () {
-              callBack();
+              widget.callBack();
             },
           ),
         ],
       ),
     ) :
     Container(
-      color: color ?? Colors.white,
+      color: widget.color ?? Colors.white,
       height: AppBar().preferredSize.height,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -69,10 +80,10 @@ class AppBarWidget extends StatelessWidget{
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 1),
-                child: Text(title,
+                child: Text(widget.title,
                   style: TextStyle(
                     fontSize: duSetFontSize(18),
-                    color: textColor ?? AppTheme.darkText,
+                    color: widget.textColor ?? AppTheme.darkText,
                     fontWeight: FontWeight.w700
                   ),
                 ),
@@ -89,12 +100,12 @@ class AppBarWidget extends StatelessWidget{
                 child: InkWell(
                   borderRadius:
                   BorderRadius.circular(AppBar().preferredSize.height),
-                  child: icon == null ? const SizedBox() : Icon(
-                    icon.icon,
-                    color: iconColor ?? AppTheme.dark_grey,
+                  child: widget.icon == null ? const SizedBox() : Icon(
+                    widget.icon.icon,
+                    color: widget.iconColor ?? AppTheme.dark_grey,
                   ),
                   onTap: () {
-                   callBack();
+                    widget.callBack();
                   },
                 ),
               ),
