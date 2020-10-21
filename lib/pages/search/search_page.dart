@@ -731,7 +731,7 @@ class _RepoItemState extends State<RepoItem> with TickerProviderStateMixin {
                     children: <Widget>[
                       Icon(Icons.star_border_outlined, size: duSetFontSize(24)),
                       SizedBox(width: duSetWidth(6)),
-                      Text(_formatNum(widget.repos.stargazersCount),
+                      Text(Utils.formatNum(widget.repos.stargazersCount),
                         style: TextStyle(
                             color: AppTheme.descText,
                             fontSize: duSetFontSize(16)
@@ -745,7 +745,7 @@ class _RepoItemState extends State<RepoItem> with TickerProviderStateMixin {
                     children: <Widget>[
                       Icon(Icons.alt_route, size: 22,),
                       SizedBox(width: duSetWidth(6)),
-                      Text(_formatNum(widget.repos.forksCount),
+                      Text(Utils.formatNum(widget.repos.forksCount),
                         style: TextStyle(
                             color: AppTheme.descText,
                             fontSize: duSetFontSize(16)
@@ -759,7 +759,7 @@ class _RepoItemState extends State<RepoItem> with TickerProviderStateMixin {
                     children: <Widget>[
                       Icon(Icons.visibility_outlined),
                       SizedBox(width: duSetWidth(6)),
-                      Text(_formatNum(widget.repos.watchersCount),
+                      Text(Utils.formatNum(widget.repos.watchersCount),
                         style: TextStyle(
                             color: AppTheme.descText,
                             fontSize: duSetFontSize(16)
@@ -816,18 +816,6 @@ class _RepoItemState extends State<RepoItem> with TickerProviderStateMixin {
       ),
     )
     );
-  }
-
-  String _formatNum(int count) {
-    return (count / 1000) > 1 ? _formatNumStr((count / 1000),1) + 'k' : count.toString();
-  }
-  String _formatNumStr(double num,int postion){
-    if((num.toString().length-num.toString().lastIndexOf(".")-1)<postion){
-      //小数点后有几位小数
-      return (num.toStringAsFixed(postion).substring(0,num.toString().lastIndexOf(".")+postion+1).toString());
-    }else{
-      return (num.toString().substring(0,num.toString().lastIndexOf(".")+postion+1).toString());
-    }
   }
 
   _goReposPage(String fullName, String humanName) {
