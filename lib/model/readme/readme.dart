@@ -19,4 +19,11 @@ class Readme {
   String htmlUrl;
   @JsonKey(name: 'download_url')
   String downloadUrl;
+
+  Readme({this.type, this.encoding, this.size, this.name, this.path,
+    this.content, this.sha, this.url, this.downloadUrl, this.htmlUrl});
+
+  factory Readme.fromJson(Map<String, dynamic> json) => _$ReadmeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ReadmeToJson(this);
 }

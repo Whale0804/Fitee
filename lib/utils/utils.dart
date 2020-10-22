@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
@@ -37,7 +38,16 @@ class Utils {
 
   // base64解码
   static String base64decode (String content) {
-    List<int> bytes = base64Decode(content);
-    return String.fromCharCodes(bytes);
+    Uint8List bytes = base64Decode(content);
+    return Utf8Decoder().convert(bytes );
+  }
+}
+
+// ignore: camel_case_types
+class console {
+  static void log (Object object){
+    print('=================================【DEBUG LOG START】================================');
+    print('LogInfo: $object');
+    print('==================================【DEBUG LOG END】=================================');
   }
 }

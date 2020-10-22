@@ -7,17 +7,18 @@ part of 'readme.dart';
 // **************************************************************************
 
 Readme _$ReadmeFromJson(Map<String, dynamic> json) {
-  return Readme()
-    ..type = json['type'] as String
-    ..encoding = json['encoding'] as String
-    ..size = json['size'] as int
-    ..name = json['name'] as String
-    ..path = json['path'] as String
-    ..content = json['content'] as String
-    ..sha = json['sha'] as String
-    ..url = json['url'] as String
-    ..htmlUrl = json['html_url'] as String
-    ..downloadUrl = json['download_url'] as String;
+  return Readme(
+    type: json['type'] as String,
+    encoding: json['encoding'] as String,
+    size: json['size'] as int,
+    name: json['name'] as String,
+    path: json['path'] as String,
+    content: json['content'] as String,
+    sha: json['sha'] as String,
+    url: json['url'] as String,
+    downloadUrl: json['download_url'] as String,
+    htmlUrl: json['html_url'] as String,
+  );
 }
 
 Map<String, dynamic> _$ReadmeToJson(Readme instance) => <String, dynamic>{

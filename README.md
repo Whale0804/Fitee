@@ -4,7 +4,7 @@ Gitee（码云）的Flutter版
 ### 脚本
 ``` shell
  flutter build apk --release --target-platform android-arm64
- flutter packages pub run build_runner build
+ flutter packages pub run build_runner build --delete-conflicting-outputs  
 ```
 
 ### 计划

@@ -51,7 +51,8 @@ dependencies:
   date_format: ^1.0.9
   # Customer Snackbar
   flushbar: ^1.10.4
-
+  # markdown
+  flutter_markdown: ^0.5.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

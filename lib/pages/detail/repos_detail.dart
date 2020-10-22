@@ -9,11 +9,14 @@ import 'package:fitee/utils/store.dart';
 import 'package:fitee/utils/utils.dart';
 import 'package:fitee/widgets/avatar/avatar.dart';
 import 'package:fitee/widgets/loading/FiteeLoading.dart';
+import 'package:fitee/widgets/markdown/markdown.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
+import 'package:fitee/widgets/webview/webview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 // ignore: must_be_immutable
 class ReposDetailPage extends StatefulWidget {
@@ -65,8 +68,9 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
   }
 
   _initData() async {
-    Repository repos = await Store.value<ReposProvider>(NavUtil.ctx).fetchRepos(fullName: widget.fullName);
+    Repository repos = await Store.value<ReposProvider>(NavUtil.ctx).fetchAll(fullName: widget.fullName);
     await Store.value<UserProvider>(NavUtil.ctx).fetchCheckFollow(username: repos.owner.login);
+
   }
 
   @override
@@ -146,14 +150,14 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                 Text(state.result.owner.name,
                                                   style: TextStyle(
                                                       color: AppTheme.nearlyWhite,
-                                                      fontSize: duSetFontSize(18.0),
+                                                      fontSize: duSetFontSize(20.0),
                                                       fontWeight: FontWeight.w500
                                                   ),
                                                 ),
                                                 Expanded(child: Text('@' + state.result.owner.login,
                                                   style: TextStyle(
                                                       color: AppTheme.url,
-                                                      fontSize: duSetFontSize(18.0),
+                                                      fontSize: duSetFontSize(20.0),
                                                       fontWeight: FontWeight.w400
                                                   ),
                                                   maxLines: 1,
@@ -175,7 +179,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                           textAlign: TextAlign.center,
                                           text: TextSpan(
                                               style: TextStyle(
-                                                fontSize: duSetFontSize(17),
+                                                fontSize: duSetFontSize(18),
                                                 color: AppTheme.nearlyWhite,
                                               ),
                                               children: <InlineSpan>[
@@ -313,20 +317,21 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                           ],
                                         ),
                                       ),
+                                      SizedBox(height: duSetHeight(12),),
                                       Container(
                                         width: double.infinity,
-                                        height: 1000,
+                                        child: FiteeMarkdown(data: Utils.base64decode(state.readme.content??='')),
                                       ),
                                     ],
                                   ),
-                                )
+                                ),
+                                SizedBox(height: MediaQuery.of(context).padding.bottom)
                               ],
                             ),
                           ),
                         )
                     ),
                   ),
-                  SizedBox(height: MediaQuery.of(context).padding.bottom)
                 ],
               ),
             ),
