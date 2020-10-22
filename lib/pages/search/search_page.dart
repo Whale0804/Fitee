@@ -103,6 +103,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
               AppBarWidget(
                 title: widget.searchTxt,
                 back: true,
+                status: 0,
               ),
               Expanded(
                 child: Stack(

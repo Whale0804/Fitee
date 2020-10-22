@@ -32,7 +32,7 @@ class FiteeMarkdown extends StatelessWidget{
             border: new Border.all(
                 color: HexColor('#6FA0FB'), width: 0.3)))
         .copyWith(
-          codeblockPadding: EdgeInsets.symmetric(vertical: duSetHeight(0), horizontal: duSetWidth(8))
+          codeblockPadding: EdgeInsets.symmetric(vertical: duSetHeight(8), horizontal: duSetWidth(8))
     )   .copyWith(
         blockquoteDecoration: new BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -47,11 +47,14 @@ class FiteeMarkdown extends StatelessWidget{
           fontSize: duSetFontSize(18),
           color: AppTheme.white
         )
+    ).copyWith(
+        tableBody: MarkdownTheme.normalText
     );
   }
 
   _getStyleSheetDark(BuildContext context) {
-    return _getCommonSheet(context, HexColor('#B3BBF2')).copyWith(
+    return _getCommonSheet(context, HexColor('#6A60C4')).copyWith(
+      a: TextStyle(fontSize: duSetFontSize(MarkdownTheme.normalTextSize), color: AppTheme.actionColor),
       p: MarkdownTheme.normalText,
       h1: MarkdownTheme.largeLargeText,
       h2: MarkdownTheme.largeTextBold,
@@ -60,10 +63,12 @@ class FiteeMarkdown extends StatelessWidget{
       h5: MarkdownTheme.smallText,
       h6: MarkdownTheme.smallText,
       em: const TextStyle(fontStyle: FontStyle.italic),
-      strong: MarkdownTheme.middleTextWhiteBold,
+      strong: MarkdownTheme.middleTextBold,
       code: MarkdownTheme.normalTextWhite.copyWith(
-        backgroundColor: Colors.transparent
+        backgroundColor: HexColor('#6A60C4'),
+        fontFamily: 'WorkSans'
       ),
+
     );
   }
 
@@ -115,7 +120,6 @@ class FiteeMarkdown extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(5.0),
         child: Markdown(
           data: data,
           styleSheet: _getStyle(context),

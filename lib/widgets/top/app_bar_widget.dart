@@ -1,6 +1,7 @@
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/screen.dart';
+import 'package:fitee/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class AppBarWidget extends StatefulWidget {
@@ -23,10 +24,17 @@ class AppBarWidget extends StatefulWidget {
 
 class _AppBarWidgetState extends State<AppBarWidget>{
 
+  int status;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
 
   @override
   Widget build(BuildContext context) {
+    console.log(widget.status);
     return widget.back == true ? Container(
       color: widget.color ?? Colors.white,
       child: AppBar(

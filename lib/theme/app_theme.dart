@@ -102,11 +102,11 @@ class AppTheme {
 
 class MarkdownTheme {
 
-  static const lagerTextSize = 26.0;
-  static const bigTextSize = 22.0;
+  static const lagerTextSize = 28.0;
+  static const bigTextSize = 24.0;
   static const normalTextSize = 18.0;
-  static const middleTextWhiteSize = 16.0;
-  static const smallTextSize = 14.0;
+  static const middleTextWhiteSize = 18.0;
+  static const smallTextSize = 16.0;
   static const minTextSize = 12.0;
 
   static TextStyle smallTextWhite = TextStyle(
