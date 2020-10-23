@@ -121,9 +121,9 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(45)),
                                         boxShadow: [
                                           BoxShadow(
-                                              color: Colors.grey.withOpacity(appBarAlpha),
-                                              offset: Offset(-2.0, 0.0), //阴影xy轴偏移量
-                                              blurRadius: 10.0, //阴影模糊程度
+                                              color: Colors.grey[400].withOpacity(appBarAlpha),
+                                              offset: Offset(0.0, 4.0), //阴影xy轴偏移量
+                                              blurRadius: 20.0, //阴影模糊程度
                                               spreadRadius: 1.0 //阴影扩散程度
                                           ),
                                         ],

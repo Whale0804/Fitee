@@ -6,6 +6,8 @@ import 'package:fitee/widgets/webview/webview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
+import 'high_lighter.dart';
+
 class FiteeMarkdown extends StatelessWidget{
 
   static const int DARK_WHITE = 0;
@@ -126,6 +128,7 @@ class FiteeMarkdown extends StatelessWidget{
           styleSheet: _getStyle(context),
           physics: ClampingScrollPhysics(),
           shrinkWrap: true,
+          syntaxHighlighter: FiteeHighlighter(),
           onTapLink: (text, href, title) {
             NavUtil.push(FiteeWebView(url: href));
           },
@@ -133,4 +136,13 @@ class FiteeMarkdown extends StatelessWidget{
     );
   }
 
+}
+
+class FiteeHighlighter extends SyntaxHighlighter {
+  @override
+  TextSpan format(String source) {
+    String showSource = source.replaceAll("&lt;", "<");
+    showSource = showSource.replaceAll("&gt;", ">");
+    return new DartSyntaxHighlighter().format(showSource);
+  }
 }
