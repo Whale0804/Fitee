@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fitee/model/repository/repository.dart';
 import 'package:fitee/model/repository/repository_provider.dart';
 import 'package:fitee/model/user/user_provider.dart';
@@ -387,7 +389,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                     ),
                     child: Center(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
@@ -395,19 +397,18 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Expanded(
-                                  child: Container(
-                                    child: Center(
-                                      child: LikeButton(
-                                        size: duSetFontSize(32),
-                                        likeBuilder: (bool isLiked){
-                                          return Icon(Icons.star, color: isLiked ? AppTheme.likeBtnColor : Colors.white, size: duSetFontSize(32),);
-                                        },
-                                        circleColor:CircleColor(start: HexColor('#E26A30'), end: HexColor('#F1CF1E')),
-                                        bubblesColor: BubblesColor(
-                                          dotPrimaryColor: HexColor('#F6BA26'),
-                                          dotSecondaryColor: HexColor('#F4F72A'),
-                                        ),
+                                Container(
+                                  height: duSetHeight(30),
+                                  child: Center(
+                                    child: LikeButton(
+                                      size: duSetFontSize(28),
+                                      likeBuilder: (bool isLiked){
+                                        return Icon(Icons.star, color: isLiked ? AppTheme.likeBtnColor : Colors.white, size: duSetFontSize(28),);
+                                      },
+                                      circleColor:CircleColor(start: HexColor('#E26A30'), end: HexColor('#F1CF1E')),
+                                      bubblesColor: BubblesColor(
+                                        dotPrimaryColor: HexColor('#F6BA26'),
+                                        dotSecondaryColor: HexColor('#F4F72A'),
                                       ),
                                     ),
                                   ),
@@ -431,21 +432,18 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Expanded(
-                                  child: Container(
-                                    height: double.infinity,
-                                    width: double.infinity,
-                                    child: Center(
-                                      child: LikeButton(
-                                        size: duSetFontSize(30),
-                                        likeBuilder: (bool isLiked){
-                                          return Icon(Icons.remove_red_eye, color: isLiked ? AppTheme.likeBtnColor : Colors.white, size: duSetFontSize(30),);
-                                        },
-                                        circleColor:CircleColor(start: HexColor('#E26A30'), end: HexColor('#F1CF1E')),
-                                        bubblesColor: BubblesColor(
-                                          dotPrimaryColor: HexColor('#F6BA26'),
-                                          dotSecondaryColor: HexColor('#F4F72A'),
-                                        ),
+                                Container(
+                                  height: duSetHeight(30),
+                                  child: Center(
+                                    child: LikeButton(
+                                      size: duSetFontSize(26),
+                                      likeBuilder: (bool isLiked){
+                                        return Icon(Icons.remove_red_eye, color: isLiked ? AppTheme.likeBtnColor : Colors.white, size: duSetFontSize(26),);
+                                      },
+                                      circleColor:CircleColor(start: HexColor('#E26A30'), end: HexColor('#F1CF1E')),
+                                      bubblesColor: BubblesColor(
+                                        dotPrimaryColor: HexColor('#F6BA26'),
+                                        dotSecondaryColor: HexColor('#F4F72A'),
                                       ),
                                     ),
                                   ),
@@ -467,21 +465,19 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                           Expanded(
                               child: Column(
                                 children: [
-                                  Expanded(
-                                    child: Container(
-                                      height: double.infinity,
-                                      width: double.infinity,
-                                      child: Center(
-                                        child: LikeButton(
-                                          size: duSetFontSize(32),
-                                          likeBuilder: (bool isLiked){
-                                            return Icon(Icons.alt_route, color: isLiked ? AppTheme.likeBtnColor : Colors.white, size: duSetFontSize(30),);
-                                          },
-                                          circleColor:CircleColor(start: HexColor('#E26A30'), end: HexColor('#F1CF1E')),
-                                          bubblesColor: BubblesColor(
-                                            dotPrimaryColor: HexColor('#F6BA26'),
-                                            dotSecondaryColor: HexColor('#F4F72A'),
-                                          ),
+                                  SizedBox(height: duSetHeight(4),),
+                                  Container(
+                                    height: duSetHeight(30),
+                                    child: Center(
+                                      child: LikeButton(
+                                        size: duSetFontSize(28),
+                                        likeBuilder: (bool isLiked){
+                                          return Icon(Icons.alt_route, color: isLiked ? AppTheme.likeBtnColor : Colors.white, size: duSetFontSize(26),);
+                                        },
+                                        circleColor:CircleColor(start: HexColor('#E26A30'), end: HexColor('#F1CF1E')),
+                                        bubblesColor: BubblesColor(
+                                          dotPrimaryColor: HexColor('#F6BA26'),
+                                          dotSecondaryColor: HexColor('#F4F72A'),
                                         ),
                                       ),
                                     ),
@@ -489,14 +485,14 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                   Container(
                                     child: Center(
                                       child: Text(
-                                        'star',
+                                        'fork',
                                         style: TextStyle(
                                             color: AppTheme.white.withOpacity(blackAlpha),
                                             fontSize: duSetFontSize(18)
                                         ),
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               )
                           )
@@ -505,7 +501,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                     ),
                   ),
                   Container(
-                    height: MediaQuery.of(context).padding.bottom,
+                    height: Platform.isAndroid ? duSetHeight(12) : MediaQuery.of(context).padding.bottom,
                     width: double.infinity,
                     color: blackAlpha == 0 ? AppTheme.white : AppTheme.likeBtnBgColor.withOpacity(blackAlpha),
                   )
