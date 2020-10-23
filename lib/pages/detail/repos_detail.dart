@@ -17,6 +17,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:like_button/like_button.dart';
 
 // ignore: must_be_immutable
 class ReposDetailPage extends StatefulWidget {
@@ -80,291 +81,443 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
         if(!state.loading){
           _controller.forward();
         }
-        return Container(
-          color: HexColor('#6A60C4').withOpacity(appBarAlpha),
-          child: Scaffold(
-            body: FadeTransition(
-              opacity: _animation,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  AppBarWidget(
-                    title: widget.humanName,
-                    back: true,
-                    iconColor: appBarAlpha == 0 ? AppTheme.nearlyBlack : Colors.white,
-                    textColor: appBarAlpha == 0 ? AppTheme.nearlyBlack : Colors.white,
-                    color: appBarAlpha == 0 ?  Colors.white : HexColor('#6A60C4').withOpacity(appBarAlpha),
-                  ),
-                  Expanded(
-                    child: state.loading ? FiteeLoading() : Container(
-                        width: double.infinity,
-                        child: MediaQuery.removeViewPadding(
-                          removeTop: true,
-                          context: context,
-                          child: NotificationListener(
-                            // ignore: missing_return
-                            onNotification: (ScrollNotification notification) {
-                              if (notification is ScrollUpdateNotification &&
-                                  notification.depth == 0) {
-                                _onScroll(notification.metrics.pixels);
-                              }
-                            },
-                            child: ListView(
-                              physics: ClampingScrollPhysics(),
-                              shrinkWrap: true,
-                              children: <Widget>[
-                                Container(
-                                  key: _key,
-                                  width: double.infinity,
-                                  padding: EdgeInsets.only(top: duSetHeight(4),bottom: duSetHeight(16), left: duSetWidth(16), right: duSetWidth(16)),
-                                  decoration: BoxDecoration(
-                                      color: appBarAlpha == 0 ?  Colors.white : HexColor('#6A60C4').withOpacity(appBarAlpha),
-                                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(45)),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.grey.withOpacity(appBarAlpha),
-                                            offset: Offset(-2.0, 0.0), //阴影xy轴偏移量
-                                            blurRadius: 10.0, //阴影模糊程度
-                                            spreadRadius: 1.0 //阴影扩散程度
-                                        ),
-                                      ],
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: <Widget>[
-                                                ClipRRect(
-                                                    child: Avatar(
-                                                      url: state.result.owner.avatar_url,
-                                                      name: state.result.owner.login,
-                                                      width: duSetWidth(36),
-                                                      height: duSetHeight(30),
-                                                      borderRadius: BorderRadius.all(Radius.circular(100)),
-                                                    ),
-                                                    borderRadius: BorderRadius.circular(100)
-                                                ),
-                                                SizedBox(width: 12),
-                                                Text(state.result.owner.name,
-                                                  style: TextStyle(
-                                                      color: AppTheme.nearlyWhite,
-                                                      fontSize: duSetFontSize(20.0),
-                                                      fontWeight: FontWeight.w500
-                                                  ),
-                                                ),
-                                                Expanded(child: Text('@' + state.result.owner.login,
-                                                  style: TextStyle(
-                                                      color: AppTheme.url,
-                                                      fontSize: duSetFontSize(20.0),
-                                                      fontWeight: FontWeight.w400
-                                                  ),
-                                                  maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis,
-                                                )) ,
-                                              ],
-                                            ),
+        return Stack(
+          children: <Widget>[
+            Container(
+              color: HexColor('#6A60C4').withOpacity(appBarAlpha),
+              child: Scaffold(
+                body: FadeTransition(
+                  opacity: _animation,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      AppBarWidget(
+                        title: widget.humanName,
+                        back: true,
+                        iconColor: appBarAlpha == 0 ? AppTheme.nearlyBlack : Colors.white,
+                        textColor: appBarAlpha == 0 ? AppTheme.nearlyBlack : Colors.white,
+                        color: appBarAlpha == 0 ?  Colors.white : HexColor('#6A60C4').withOpacity(appBarAlpha),
+                      ),
+                      Expanded(
+                        child: state.loading ? FiteeLoading() : Container(
+                            width: double.infinity,
+                            child: MediaQuery.removeViewPadding(
+                              removeTop: true,
+                              context: context,
+                              child: NotificationListener(
+                                // ignore: missing_return
+                                onNotification: (ScrollNotification notification) {
+                                  if (notification is ScrollUpdateNotification &&
+                                      notification.depth == 0) {
+                                    _onScroll(notification.metrics.pixels);
+                                  }
+                                },
+                                child: ListView(
+                                  physics: ClampingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  children: <Widget>[
+                                    Container(
+                                      key: _key,
+                                      width: double.infinity,
+                                      padding: EdgeInsets.only(top: duSetHeight(4),bottom: duSetHeight(16), left: duSetWidth(16), right: duSetWidth(16)),
+                                      decoration: BoxDecoration(
+                                        color: appBarAlpha == 0 ?  Colors.white : HexColor('#6A60C4').withOpacity(appBarAlpha),
+                                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(45)),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.grey.withOpacity(appBarAlpha),
+                                              offset: Offset(-2.0, 0.0), //阴影xy轴偏移量
+                                              blurRadius: 10.0, //阴影模糊程度
+                                              spreadRadius: 1.0 //阴影扩散程度
                                           ),
-                                          SizedBox(width: duSetWidth(12)),
-                                          Container(child: Store.connect<UserProvider>(builder: (context, state, child){
-                                            return Image.asset('assets/icon/mutual_following.png', height: duSetHeight(24), width: duSetWidth(24), color: state.isFollow ? Colors.white : AppTheme.nearlyBlack);
-                                          }) )
                                         ],
                                       ),
-                                      SizedBox(height: duSetHeight(12)),
-                                      Container(
-                                        width: double.infinity,
-                                        child: RichText(
-                                          textAlign: TextAlign.center,
-                                          text: TextSpan(
-                                              style: TextStyle(
-                                                fontSize: duSetFontSize(18),
-                                                color: appBarAlpha == 0 ? AppTheme.nearlyBlack.withOpacity(blackAlpha) : AppTheme.nearlyWhite,
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    ClipRRect(
+                                                        child: Avatar(
+                                                          url: state.result.owner.avatar_url,
+                                                          name: state.result.owner.login,
+                                                          width: duSetWidth(36),
+                                                          height: duSetHeight(30),
+                                                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                                                        ),
+                                                        borderRadius: BorderRadius.circular(100)
+                                                    ),
+                                                    SizedBox(width: 12),
+                                                    Text(state.result.owner.name,
+                                                      style: TextStyle(
+                                                          color: AppTheme.nearlyWhite,
+                                                          fontSize: duSetFontSize(20.0),
+                                                          fontWeight: FontWeight.w500
+                                                      ),
+                                                    ),
+                                                    Expanded(child: Text('@' + state.result.owner.login,
+                                                      style: TextStyle(
+                                                          color: AppTheme.url,
+                                                          fontSize: duSetFontSize(20.0),
+                                                          fontWeight: FontWeight.w400
+                                                      ),
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                    )) ,
+                                                  ],
+                                                ),
                                               ),
-                                              children: <InlineSpan>[
-                                                TextSpan(text: state.result.description),
-                                              ]
+                                              SizedBox(width: duSetWidth(12)),
+                                              Container(child: Store.connect<UserProvider>(builder: (context, state, child){
+                                                return Image.asset('assets/icon/mutual_following.png', height: duSetHeight(24), width: duSetWidth(24), color: state.isFollow ? Colors.white : AppTheme.nearlyBlack);
+                                              }) )
+                                            ],
                                           ),
-                                        ),
+                                          SizedBox(height: duSetHeight(12)),
+                                          Container(
+                                            width: double.infinity,
+                                            child: RichText(
+                                              textAlign: TextAlign.center,
+                                              text: TextSpan(
+                                                  style: TextStyle(
+                                                    fontSize: duSetFontSize(18),
+                                                    color: appBarAlpha == 0 ? AppTheme.nearlyBlack.withOpacity(blackAlpha) : AppTheme.nearlyWhite,
+                                                  ),
+                                                  children: <InlineSpan>[
+                                                    TextSpan(text: state.result.description),
+                                                  ]
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: duSetHeight(14)),
-                                Stack(
-                                  children: <Widget>[
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                    ),
+                                    SizedBox(height: duSetHeight(14)),
+                                    Stack(
                                       children: <Widget>[
-                                        SizedBox(height: duSetHeight(40),),
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            SizedBox(height: duSetHeight(40),),
+                                            Container(
+                                              constraints: BoxConstraints(
+                                                  minHeight: MediaQuery.of(context).size.height / 1.9,
+                                                  maxHeight: double.infinity
+                                              ),
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(45),),
+                                                  gradient: LinearGradient(
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomRight,
+                                                    colors: [
+                                                      HexColor('#BEDCFD').withOpacity(appBarAlpha),
+                                                      HexColor('#FFFFFF').withOpacity(appBarAlpha),
+                                                      HexColor('#F9F9F9')..withOpacity(appBarAlpha),
+                                                    ],
+                                                  )
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                         Container(
                                           constraints: BoxConstraints(
                                               minHeight: MediaQuery.of(context).size.height / 1.9,
                                               maxHeight: double.infinity
                                           ),
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(topLeft: Radius.circular(45),),
-                                              gradient: LinearGradient(
-                                                begin: Alignment.topCenter,
-                                                end: Alignment.bottomRight,
-                                                colors: [
-                                                  HexColor('#BEDCFD').withOpacity(appBarAlpha),
-                                                  HexColor('#FFFFFF').withOpacity(appBarAlpha),
-                                                  HexColor('#F9F9F9')..withOpacity(appBarAlpha),
-                                                ],
-                                              )
+                                            borderRadius: BorderRadius.only(topLeft: Radius.circular(45),),
+                                          ),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: EdgeInsets.only(top: 0,left: duSetWidth(16), right: duSetWidth(16), bottom: duSetHeight(12)),
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  padding: EdgeInsets.symmetric(horizontal: duSetWidth(12),vertical: duSetHeight(12)),
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                                                      //border: Border.all(width: 1, color: Colors.grey.withOpacity(.4)),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            color: Colors.grey[300],
+                                                            offset: Offset(0.0, -1.0), //阴影xy轴偏移量
+                                                            blurRadius: 30.0, //阴影模糊程度
+                                                            spreadRadius: 1.0 //阴影扩散程度
+                                                        ),
+                                                      ]
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    mainAxisSize: MainAxisSize.max,
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Container(
+                                                          child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            children: <Widget>[
+                                                              Image.asset('assets/icon/star.png',
+                                                                color: AppTheme.nearlyBlack,
+                                                                width: duSetWidth(24),
+                                                                height: duSetHeight(24),
+                                                              ),
+                                                              SizedBox(height: duSetWidth(8)),
+                                                              Text(Utils.formatNum(state.result.stargazersCount),
+                                                                style: TextStyle(
+                                                                    color: AppTheme.nearlyBlack,
+                                                                    fontSize: duSetFontSize(18)
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                          child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            children: <Widget>[
+                                                              Image.asset('assets/icon/eye.png',
+                                                                color: AppTheme.nearlyBlack,
+                                                                width: duSetWidth(25),
+                                                                height: duSetHeight(25),
+                                                              ),
+                                                              SizedBox(height: duSetWidth(8)),
+                                                              Text(Utils.formatNum(state.result.watchersCount),
+                                                                style: TextStyle(
+                                                                    color: AppTheme.nearlyBlack,
+                                                                    fontSize: duSetFontSize(18)
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                          child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            children: <Widget>[
+                                                              Image.asset('assets/icon/fork.png',
+                                                                color: AppTheme.nearlyBlack,
+                                                                width: duSetWidth(28),
+                                                                height: duSetHeight(28),
+                                                              ),
+                                                              SizedBox(height: duSetWidth(8)),
+                                                              Text(Utils.formatNum(state.result.forksCount),
+                                                                style: TextStyle(
+                                                                    color: AppTheme.nearlyBlack,
+                                                                    fontSize: duSetFontSize(18)
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(left: duSetWidth(16), right: duSetWidth(16),),
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                                                      //border: Border.all(width: 1, color: Colors.grey.withOpacity(.4)),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            color: Colors.grey[300],
+                                                            offset: Offset(0.0, -1.0), //阴影xy轴偏移量
+                                                            blurRadius: 30.0, //阴影模糊程度
+                                                            spreadRadius: 1.0 //阴影扩散程度
+                                                        ),
+                                                      ]
+                                                  ),
+                                                  child: FiteeMarkdown(data: Utils.base64decode(state.readme.content??='')),
+                                                ),
+                                              ),
+                                              SizedBox(height: duSetHeight(70) + MediaQuery.of(context).padding.bottom,)
+                                            ],
                                           ),
                                         ),
                                       ],
                                     ),
-                                    Container(
-                                      constraints: BoxConstraints(
-                                          minHeight: MediaQuery.of(context).size.height / 1.9,
-                                          maxHeight: double.infinity
-                                      ),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(45),),
-                                      ),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: EdgeInsets.only(top: 0,left: duSetWidth(16), right: duSetWidth(16), bottom: duSetHeight(12)),
-                                            child: Container(
-                                              width: double.infinity,
-                                              padding: EdgeInsets.symmetric(horizontal: duSetWidth(12),vertical: duSetHeight(12)),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.all(Radius.circular(16)),
-                                                  //border: Border.all(width: 1, color: Colors.grey.withOpacity(.4)),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        color: Colors.grey[300],
-                                                        offset: Offset(0.0, -1.0), //阴影xy轴偏移量
-                                                        blurRadius: 30.0, //阴影模糊程度
-                                                        spreadRadius: 1.0 //阴影扩散程度
-                                                    ),
-                                                  ]
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: Container(
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        children: <Widget>[
-                                                          Image.asset('assets/icon/star.png',
-                                                            color: AppTheme.nearlyBlack,
-                                                            width: duSetWidth(24),
-                                                            height: duSetHeight(24),
-                                                          ),
-                                                          SizedBox(height: duSetWidth(8)),
-                                                          Text(Utils.formatNum(state.result.stargazersCount),
-                                                            style: TextStyle(
-                                                                color: AppTheme.nearlyBlack,
-                                                                fontSize: duSetFontSize(18)
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        children: <Widget>[
-                                                          Image.asset('assets/icon/eye.png',
-                                                            color: AppTheme.nearlyBlack,
-                                                            width: duSetWidth(25),
-                                                            height: duSetHeight(25),
-                                                          ),
-                                                          SizedBox(height: duSetWidth(8)),
-                                                          Text(Utils.formatNum(state.result.watchersCount),
-                                                            style: TextStyle(
-                                                                color: AppTheme.nearlyBlack,
-                                                                fontSize: duSetFontSize(18)
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        children: <Widget>[
-                                                          Image.asset('assets/icon/fork.png',
-                                                            color: AppTheme.nearlyBlack,
-                                                            width: duSetWidth(28),
-                                                            height: duSetHeight(28),
-                                                          ),
-                                                          SizedBox(height: duSetWidth(8)),
-                                                          Text(Utils.formatNum(state.result.forksCount),
-                                                            style: TextStyle(
-                                                                color: AppTheme.nearlyBlack,
-                                                                fontSize: duSetFontSize(18)
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: duSetWidth(16), right: duSetWidth(16),),
-                                            child: Container(
-                                              width: double.infinity,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.all(Radius.circular(16)),
-                                                  //border: Border.all(width: 1, color: Colors.grey.withOpacity(.4)),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        color: Colors.grey[300],
-                                                        offset: Offset(0.0, -1.0), //阴影xy轴偏移量
-                                                        blurRadius: 30.0, //阴影模糊程度
-                                                        spreadRadius: 1.0 //阴影扩散程度
-                                                    ),
-                                                  ]
-                                              ),
-                                              child: FiteeMarkdown(data: Utils.base64decode(state.readme.content??='')),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
                                   ],
                                 ),
+                              ),
+                            )
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              width: MediaQuery.of(context).size.width,
+              bottom: 0,
+              left: 0,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(top: duSetHeight(8)),
+                    height: duSetHeight(70),
+                    //margin: EdgeInsets.symmetric(horizontal: duSetWidth(6)),
+                    decoration: BoxDecoration(
+                        color: AppTheme.likeBtnBgColor.withOpacity(blackAlpha),
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(30),
+                          topLeft: Radius.circular(30),
+                          // bottomRight: Radius.circular(30),
+                          // bottomLeft: Radius.circular(30),
+                        )
+                    ),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    child: Center(
+                                      child: LikeButton(
+                                        size: duSetFontSize(32),
+                                        likeBuilder: (bool isLiked){
+                                          return Icon(Icons.star, color: isLiked ? AppTheme.likeBtnColor : Colors.white, size: duSetFontSize(32),);
+                                        },
+                                        circleColor:CircleColor(start: HexColor('#E26A30'), end: HexColor('#F1CF1E')),
+                                        bubblesColor: BubblesColor(
+                                          dotPrimaryColor: HexColor('#F6BA26'),
+                                          dotSecondaryColor: HexColor('#F4F72A'),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: Center(
+                                    child: Text(
+                                      'star',
+                                      style: TextStyle(
+                                        color: AppTheme.white,
+                                        fontSize: duSetFontSize(18)
+                                      ),
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                           ),
-                        )
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    height: double.infinity,
+                                    width: double.infinity,
+                                    child: Center(
+                                      child: LikeButton(
+                                        size: duSetFontSize(30),
+                                        likeBuilder: (bool isLiked){
+                                          return Icon(Icons.remove_red_eye, color: isLiked ? AppTheme.likeBtnColor : Colors.white, size: duSetFontSize(30),);
+                                        },
+                                        circleColor:CircleColor(start: HexColor('#E26A30'), end: HexColor('#F1CF1E')),
+                                        bubblesColor: BubblesColor(
+                                          dotPrimaryColor: HexColor('#F6BA26'),
+                                          dotSecondaryColor: HexColor('#F4F72A'),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: Center(
+                                    child: Text(
+                                      'watch',
+                                      style: TextStyle(
+                                          color: AppTheme.white,
+                                          fontSize: duSetFontSize(18)
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          ),
+                          Expanded(
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      height: double.infinity,
+                                      width: double.infinity,
+                                      child: Center(
+                                        child: LikeButton(
+                                          size: duSetFontSize(32),
+                                          likeBuilder: (bool isLiked){
+                                            return Icon(Icons.alt_route, color: isLiked ? AppTheme.likeBtnColor : Colors.white, size: duSetFontSize(30),);
+                                          },
+                                          circleColor:CircleColor(start: HexColor('#E26A30'), end: HexColor('#F1CF1E')),
+                                          bubblesColor: BubblesColor(
+                                            dotPrimaryColor: HexColor('#F6BA26'),
+                                            dotSecondaryColor: HexColor('#F4F72A'),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Center(
+                                      child: Text(
+                                        'star',
+                                        style: TextStyle(
+                                            color: AppTheme.white,
+                                            fontSize: duSetFontSize(18)
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                  SizedBox(height: MediaQuery.of(context).padding.bottom)
+                  Container(
+                    height: MediaQuery.of(context).padding.bottom,
+                    width: double.infinity,
+                    color: blackAlpha == 0 ? AppTheme.white : AppTheme.likeBtnBgColor.withOpacity(blackAlpha),
+                  )
                 ],
               ),
-            ),
-          ),
+            )
+          ],
         );
       }),
     );

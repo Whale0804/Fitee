@@ -34,7 +34,6 @@ class _AppBarWidgetState extends State<AppBarWidget>{
 
   @override
   Widget build(BuildContext context) {
-    console.log(widget.status);
     return widget.back == true ? Container(
       color: widget.color ?? Colors.white,
       child: AppBar(

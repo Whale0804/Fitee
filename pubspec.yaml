@@ -53,6 +53,8 @@ dependencies:
   flushbar: ^1.10.4
   # markdown
   flutter_markdown: ^0.5.0
+  # 点赞动画
+  like_button: ^1.0.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
