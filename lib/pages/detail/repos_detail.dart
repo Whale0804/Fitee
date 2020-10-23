@@ -1,4 +1,3 @@
-import 'package:fitee/config/config.dart';
 import 'package:fitee/model/repository/repository.dart';
 import 'package:fitee/model/repository/repository_provider.dart';
 import 'package:fitee/model/user/user_provider.dart';
@@ -11,12 +10,8 @@ import 'package:fitee/widgets/avatar/avatar.dart';
 import 'package:fitee/widgets/loading/FiteeLoading.dart';
 import 'package:fitee/widgets/markdown/markdown.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
-import 'package:fitee/widgets/webview/webview.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:like_button/like_button.dart';
 
 // ignore: must_be_immutable
@@ -86,7 +81,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
             Container(
               color: HexColor('#6A60C4').withOpacity(appBarAlpha),
               child: Scaffold(
-                body: FadeTransition(
+                body: state.loading ? FiteeLoading() : FadeTransition(
                   opacity: _animation,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -97,10 +92,10 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                         back: true,
                         iconColor: appBarAlpha == 0 ? AppTheme.nearlyBlack : Colors.white,
                         textColor: appBarAlpha == 0 ? AppTheme.nearlyBlack : Colors.white,
-                        color: appBarAlpha == 0 ?  Colors.white : HexColor('#6A60C4').withOpacity(appBarAlpha),
+                        color: appBarAlpha == 0 ?  Colors.white : HexColor('#5A96F6').withOpacity(appBarAlpha),
                       ),
                       Expanded(
-                        child: state.loading ? FiteeLoading() : Container(
+                        child: Container(
                             width: double.infinity,
                             child: MediaQuery.removeViewPadding(
                               removeTop: true,
@@ -122,7 +117,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                       width: double.infinity,
                                       padding: EdgeInsets.only(top: duSetHeight(4),bottom: duSetHeight(16), left: duSetWidth(16), right: duSetWidth(16)),
                                       decoration: BoxDecoration(
-                                        color: appBarAlpha == 0 ?  Colors.white : HexColor('#6A60C4').withOpacity(appBarAlpha),
+                                        color: appBarAlpha == 0 ?  Colors.white : HexColor('#5A96F6').withOpacity(appBarAlpha),
                                         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(45)),
                                         boxShadow: [
                                           BoxShadow(
@@ -166,7 +161,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                     ),
                                                     Expanded(child: Text('@' + state.result.owner.login,
                                                       style: TextStyle(
-                                                          color: AppTheme.url,
+                                                          color: HexColor('#6A60C4'),
                                                           fontSize: duSetFontSize(20.0),
                                                           fontWeight: FontWeight.w400
                                                       ),
@@ -352,7 +347,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                   child: FiteeMarkdown(data: Utils.base64decode(state.readme.content??='')),
                                                 ),
                                               ),
-                                              SizedBox(height: duSetHeight(70) + MediaQuery.of(context).padding.bottom,)
+                                              SizedBox(height: duSetHeight(60) + MediaQuery.of(context).padding.bottom,)
                                             ],
                                           ),
                                         ),
@@ -422,7 +417,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                     child: Text(
                                       'star',
                                       style: TextStyle(
-                                        color: AppTheme.white,
+                                        color: AppTheme.white.withOpacity(blackAlpha),
                                         fontSize: duSetFontSize(18)
                                       ),
                                     ),
@@ -460,7 +455,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                     child: Text(
                                       'watch',
                                       style: TextStyle(
-                                          color: AppTheme.white,
+                                          color: AppTheme.white.withOpacity(blackAlpha),
                                           fontSize: duSetFontSize(18)
                                       ),
                                     ),
@@ -496,7 +491,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                       child: Text(
                                         'star',
                                         style: TextStyle(
-                                            color: AppTheme.white,
+                                            color: AppTheme.white.withOpacity(blackAlpha),
                                             fontSize: duSetFontSize(18)
                                         ),
                                       ),

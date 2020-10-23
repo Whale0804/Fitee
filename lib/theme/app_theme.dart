@@ -30,8 +30,8 @@ class AppTheme {
   static const Color primaryLightValue = Color(0xFF42464b);
   static Color actionColor = url;
 
-  static Color likeBtnColor = HexColor('#3A9FF0');
-  static Color likeBtnBgColor = HexColor('#99BAD9');
+  static Color likeBtnColor = HexColor('#3366b8');
+  static Color likeBtnBgColor = HexColor('#83b0f8');
 
   static const TextTheme textTheme = TextTheme(
     headline4: display1,

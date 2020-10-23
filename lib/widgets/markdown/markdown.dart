@@ -27,10 +27,10 @@ class FiteeMarkdown extends StatelessWidget{
     return markdownStyleSheet
         .copyWith(
         codeblockDecoration: new BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+            borderRadius: BorderRadius.all(Radius.circular(6.0)),
             color: codeBackground,
             border: new Border.all(
-                color: HexColor('#6FA0FB'), width: 0.3)))
+                color: HexColor('#6FA0FB'), width: 0.3,)))
         .copyWith(
           codeblockPadding: EdgeInsets.symmetric(vertical: duSetHeight(8), horizontal: duSetWidth(8))
     )   .copyWith(
@@ -53,7 +53,7 @@ class FiteeMarkdown extends StatelessWidget{
   }
 
   _getStyleSheetDark(BuildContext context) {
-    return _getCommonSheet(context, HexColor('#6A60C4')).copyWith(
+    return _getCommonSheet(context, HexColor('#F6F8FA')).copyWith(
       a: TextStyle(fontSize: duSetFontSize(MarkdownTheme.normalTextSize), color: AppTheme.actionColor),
       p: MarkdownTheme.normalText,
       h1: MarkdownTheme.largeLargeText,
@@ -65,8 +65,9 @@ class FiteeMarkdown extends StatelessWidget{
       em: const TextStyle(fontStyle: FontStyle.italic),
       strong: MarkdownTheme.middleTextBold,
       code: MarkdownTheme.normalTextWhite.copyWith(
-        backgroundColor: HexColor('#6A60C4'),
-        fontFamily: 'WorkSans'
+        backgroundColor: Colors.transparent,
+        fontFamily: 'WorkSans',
+        color: AppTheme.descText
       ),
 
     );
