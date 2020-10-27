@@ -9,7 +9,7 @@ Gitee（码云）的Flutter版
 
 ### 计划
 - 优化 provider 
-- 登录页Teddy动画
+- ~~登录页Teddy动画~~
 - 自定义主题
 - List Item 打开动画
 - 缓存管理

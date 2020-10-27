@@ -55,6 +55,8 @@ dependencies:
   flutter_markdown: ^0.5.0
   # 点赞动画
   like_button: ^1.0.3
+  # flare
+  flare_flutter: ^1.8.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -69,5 +71,16 @@ flutter:
     - assets/icon/
     - assets/about/
     - assets/login/
+    - assets/login/teddy.flr
     - assets/state/
     - assets/avatar/
+
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: assets/login/fonts/OpenSans-Regular.ttf
+        - asset: assets/login/fonts/OpenSans-SemiBold.ttf
+          weight: 600
+    - family: Nunito
+      fonts:
+        - asset: assets/login/fonts/Nunito-Regular.ttf
