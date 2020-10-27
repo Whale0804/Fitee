@@ -29,7 +29,7 @@ Gitee（码云）的Flutter版
 | ![](https://raw.githubusercontent.com/githinkcn/Fitee/master/screenshot/2.png) |  ![](https://raw.githubusercontent.com/githinkcn/Fitee/master/screenshot/3.png)  | ![](https://raw.githubusercontent.com/githinkcn/Fitee/master/screenshot/4.png)  |
 | ![](https://raw.githubusercontent.com/githinkcn/Fitee/master/screenshot/5.png) |  ![](https://raw.githubusercontent.com/githinkcn/Fitee/master/screenshot/6.png)  | ![](https://raw.githubusercontent.com/githinkcn/Fitee/master/screenshot/7.png)  |
 | ![](https://raw.githubusercontent.com/githinkcn/Fitee/master/screenshot/8.png) |  ![](https://raw.githubusercontent.com/githinkcn/Fitee/master/screenshot/9.png)  | ![](https://raw.githubusercontent.com/githinkcn/Fitee/master/screenshot/10.png) |
-|![](https://raw.githubusercontent.com/githinkcn/Fitee/master/screenshot/13.png)|| |
+|![](https://raw.githubusercontent.com/githinkcn/Fitee/master/screenshot/13.png)|![](https://raw.githubusercontent.com/githinkcn/Fitee/master/screenshot/14.png)| |
 
 ### Q&A
 1. 没有账号密码？可以自行到[码云](https://gitee)注册。
