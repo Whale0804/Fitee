@@ -8,7 +8,6 @@ class AppConfig {
   AppConfig._();
 
   /// ================================ 数据库配置 START ============================
-  //每页的数量，最大为 100
   static const String DB_NAME = 'fitee.db';
   static const int DB_VERSION = 1;
   /// ================================ 数据库配置 END ============================
