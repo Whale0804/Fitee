@@ -1,6 +1,7 @@
 import 'package:fitee/config/config.dart';
 import 'package:fitee/model/readme/readme.dart';
 import 'package:fitee/model/repository/repository.dart';
+import 'package:fitee/model/user/user.dart';
 import 'package:fitee/services/repos_service.dart';
 import 'package:fitee/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,8 @@ class ReposProvider with ChangeNotifier{
 
   Repository result;
   Readme readme;
+
+  List<User> collaborators;
 
   fetchAll({@required String fullName}) async{
     loading = true;
@@ -31,5 +34,12 @@ class ReposProvider with ChangeNotifier{
   fetchReadme({@required String fullName}) async {
     readme = await ReposApi.fetchReadme(fullName: fullName);
     return readme;
+  }
+
+
+  fetchCollaborators({@required String fullName}) async {
+    collaborators = await ReposApi.fetchCollaborators(fullName: fullName);
+    notifyListeners();
+    return collaborators;
   }
 }

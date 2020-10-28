@@ -264,31 +264,34 @@ ErrorEntity createErrorEntity(DioError error) {
 }
   _forwardLogin () async{
     try {
-      var fingerprintEnable = await SettingTable().queryByKey(AppConfig.FINGERPRINT_KEY) ?? 'false';
-      var temp = fingerprintEnable == 'true' ? true : false;
-      if (temp) {
-        bool isCheck = await FingerPrintUtil.checkTouchId();
-        if(isCheck) {
-          var username = await LocalStorage.getString(AppConfig.USER_NAME_KEY) ?? '';
-          var password = await LocalStorage.getString(AppConfig.USER_PASS_KEY) ?? '';
-          if (username != '' && password != '') {
-            var res = await LoginApi.login(username: username, password: password);
-            if (res != null && res['access_token'] != null) {
-              LocalStorage.set(AppConfig.TOKEN_KEY, res['access_token']);
-              LocalStorage.setBool(AppConfig.LOGIN_KEY, true);
-              NavUtil.pushReplacement(BaseRoute());
+      bool isLogin = await LocalStorage.getBool(AppConfig.LOGIN_KEY)?? false;
+      if(isLogin) {
+        var fingerprintEnable = await SettingTable().queryByKey(AppConfig.FINGERPRINT_KEY) ?? 'false';
+        var temp = fingerprintEnable == 'true' ? true : false;
+        if (temp) {
+          bool isCheck = await FingerPrintUtil.checkTouchId();
+          if(isCheck) {
+            var username = await LocalStorage.getString(AppConfig.USER_NAME_KEY) ?? '';
+            var password = await LocalStorage.getString(AppConfig.USER_PASS_KEY) ?? '';
+            if (username != '' && password != '') {
+              var res = await LoginApi.login(username: username, password: password);
+              if (res != null && res['access_token'] != null) {
+                LocalStorage.set(AppConfig.TOKEN_KEY, res['access_token']);
+                LocalStorage.setBool(AppConfig.LOGIN_KEY, true);
+                NavUtil.pushAndRemove(BaseRoute());
+              } else {
+                NavUtil.pushAndRemove(LoginPage());
+              }
             } else {
               NavUtil.pushAndRemove(LoginPage());
             }
-          } else {
+          }else {
+            Toast.toast(NavUtil.ctx, msg: '验证失败~~');
             NavUtil.pushAndRemove(LoginPage());
           }
-        }else {
-          Toast.toast(NavUtil.ctx, msg: '验证失败~~');
+        } else {
           NavUtil.pushAndRemove(LoginPage());
         }
-      } else {
-        NavUtil.pushAndRemove(LoginPage());
       }
     }catch (e) {
       NavUtil.pushAndRemove(LoginPage());

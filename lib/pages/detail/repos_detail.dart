@@ -325,6 +325,28 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                           ),
                                                         ),
                                                       ),
+                                                      Expanded(
+                                                        child: Container(
+                                                          child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            children: <Widget>[
+                                                              Image.asset('assets/icon/issues.png',
+                                                                color: AppTheme.nearlyBlack,
+                                                                width: duSetWidth(24),
+                                                                height: duSetHeight(24),
+                                                              ),
+                                                              SizedBox(height: duSetWidth(8)),
+                                                              Text(Utils.formatNum(state.result.openIssuesCount),
+                                                                style: TextStyle(
+                                                                    color: AppTheme.nearlyBlack,
+                                                                    fontSize: duSetFontSize(18)
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
                                                     ],
                                                   ),
                                                 ),

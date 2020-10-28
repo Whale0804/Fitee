@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:fitee/config/config.dart';
+import 'package:fitee/model/repository/repository_provider.dart';
 import 'package:fitee/model/search/search_provider.dart';
 import 'package:fitee/model/search/search_repos.dart';
 import 'package:fitee/model/user/user.dart';
@@ -549,10 +550,10 @@ class _RepoItemState extends State<RepoItem> with TickerProviderStateMixin {
 
   _fetchAvatar() async{
     if(widget.repos.members.length > 1){
-      for(var i = 0; i < widget.repos.members.length; i++){
+      List<User> user = await Store.value<ReposProvider>(NavUtil.ctx).fetchCollaborators(fullName: widget.repos.fullName);
+      for(var i = 0; i < user.length; i++){
         if(i < 4){
-          User user = await Store.value<UserProvider>(NavUtil.ctx).fetchUser(username: widget.repos.members[i]);
-          avatarList.add(user.avatar_url);
+          avatarList.add(user[i].avatar_url);
         }
       }
       setState(() {

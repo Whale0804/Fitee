@@ -1,8 +1,8 @@
 
 const SERVER_API_URL = 'https://gitee.com';
 const GITHUB_SERVER_API_URL = 'https://api.github.com';
-const CLIENT_ID = '';
-const CLIENT_SECRET = '';
+const CLIENT_ID = '2e7baa4b5d4661a944e32f1d038945483f8e9577a3548bd9ad359fc2504638de';
+const CLIENT_SECRET = 'c8ad535a893f919ec874161963f74de10a4b49454f2c62aad0eaa7892150c2eb';
 
 class AppConfig {
   AppConfig._();
