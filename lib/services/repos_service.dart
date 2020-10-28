@@ -9,6 +9,7 @@ class ReposApi {
   /// 获取仓库详情
   static Future<Repository> fetchRepos({@required String fullName}) async {
     Map<String, String> params = {
+      "access_token": await DioUtils().getAuthorizationHeader(),
       "owner": fullName.split("/")[0],
       "repo": fullName.split("/")[1]
     };
@@ -19,6 +20,7 @@ class ReposApi {
   /// 获取指定仓库readme
   static Future<Readme> fetchReadme({@required String fullName}) async {
     Map<String, String> params = {
+      "access_token": await DioUtils().getAuthorizationHeader(),
       "owner": fullName.split("/")[0],
       "repo": fullName.split("/")[1]
     };
@@ -28,10 +30,11 @@ class ReposApi {
 
   static Future<List<User>> fetchCollaborators({String fullName}) async {
     Map<String, String> params = {
+      "access_token": await DioUtils().getAuthorizationHeader(),
       "owner": fullName.split("/")[0],
       "repo": fullName.split("/")[1]
     };
-    var result = await DioUtils().get("/api/v5/repos/${fullName}/collaborators", params: params);
+    List<dynamic> result = await DioUtils().get("/api/v5/repos/${fullName}/collaborators", params: params);
     return result.map((i) => User.fromJson(i)).toList();;
   }
 }

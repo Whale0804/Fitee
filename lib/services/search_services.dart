@@ -12,7 +12,7 @@ class SearchApi {
     String sort
   }) async{
     Map<String, dynamic> params = {
-      //"access_token": await DioUtils().getAuthorizationHeader(),
+      "access_token": await DioUtils().getAuthorizationHeader(),
       "page": page,
       "per_page" : AppConfig.PRE_PAGE,
       "q" : q,
@@ -26,7 +26,7 @@ class SearchApi {
 
   static Future<List<User>> fetchUsers(String q, {int page = 1}) async {
     Map<String, dynamic> params = {
-      //"access_token": await DioUtils().getAuthorizationHeader(),
+      "access_token": await DioUtils().getAuthorizationHeader(),
       "page": page,
       "per_page" : AppConfig.PRE_PAGE,
       "q" : q,
