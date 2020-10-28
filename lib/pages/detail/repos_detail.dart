@@ -5,6 +5,7 @@ import 'package:fitee/model/repository/repository_provider.dart';
 import 'package:fitee/model/user/user_provider.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
+import 'package:fitee/utils/relative_date_format.dart';
 import 'package:fitee/utils/screen.dart';
 import 'package:fitee/utils/store.dart';
 import 'package:fitee/utils/utils.dart';
@@ -114,6 +115,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                   physics: ClampingScrollPhysics(),
                                   shrinkWrap: true,
                                   children: <Widget>[
+                                    // 项目描述
                                     Container(
                                       key: _key,
                                       width: double.infinity,
@@ -236,6 +238,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                           ),
                                           child: Column(
                                             children: <Widget>[
+                                              // 收藏、关注、Issues
                                               Padding(
                                                 padding: EdgeInsets.only(top: 0,left: duSetWidth(16), right: duSetWidth(16), bottom: duSetHeight(12)),
                                                 child: Container(
@@ -246,12 +249,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                       borderRadius: BorderRadius.all(Radius.circular(16)),
                                                       //border: Border.all(width: 1, color: Colors.grey.withOpacity(.4)),
                                                       boxShadow: [
-                                                        BoxShadow(
-                                                            color: Colors.grey[300],
-                                                            offset: Offset(0.0, -1.0), //阴影xy轴偏移量
-                                                            blurRadius: 30.0, //阴影模糊程度
-                                                            spreadRadius: 1.0 //阴影扩散程度
-                                                        ),
+                                                        AppTheme.mainBoxShadow
                                                       ]
                                                   ),
                                                   child: Row(
@@ -311,8 +309,8 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                             children: <Widget>[
                                                               Image.asset('assets/icon/fork.png',
                                                                 color: AppTheme.nearlyBlack,
-                                                                width: duSetWidth(28),
-                                                                height: duSetHeight(28),
+                                                                width: duSetWidth(22),
+                                                                height: duSetHeight(22),
                                                               ),
                                                               SizedBox(height: duSetWidth(8)),
                                                               Text(Utils.formatNum(state.result.forksCount),
@@ -351,6 +349,52 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                   ),
                                                 ),
                                               ),
+                                              // 文件树
+                                              Padding(
+                                                padding: EdgeInsets.only(top: 0,left: duSetWidth(16), right: duSetWidth(16), bottom: duSetHeight(12)),
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  height: 300,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                                                      boxShadow: [
+                                                        AppTheme.mainBoxShadow
+                                                      ]
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    children: [
+                                                      Container(
+                                                        height: 100,
+                                                        width: double.infinity,
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.only(
+                                                            topRight: Radius.circular(16),
+                                                            topLeft: Radius.circular(16)
+                                                          ),
+                                                          border: Border.all(color: HexColor('#C5E1FE')                                                         ),
+                                                          color: HexColor('#F0F8FF'),
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          children: [
+                                                            Container(
+                                                              child: Text(
+                                                                '最后提交于' + RelativeDateFormat.format(state.result.pushedAt),
+                                                                
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              // 渲染Markdown
                                               Padding(
                                                 padding: EdgeInsets.only(left: duSetWidth(16), right: duSetWidth(16),),
                                                 child: Container(

@@ -33,6 +33,13 @@ class AppTheme {
   static Color likeBtnColor = HexColor('#3366b8');
   static Color likeBtnBgColor = HexColor('#83b0f8');
 
+  static BoxShadow mainBoxShadow  = BoxShadow(
+      color: Colors.grey[300],
+      offset: Offset(0.0, -1.0), //阴影xy轴偏移量
+      blurRadius: 30.0, //阴影模糊程度
+      spreadRadius: 1.0 //阴影扩散程度
+  );
+
   static const TextTheme textTheme = TextTheme(
     headline4: display1,
     headline5: headline,
