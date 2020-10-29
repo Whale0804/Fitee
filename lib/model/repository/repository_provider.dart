@@ -68,7 +68,11 @@ class ReposProvider with ChangeNotifier{
   }
 
   fetchLastRelease({String fullName}) async {
-    release = await ReleaseApi.fetchLastRelease(fullName: fullName);
+    try {
+      release = await ReleaseApi.fetchLastRelease(fullName: fullName);
+    }catch (e) {
+      release = null;
+    }
     return release;
   }
 }
