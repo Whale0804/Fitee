@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:badges/badges.dart';
 import 'package:fitee/model/repository/file_tree.dart';
 import 'package:fitee/model/repository/repository.dart';
 import 'package:fitee/model/repository/repository_provider.dart';
@@ -315,8 +316,8 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                             children: <Widget>[
                                                               Image.asset('assets/icon/fork.png',
                                                                 color: AppTheme.nearlyBlack,
-                                                                width: duSetWidth(22),
-                                                                height: duSetHeight(22),
+                                                                width: duSetWidth(24),
+                                                                height: duSetHeight(24),
                                                               ),
                                                               SizedBox(height: duSetWidth(8)),
                                                               Text(Utils.formatNum(state.result.forksCount),
@@ -372,6 +373,46 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                       mainAxisAlignment: MainAxisAlignment.start,
                                                       crossAxisAlignment: CrossAxisAlignment.center,
                                                       children: <Widget>[
+                                                        Container(
+                                                          width: double.infinity,
+                                                          height: duSetHeight(40),
+                                                          padding: EdgeInsets.symmetric(horizontal: 10),
+                                                          child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            mainAxisSize: MainAxisSize.max,
+                                                            children: <Widget>[
+                                                              SizedBox(width: duSetWidth(6)),
+                                                              Image.asset("assets/icon/branches.png", width: duSetWidth(18), height: duSetHeight(18),),
+                                                              SizedBox(width: duSetWidth(6)),
+                                                              Text(
+                                                                'Branches',
+                                                                style: TextStyle(
+                                                                    fontSize: duSetFontSize(18),
+                                                                    color: AppTheme.darkText
+                                                                ),
+                                                              ),
+                                                              SizedBox(width: duSetWidth(15)),
+                                                              Expanded(
+                                                                child: Text(
+                                                                  'master',
+                                                                  style: TextStyle(
+                                                                      fontSize: duSetFontSize(16),
+                                                                      color: AppTheme.descText,
+                                                                      fontWeight: FontWeight.w500
+                                                                  ),
+                                                                  textAlign: TextAlign.right,
+                                                                ),
+                                                              ),
+                                                              SizedBox(width: duSetWidth(12),),
+                                                              Icon(Icons.arrow_forward_ios,
+                                                                color: Colors.grey,
+                                                                size: duSetFontSize(16),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        _divider(),
                                                         InkWell(
                                                           child: Container(
                                                             padding: EdgeInsets.symmetric(horizontal: 10),
@@ -381,6 +422,8 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                               mainAxisAlignment: MainAxisAlignment.start,
                                                               crossAxisAlignment: CrossAxisAlignment.center,
                                                               children: <Widget>[
+                                                                SizedBox(width: duSetWidth(6)),
+                                                                Image.asset("assets/icon/event.png", width: duSetWidth(18), height: duSetHeight(18),),
                                                                 Expanded(
                                                                   child: Container(
                                                                     padding: EdgeInsets.only(left: 8),
@@ -413,6 +456,8 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                               mainAxisAlignment: MainAxisAlignment.start,
                                                               crossAxisAlignment: CrossAxisAlignment.center,
                                                               children: <Widget>[
+                                                                SizedBox(width: duSetWidth(6)),
+                                                                Image.asset("assets/icon/commit.png", width: duSetWidth(18), height: duSetHeight(18),),
                                                                 Expanded(
                                                                   child: Container(
                                                                     padding: EdgeInsets.only(left: 8),
@@ -435,8 +480,8 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
 
                                                           },
                                                         ),
-                                                        _divider(),
-                                                        InkWell(
+                                                        state.release != null ? _divider() : SizedBox(),
+                                                        state.release != null ? InkWell(
                                                           child: Container(
                                                             padding: EdgeInsets.only(left: 10, right: 10),
                                                             height: duSetHeight(40),
@@ -445,6 +490,8 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                               mainAxisAlignment: MainAxisAlignment.start,
                                                               crossAxisAlignment: CrossAxisAlignment.center,
                                                               children: <Widget>[
+                                                                SizedBox(width: duSetWidth(6)),
+                                                                Image.asset("assets/icon/release.png", width: duSetWidth(18), height: duSetHeight(18),),
                                                                 Expanded(
                                                                   child: Container(
                                                                     padding: EdgeInsets.only(left: 8),
@@ -456,6 +503,25 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                                     ),
                                                                   ),
                                                                 ),
+                                                                Expanded(
+                                                                  child: SizedBox(),
+                                                                ),
+                                                                Badge(
+                                                                  elevation: 0,
+                                                                  shape: BadgeShape.circle,
+                                                                  padding: EdgeInsets.all(4),
+                                                                  badgeColor: HexColor('#FF4242'),
+                                                                  badgeContent: null,
+                                                                  child: Text(
+                                                                    state.release.tagName,
+                                                                    style: TextStyle(
+                                                                        fontSize: duSetFontSize(16),
+                                                                        color: AppTheme.descText,
+                                                                        fontWeight: FontWeight.w500
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(width: duSetWidth(8),),
                                                                 Icon(Icons.arrow_forward_ios,
                                                                   color: Colors.grey,
                                                                   size: duSetFontSize(16),
@@ -466,9 +532,9 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                           onTap: ()=> {
 
                                                           },
-                                                        ),
-                                                        _divider(),
-                                                        InkWell(
+                                                        ) : SizedBox(),
+                                                        state.result.members.length > 1 ? _divider() : SizedBox(),
+                                                        state.result.members.length > 1 ? InkWell(
                                                           child: Container(
                                                             padding: EdgeInsets.only(left: 10, right: 10),
                                                             height: duSetHeight(40),
@@ -477,6 +543,8 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                               mainAxisAlignment: MainAxisAlignment.start,
                                                               crossAxisAlignment: CrossAxisAlignment.center,
                                                               children: <Widget>[
+                                                                SizedBox(width: duSetWidth(6)),
+                                                                Image.asset("assets/icon/contributors.png", width: duSetWidth(18), height: duSetHeight(18),),
                                                                 Expanded(
                                                                   child: Container(
                                                                     padding: EdgeInsets.only(left: 8),
@@ -488,6 +556,17 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                                     ),
                                                                   ),
                                                                 ),
+                                                                Badge(
+                                                                  elevation: 0,
+                                                                  shape: BadgeShape.circle,
+                                                                  padding: EdgeInsets.all(4),
+                                                                  badgeColor: HexColor('#afcff7'),
+                                                                  badgeContent: Text(
+                                                                    state.result.members.length.toString(),
+                                                                    style: TextStyle(color: Colors.white),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(width: duSetWidth(8),),
                                                                 Icon(Icons.arrow_forward_ios,
                                                                   color: Colors.grey,
                                                                   size: duSetFontSize(16),
@@ -498,7 +577,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                           onTap: ()=> {
 
                                                           },
-                                                        ),
+                                                        ) : SizedBox(),
                                                       ],
                                                     ),
                                                   )
@@ -613,25 +692,27 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                                   onTap: () {
                                                                     setState(() {
                                                                       isOpen = true;
-                                                                      height = 100;
+                                                                      height = duSetHeight(34) * state.trees.length;
                                                                       opacityLevel = 1.0;
                                                                     });
                                                                   },
                                                                 ),
                                                               ),
                                                             ) : SizedBox(),
-                                                            isOpen ? AnimatedOpacity(
+                                                            AnimatedOpacity(
                                                               opacity: opacityLevel,
                                                               duration: Duration(seconds: 1),
-                                                              child:  Container(
+                                                              child:  AnimatedContainer(
+                                                                duration: Duration(milliseconds: 475),
+                                                                height: height,
                                                                 width: double.infinity,
                                                                 child: ListView.builder(
                                                                   physics: ClampingScrollPhysics(),
-                                                                  shrinkWrap: true,
                                                                   itemBuilder: (context, index) {
                                                                     FileTree ft = state.trees[index];
                                                                     return Container(
                                                                         padding: EdgeInsets.symmetric(vertical: duSetHeight(6)),
+                                                                        height: duSetHeight(34),
                                                                         child: Row(
                                                                           mainAxisAlignment: MainAxisAlignment.start,
                                                                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -661,7 +742,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                                   itemCount: state.trees.length
                                                                 ),
                                                               ),
-                                                            ) : SizedBox(),
+                                                            ),
                                                           ],
                                                         )
                                                       )
@@ -686,7 +767,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                   child: FiteeMarkdown(data: Utils.base64decode(state.readme.content??='')),
                                                 ),
                                               ),
-                                              SizedBox(height: duSetHeight(70) + MediaQuery.of(context).padding.bottom,)
+                                              SizedBox(height: duSetHeight(60) + MediaQuery.of(context).padding.bottom,)
                                             ],
                                           ),
                                         ),

@@ -36,7 +36,7 @@ class ReposApi {
       "repo": fullName.split("/")[1]
     };
     List<dynamic> result = await DioUtils().get("/api/v5/repos/${fullName}/collaborators", params: params);
-    return result.map((i) => User.fromJson(i)).toList();;
+    return result.map((i) => User.fromJson(i)).toList();
   }
 
 

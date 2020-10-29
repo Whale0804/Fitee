@@ -1,10 +1,12 @@
 import 'package:fitee/config/config.dart';
 import 'package:fitee/model/commit/commit.dart';
 import 'package:fitee/model/readme/readme.dart';
+import 'package:fitee/model/release/release.dart';
 import 'package:fitee/model/repository/file_tree.dart';
 import 'package:fitee/model/repository/repository.dart';
 import 'package:fitee/model/user/user.dart';
 import 'package:fitee/services/commit_service.dart';
+import 'package:fitee/services/release_service.dart';
 import 'package:fitee/services/repos_service.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +26,9 @@ class ReposProvider with ChangeNotifier{
   List<FileTree> trees;
   // 仓库成员
   List<User> collaborators;
+  // 最后一次更新的release
+  Release release;
+
 
   fetchAll({@required String fullName}) async{
     loading = true;
@@ -31,6 +36,7 @@ class ReposProvider with ChangeNotifier{
     await fetchReadme(fullName: fullName);
     await fetchLastCommit(fullName: fullName);
     await fetchFiles(fullName: fullName);
+    await fetchLastRelease(fullName: fullName);
     loading = false;
     notifyListeners();
     return repos;
@@ -48,19 +54,21 @@ class ReposProvider with ChangeNotifier{
 
   fetchCollaborators({@required String fullName}) async {
     collaborators = await ReposApi.fetchCollaborators(fullName: fullName);
-    notifyListeners();
     return collaborators;
   }
 
   fetchLastCommit({@required String fullName}) async {
     commit = await CommitApi.fetchLastCommit(fullName: fullName);
-    notifyListeners();
     return commit;
   }
 
   fetchFiles({@required String fullName, String sha = 'master'}) async {
     trees = await ReposApi.fetchFiles(fullName: fullName, sha: sha);
-    notifyListeners();
     return trees.sort((a,b)=>a.mode.compareTo(b.mode));
+  }
+
+  fetchLastRelease({String fullName}) async {
+    release = await ReleaseApi.fetchLastRelease(fullName: fullName);
+    return release;
   }
 }
