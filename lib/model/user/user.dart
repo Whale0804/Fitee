@@ -46,6 +46,8 @@ class User {
   DateTime created_at;
   DateTime updated_at;
   String email;
+  DateTime date;
+
 
   User({this.id,
       this.login,

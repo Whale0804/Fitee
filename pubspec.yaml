@@ -57,6 +57,8 @@ dependencies:
   like_button: ^1.0.3
   # flare
   flare_flutter: ^1.8.3
+  # pop menu
+  spear_menu: ^0.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
 
   String _username = '';
   String _password = '';
-  bool _isObscured = false;
+  bool _isObscured = true;
 
 
   TeddyController _teddyController = TeddyController();

@@ -1,5 +1,6 @@
 
 import 'package:fitee/model/readme/readme.dart';
+import 'package:fitee/model/repository/file_tree.dart';
 import 'package:fitee/model/repository/repository.dart';
 import 'package:fitee/model/user/user.dart';
 import 'package:fitee/plugin/request/request.dart';
@@ -37,4 +38,18 @@ class ReposApi {
     List<dynamic> result = await DioUtils().get("/api/v5/repos/${fullName}/collaborators", params: params);
     return result.map((i) => User.fromJson(i)).toList();;
   }
+
+
+  static Future<List<FileTree>> fetchFiles({String fullName, String sha = 'master'}) async {
+    Map<String, String> params = {
+      "access_token": await DioUtils().getAuthorizationHeader(),
+      "owner": fullName.split("/")[0],
+      "repo": fullName.split("/")[1],
+      'sha': sha
+    };
+    Map result = await DioUtils().get("/api/v5/repos/${fullName}/git/trees/${sha}", params: params);
+    var tree = result['tree'] as List;
+    return tree.map((i) => FileTree.fromJson(i)).toList();
+  }
+
 }

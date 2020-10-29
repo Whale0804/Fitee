@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fitee/model/repository/file_tree.dart';
 import 'package:fitee/model/repository/repository.dart';
 import 'package:fitee/model/repository/repository_provider.dart';
 import 'package:fitee/model/user/user_provider.dart';
@@ -13,6 +14,7 @@ import 'package:fitee/widgets/avatar/avatar.dart';
 import 'package:fitee/widgets/loading/FiteeLoading.dart';
 import 'package:fitee/widgets/markdown/markdown.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:like_button/like_button.dart';
@@ -39,6 +41,10 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
   //定义透明度
   double appBarAlpha = 1;
   double blackAlpha = 0;
+
+  bool isOpen = false;
+  double height = 0.0;
+  double opacityLevel = 0.0;
 
   @override
   void initState() {
@@ -349,15 +355,164 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                   ),
                                                 ),
                                               ),
+
+                                              // 其他信息
+                                              Padding(
+                                                padding: EdgeInsets.only(left: duSetWidth(16), right: duSetWidth(16), bottom: duSetHeight(12)),
+                                                child: Container(
+                                                    width: double.infinity,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                                                        boxShadow: [
+                                                          AppTheme.mainBoxShadow
+                                                        ]
+                                                    ),
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: <Widget>[
+                                                        InkWell(
+                                                          child: Container(
+                                                            padding: EdgeInsets.symmetric(horizontal: 10),
+                                                            height: duSetHeight(40),
+                                                            width: double.infinity,
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              children: <Widget>[
+                                                                Expanded(
+                                                                  child: Container(
+                                                                    padding: EdgeInsets.only(left: 8),
+                                                                    child: Text('Event',
+                                                                      style: TextStyle(
+                                                                          fontSize: duSetFontSize(18),
+                                                                          color: AppTheme.darkText
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Icon(Icons.arrow_forward_ios,
+                                                                  color: Colors.grey,
+                                                                  size: duSetFontSize(16),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          onTap: ()=> {
+
+                                                          },
+                                                        ),
+                                                        _divider(),
+                                                        InkWell(
+                                                          child: Container(
+                                                            padding: EdgeInsets.only(left: 10, right: 10),
+                                                            height: duSetHeight(40),
+                                                            width: double.infinity,
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              children: <Widget>[
+                                                                Expanded(
+                                                                  child: Container(
+                                                                    padding: EdgeInsets.only(left: 8),
+                                                                    child: Text('Commit',
+                                                                      style: TextStyle(
+                                                                          fontSize: duSetFontSize(18),
+                                                                          color: AppTheme.darkText
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Icon(Icons.arrow_forward_ios,
+                                                                  color: Colors.grey,
+                                                                  size: duSetFontSize(16),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          onTap: ()=> {
+
+                                                          },
+                                                        ),
+                                                        _divider(),
+                                                        InkWell(
+                                                          child: Container(
+                                                            padding: EdgeInsets.only(left: 10, right: 10),
+                                                            height: duSetHeight(40),
+                                                            width: double.infinity,
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              children: <Widget>[
+                                                                Expanded(
+                                                                  child: Container(
+                                                                    padding: EdgeInsets.only(left: 8),
+                                                                    child: Text('Releases',
+                                                                      style: TextStyle(
+                                                                          fontSize: duSetFontSize(18),
+                                                                          color: AppTheme.darkText
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Icon(Icons.arrow_forward_ios,
+                                                                  color: Colors.grey,
+                                                                  size: duSetFontSize(16),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          onTap: ()=> {
+
+                                                          },
+                                                        ),
+                                                        _divider(),
+                                                        InkWell(
+                                                          child: Container(
+                                                            padding: EdgeInsets.only(left: 10, right: 10),
+                                                            height: duSetHeight(40),
+                                                            width: double.infinity,
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              children: <Widget>[
+                                                                Expanded(
+                                                                  child: Container(
+                                                                    padding: EdgeInsets.only(left: 8),
+                                                                    child: Text('Contributors',
+                                                                      style: TextStyle(
+                                                                          fontSize: duSetFontSize(18),
+                                                                          color: AppTheme.darkText
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Icon(Icons.arrow_forward_ios,
+                                                                  color: Colors.grey,
+                                                                  size: duSetFontSize(16),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          onTap: ()=> {
+
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                              ),
+
                                               // 文件树
                                               Padding(
                                                 padding: EdgeInsets.only(top: 0,left: duSetWidth(16), right: duSetWidth(16), bottom: duSetHeight(12)),
                                                 child: Container(
                                                   width: double.infinity,
-                                                  height: 300,
                                                   decoration: BoxDecoration(
                                                       color: Colors.white,
                                                       borderRadius: BorderRadius.all(Radius.circular(16)),
+                                                      // border: Border.all(color: HexColor('#C5E1FE')),
                                                       boxShadow: [
                                                         AppTheme.mainBoxShadow
                                                       ]
@@ -367,33 +522,154 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                     crossAxisAlignment: CrossAxisAlignment.center,
                                                     children: [
                                                       Container(
-                                                        height: 100,
                                                         width: double.infinity,
+                                                        padding: EdgeInsets.symmetric(horizontal: duSetWidth(12), vertical: duSetHeight(12)),
                                                         decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.only(
-                                                            topRight: Radius.circular(16),
-                                                            topLeft: Radius.circular(16)
-                                                          ),
-                                                          border: Border.all(color: HexColor('#C5E1FE')                                                         ),
                                                           color: HexColor('#F0F8FF'),
+                                                          borderRadius: BorderRadius.only(
+                                                            topLeft: Radius.circular(16),
+                                                            topRight: Radius.circular(16),
+                                                          )
                                                         ),
                                                         child: Row(
                                                           mainAxisAlignment: MainAxisAlignment.start,
                                                           crossAxisAlignment: CrossAxisAlignment.center,
                                                           children: [
+                                                            ClipRRect(
+                                                                child: Avatar(
+                                                                  url: state.commit.committer != null ? state.commit.committer.avatar_url : 'no_portrait',
+                                                                  name: state.commit.committer != null ? state.commit.committer.name :state.commit.commit.author.name,
+                                                                  width: duSetWidth(22),
+                                                                  height: duSetHeight(18),
+                                                                  borderRadius: BorderRadius.all(Radius.circular(100)),
+                                                                ),
+                                                                borderRadius: BorderRadius.circular(100)
+                                                            ),
+                                                            SizedBox(width: duSetWidth(5)),
+                                                            Container(
+                                                              child: Text(state.commit.committer != null ? state.commit.committer.name :state.commit.commit.author.name,
+                                                                style: TextStyle(
+                                                                  fontSize: duSetFontSize(14),
+                                                                  fontWeight: FontWeight.w400,
+                                                                  color: AppTheme.darkText
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: duSetWidth(5)),
+                                                            Expanded(
+                                                              child: Container(
+                                                                child: Text(state.commit.commit.message,
+                                                                  style: TextStyle(
+                                                                      fontSize: duSetFontSize(14),
+                                                                      color: AppTheme.url
+                                                                  ),
+                                                                  maxLines: 1,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                ),
+                                                              )
+                                                            ),
+                                                            SizedBox(width: duSetWidth(5)),
                                                             Container(
                                                               child: Text(
-                                                                '最后提交于' + RelativeDateFormat.format(state.result.pushedAt),
-                                                                
+                                                                RelativeDateFormat.format2(date: state.commit.commit.author.date),
+                                                                style: TextStyle(
+                                                                  fontSize: duSetFontSize(14),
+                                                                  color: AppTheme.descText
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: duSetWidth(5)),
+                                                            Container(
+                                                              child: Center(
+                                                                child: GestureDetector(
+                                                                  child: Icon(Icons.more_vert,
+                                                                    color: AppTheme.nearlyBlack,
+                                                                    size: duSetFontSize(24),
+                                                                  ),
+                                                                  onTap: () {
+
+                                                                  },
+                                                                ),
                                                               ),
                                                             )
                                                           ],
                                                         ),
+                                                      ),
+                                                      Container(
+                                                        padding: EdgeInsets.symmetric(horizontal: duSetWidth(12), vertical: duSetHeight(16)),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          children: [
+                                                            !isOpen ? Container(
+                                                              child: Center(
+                                                                child: GestureDetector(
+                                                                  child: Text('View Code',
+                                                                    style: TextStyle(
+                                                                        fontSize: duSetFontSize(16),
+                                                                        color: AppTheme.url
+                                                                    ),
+                                                                  ),
+                                                                  onTap: () {
+                                                                    setState(() {
+                                                                      isOpen = true;
+                                                                      height = 100;
+                                                                      opacityLevel = 1.0;
+                                                                    });
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ) : SizedBox(),
+                                                            isOpen ? AnimatedOpacity(
+                                                              opacity: opacityLevel,
+                                                              duration: Duration(seconds: 1),
+                                                              child:  Container(
+                                                                width: double.infinity,
+                                                                child: ListView.builder(
+                                                                  physics: ClampingScrollPhysics(),
+                                                                  shrinkWrap: true,
+                                                                  itemBuilder: (context, index) {
+                                                                    FileTree ft = state.trees[index];
+                                                                    return Container(
+                                                                        padding: EdgeInsets.symmetric(vertical: duSetHeight(6)),
+                                                                        child: Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                          children: [
+                                                                            ft.type == 'tree' ? Image.asset("assets/icon/folder.png", width: duSetWidth(20), height: duSetHeight(20))
+                                                                            : Image.asset("assets/icon/file.png", width: duSetWidth(22), height: duSetHeight(22)),
+                                                                            SizedBox(width: duSetWidth(6)),
+                                                                            Expanded(
+                                                                              child: Container(
+                                                                                padding: EdgeInsets.only(left: 8),
+                                                                                child: Text(ft.path,
+                                                                                  style: TextStyle(
+                                                                                      fontSize: duSetFontSize(18),
+                                                                                      color: AppTheme.darkText
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Icon(Icons.arrow_forward_ios,
+                                                                              color: Colors.grey,
+                                                                              size: duSetFontSize(16),
+                                                                            )
+                                                                          ],
+                                                                        )
+                                                                    );
+                                                                  },
+                                                                  itemCount: state.trees.length
+                                                                ),
+                                                              ),
+                                                            ) : SizedBox(),
+                                                          ],
+                                                        )
                                                       )
                                                     ],
                                                   ),
                                                 ),
                                               ),
+
                                               // 渲染Markdown
                                               Padding(
                                                 padding: EdgeInsets.only(left: duSetWidth(16), right: duSetWidth(16),),
@@ -404,18 +680,13 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                       borderRadius: BorderRadius.all(Radius.circular(16)),
                                                       //border: Border.all(width: 1, color: Colors.grey.withOpacity(.4)),
                                                       boxShadow: [
-                                                        BoxShadow(
-                                                            color: Colors.grey[300],
-                                                            offset: Offset(0.0, -1.0), //阴影xy轴偏移量
-                                                            blurRadius: 30.0, //阴影模糊程度
-                                                            spreadRadius: 1.0 //阴影扩散程度
-                                                        ),
+                                                        AppTheme.mainBoxShadow
                                                       ]
                                                   ),
                                                   child: FiteeMarkdown(data: Utils.base64decode(state.readme.content??='')),
                                                 ),
                                               ),
-                                              SizedBox(height: duSetHeight(60) + MediaQuery.of(context).padding.bottom,)
+                                              SizedBox(height: duSetHeight(70) + MediaQuery.of(context).padding.bottom,)
                                             ],
                                           ),
                                         ),
@@ -442,7 +713,6 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                 children: [
                   Container(
                     padding: EdgeInsets.only(top: duSetHeight(8)),
-                    height: duSetHeight(70),
                     //margin: EdgeInsets.symmetric(horizontal: duSetWidth(6)),
                     decoration: BoxDecoration(
                         color: AppTheme.likeBtnBgColor.withOpacity(blackAlpha),
@@ -464,12 +734,12 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  height: duSetHeight(30),
+                                  height: duSetHeight(25),
                                   child: Center(
                                     child: LikeButton(
                                       size: duSetFontSize(28),
                                       likeBuilder: (bool isLiked){
-                                        return Icon(Icons.star, color: isLiked ? AppTheme.likeBtnColor : Colors.white, size: duSetFontSize(28),);
+                                        return Icon(Icons.star, color: isLiked ? AppTheme.likeBtnColor : Colors.white.withOpacity(blackAlpha), size: duSetFontSize(28),);
                                       },
                                       circleColor:CircleColor(start: HexColor('#E26A30'), end: HexColor('#F1CF1E')),
                                       bubblesColor: BubblesColor(
@@ -499,12 +769,12 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  height: duSetHeight(30),
+                                  height: duSetHeight(25),
                                   child: Center(
                                     child: LikeButton(
                                       size: duSetFontSize(26),
                                       likeBuilder: (bool isLiked){
-                                        return Icon(Icons.remove_red_eye, color: isLiked ? AppTheme.likeBtnColor : Colors.white, size: duSetFontSize(26),);
+                                        return Icon(Icons.remove_red_eye, color: isLiked ? AppTheme.likeBtnColor : Colors.white.withOpacity(blackAlpha), size: duSetFontSize(26),);
                                       },
                                       circleColor:CircleColor(start: HexColor('#E26A30'), end: HexColor('#F1CF1E')),
                                       bubblesColor: BubblesColor(
@@ -533,12 +803,12 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                 children: [
                                   SizedBox(height: duSetHeight(4),),
                                   Container(
-                                    height: duSetHeight(30),
+                                    height: duSetHeight(25),
                                     child: Center(
                                       child: LikeButton(
                                         size: duSetFontSize(28),
                                         likeBuilder: (bool isLiked){
-                                          return Icon(Icons.alt_route, color: isLiked ? AppTheme.likeBtnColor : Colors.white, size: duSetFontSize(26),);
+                                          return Icon(Icons.alt_route, color: isLiked ? AppTheme.likeBtnColor : Colors.white.withOpacity(blackAlpha), size: duSetFontSize(26),);
                                         },
                                         circleColor:CircleColor(start: HexColor('#E26A30'), end: HexColor('#F1CF1E')),
                                         bubblesColor: BubblesColor(
@@ -577,6 +847,17 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
           ],
         );
       }),
+    );
+  }
+
+
+  Widget _divider() {
+    return Divider(
+      height: 1.2,
+      indent: 12,
+      endIndent: 12,
+      thickness: 1.2,
+      color: Colors.grey.withOpacity(.2),
     );
   }
 }

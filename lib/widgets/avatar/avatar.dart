@@ -50,7 +50,7 @@ class Avatar extends StatelessWidget{
 
   getRandomInt() {
     var rng = Random();
-    return 'assets/avatar/${rng.nextInt(8)}.png';
+    return 'assets/avatar/1.png';
   }
 
 }

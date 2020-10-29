@@ -1,4 +1,5 @@
 import 'package:flustars/flustars.dart';
+import 'package:flutter/foundation.dart';
 
 class RelativeDateFormat {
   static final num ONE_MINUTE = 60000;
@@ -46,6 +47,38 @@ class RelativeDateFormat {
     // }
   }
 
+  //时间转换
+  static String format2({@required DateTime date}) {
+    num delta = DateTime.now().millisecondsSinceEpoch - date.millisecondsSinceEpoch;
+    if (delta < 1 * ONE_MINUTE) {
+      //num seconds = toSeconds(delta);
+      //return (seconds <= 0 ? 1 : seconds).toInt().toString() + ONE_SECOND_AGO;
+      return '刚刚';
+    }
+    if (delta < 60 * ONE_MINUTE) {
+      num minutes = toMinutes(delta);
+      return (minutes <= 0 ? 1 : minutes).toInt().toString() + ONE_MINUTE_AGO;
+    }
+    if (delta < 24 * ONE_HOUR) {
+      num hours = toHours(delta);
+      return (hours <= 0 ? 1 : hours).toInt().toString() + ONE_HOUR_AGO;
+    }
+    if (delta < 48 * ONE_HOUR) {
+      return "昨天";
+    }
+    if (delta < 30 * ONE_DAY) {
+      num days = toDays(delta);
+      return (days <= 0 ? 1 : days).toInt().toString() + ONE_DAY_AGO;
+    }
+    if (delta < 12 * 4 * ONE_WEEK) {
+      num months = toMonths(delta);
+      return (months <= 0 ? 1 : months).toInt().toString() + ONE_MONTH_AGO;
+    } else {
+      num years = toYears(delta);
+      return (years <= 0 ? 1 : years).toInt().toString() + ONE_YEAR_AGO;
+    }
+  }
+
   static num toSeconds(num date) {
     return date / 1000;
   }
@@ -67,6 +100,6 @@ class RelativeDateFormat {
   }
 
   static num toYears(num date) {
-    return toMonths(date) / 365;
+    return toMonths(date) / 12;
   }
 }

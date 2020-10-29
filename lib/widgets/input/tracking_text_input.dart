@@ -73,7 +73,7 @@ class _TrackingTextInputState extends State<TrackingTextInput> {
       key: _fieldKey,
       enabled: widget.enable,
       keyboardType:
-          widget.isObscured ? TextInputType.text : TextInputType.emailAddress,
+          widget.isObscured ? TextInputType.visiblePassword : TextInputType.emailAddress,
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
         filled: true,

@@ -714,6 +714,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.1"
+  spear_menu:
+    dependency: "direct main"
+    description:
+      name: spear_menu
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.2"
   sqflite:
     dependency: "direct main"
     description:

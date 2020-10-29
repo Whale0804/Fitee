@@ -724,7 +724,7 @@ class _MinePageState extends State<MinePage> {
             children: <Widget>[
               InkWell(
                 child: Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 10),
                   height: duSetHeight(40),
                   width: double.infinity,
                   child: Row(
