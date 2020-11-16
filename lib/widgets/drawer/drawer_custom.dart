@@ -1,5 +1,9 @@
+import 'package:fitee/cache/local_storage.dart';
+import 'package:fitee/config/config.dart';
 import 'package:fitee/model/user/user_provider.dart';
+import 'package:fitee/pages/login/login_page.dart';
 import 'package:fitee/theme/app_theme.dart';
+import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -157,8 +161,10 @@ class _DrawerCustomState extends State<DrawerCustom> {
                   textAlign: TextAlign.left,
                 ),
                 trailing: Icon(Icons.power_settings_new, color: Colors.red),
-                onTap: (){
-                  print("sign out");
+                onTap: () async{
+                  LocalStorage.set(AppConfig.TOKEN_KEY, '');
+                  LocalStorage.setBool(AppConfig.LOGIN_KEY, false);
+                  NavUtil.pushAndRemove(LoginPage());
                 },
               ),
               SizedBox(

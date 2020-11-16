@@ -15,9 +15,9 @@ import 'package:fitee/widgets/avatar/avatar.dart';
 import 'package:fitee/widgets/loading/FiteeLoading.dart';
 import 'package:fitee/widgets/markdown/markdown.dart';
 import 'package:fitee/widgets/top/app_bar_widget.dart';
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 import 'package:like_button/like_button.dart';
 
 // ignore: must_be_immutable
@@ -43,6 +43,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
   double appBarAlpha = 1;
   double blackAlpha = 0;
 
+  // Code 动画变量
   bool isOpen = false;
   double height = 0.0;
   double opacityLevel = 0.0;
@@ -57,6 +58,14 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
     ).animate(_controller);
     _initData();
   }
+
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
 
   //滚动的距离
   _onScroll(offset) {
@@ -373,44 +382,49 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                       mainAxisAlignment: MainAxisAlignment.start,
                                                       crossAxisAlignment: CrossAxisAlignment.center,
                                                       children: <Widget>[
-                                                        Container(
-                                                          width: double.infinity,
-                                                          height: duSetHeight(40),
-                                                          padding: EdgeInsets.symmetric(horizontal: 10),
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            mainAxisSize: MainAxisSize.max,
-                                                            children: <Widget>[
-                                                              SizedBox(width: duSetWidth(6)),
-                                                              Image.asset("assets/icon/branches.png", width: duSetWidth(18), height: duSetHeight(18),),
-                                                              SizedBox(width: duSetWidth(6)),
-                                                              Text(
-                                                                'Branches',
-                                                                style: TextStyle(
-                                                                    fontSize: duSetFontSize(18),
-                                                                    color: AppTheme.darkText
-                                                                ),
-                                                              ),
-                                                              SizedBox(width: duSetWidth(15)),
-                                                              Expanded(
-                                                                child: Text(
-                                                                  'master',
+                                                        InkWell(
+                                                          child: Container(
+                                                            width: double.infinity,
+                                                            height: duSetHeight(40),
+                                                            padding: EdgeInsets.symmetric(horizontal: 10),
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              mainAxisSize: MainAxisSize.max,
+                                                              children: <Widget>[
+                                                                SizedBox(width: duSetWidth(6)),
+                                                                Image.asset("assets/icon/branches.png", width: duSetWidth(18), height: duSetHeight(18),),
+                                                                SizedBox(width: duSetWidth(6)),
+                                                                Text(
+                                                                  'Branches',
                                                                   style: TextStyle(
-                                                                      fontSize: duSetFontSize(16),
-                                                                      color: AppTheme.descText,
-                                                                      fontWeight: FontWeight.w500
+                                                                      fontSize: duSetFontSize(18),
+                                                                      color: AppTheme.darkText
                                                                   ),
-                                                                  textAlign: TextAlign.right,
                                                                 ),
-                                                              ),
-                                                              SizedBox(width: duSetWidth(12),),
-                                                              Icon(Icons.arrow_forward_ios,
-                                                                color: Colors.grey,
-                                                                size: duSetFontSize(16),
-                                                              )
-                                                            ],
+                                                                SizedBox(width: duSetWidth(15)),
+                                                                Expanded(
+                                                                  child: Text(
+                                                                    state.result.defaultBranch,
+                                                                    style: TextStyle(
+                                                                        fontSize: duSetFontSize(16),
+                                                                        color: AppTheme.descText,
+                                                                        fontWeight: FontWeight.w500
+                                                                    ),
+                                                                    textAlign: TextAlign.right,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(width: duSetWidth(12),),
+                                                                Icon(Icons.arrow_forward_ios,
+                                                                  color: Colors.grey,
+                                                                  size: duSetFontSize(16),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
+                                                          onTap: () async{
+                                                            _openBranches(context: context, fullName: state.result.fullName);
+                                                          },
                                                         ),
                                                         _divider(),
                                                         InkWell(
@@ -931,6 +945,17 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
     );
   }
 
+  _openBranches({@required BuildContext context, String fullName}) {
+
+    var dialog = YYDialog().build()
+    ..height = MediaQuery.of(context).size.height * 0.75
+    ..width = MediaQuery.of(context).size.width * 0.88
+    ..borderRadius = 18
+    ..widget(
+        Container(child: _reposBranches(fullName: fullName,))
+    )
+    ..show();
+  }
 
   Widget _divider() {
     return Divider(
@@ -941,4 +966,267 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
       color: Colors.grey.withOpacity(.2),
     );
   }
+}
+
+class _reposBranches extends StatefulWidget {
+
+  final String fullName;
+
+  _reposBranches({Key key, @required this.fullName}): super(key: key);
+
+  _reposBranchesState createState() => _reposBranchesState();
+}
+
+class _reposBranchesState extends State<_reposBranches> with TickerProviderStateMixin {
+
+  int tabIndex = 0;
+  TabController _controller;
+  bool _hasDeleteIcon = false;
+  String _inputText = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TabController(
+      length: 2,
+      vsync: ScrollableState(),
+    );
+    _controller.addListener(() {
+      setState(() {
+        tabIndex = _controller.index;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController _searchController = TextEditingController(text: _inputText);
+    _searchController.selection = (
+        TextSelection.fromPosition(TextPosition(offset: _searchController.text.length))
+    );
+    return Container(
+      color: HexColor('#F4F7F9'),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.only(top: duSetHeight(18), bottom: duSetHeight(12)),
+            decoration: BoxDecoration(
+              color: HexColor('#808AF8'),
+              // border: Border(
+              //     bottom: BorderSide(
+              //       width: 1.2,
+              //       color: Colors.grey.withOpacity(.2),
+              //     )
+              // )
+            ),
+            child: Center(
+              child: Text(
+                'Switch branches/tags',
+                style: TextStyle(
+                    fontSize: duSetFontSize(18),
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            height: duSetHeight(56),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: HexColor('#808AF8'),
+              // border: Border(
+              //     bottom: BorderSide(
+              //       width: 1.2,
+              //       color: Colors.grey.withOpacity(.2),
+              //     )
+              // )
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  color: AppTheme.white
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(width: duSetWidth(10)),
+                  Icon(Icons.search, color: AppTheme.darkText, size: duSetHeight(24)),
+                  SizedBox(width: duSetWidth(10)),
+                  Expanded(
+                    child: TextField(
+                      controller: _searchController,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintText: 'Filter branches/tags...',
+                        hintStyle: TextStyle(
+                            fontSize: duSetFontSize(16),
+                            color: Colors.black45
+                        ),
+                        border: InputBorder.none,
+                        suffixIcon: _hasDeleteIcon
+                            ? new Container(
+                          width: 20.0,
+                          height: 20.0,
+                          child: new IconButton(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(0.0),
+                            iconSize: 18.0,
+                            icon: Icon(Icons.cancel),
+                            onPressed: () {
+                              setState(() {
+                                _inputText = "";
+                                _hasDeleteIcon = (_inputText.isNotEmpty);
+                              });
+                            },
+                          ),
+                        ) : new Text(""),
+                      ),
+                      maxLines: 1,
+                      textInputAction: TextInputAction.search,
+                      style: TextStyle(
+                          fontSize: duSetFontSize(16)
+                      ),
+                      onSubmitted: (value) async {
+
+                      },
+                      onChanged: (val) {
+                        setState(() {
+                          _inputText = val;
+                          _hasDeleteIcon = (_inputText.isNotEmpty);
+                        });
+                      },
+                    ),
+                  ),
+                  SizedBox(width: duSetWidth(10))
+                ],
+              ),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            color: AppTheme.white,
+            child: TabBar(
+              controller: _controller,
+              labelColor: AppTheme.darkText,
+              unselectedLabelColor: AppTheme.descText,
+              indicatorColor: HexColor('#171717'),
+              indicatorWeight: duSetHeight(1.0),
+              labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500
+              ),
+              unselectedLabelStyle: TextStyle(
+                  fontWeight: FontWeight.w400
+              ),
+              indicatorSize: TabBarIndicatorSize.label,
+              tabs: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      //Tab(icon: Icon(Icons.local_florist)),
+                      Image.asset("assets/icon/branches.png", width: duSetWidth(21), height: duSetHeight(21),
+                        color: tabIndex == 0 ? HexColor('#171717') : AppTheme.descText,
+                      ),
+                      const SizedBox(width: 12,),
+                      Text('Branches',
+                        style: TextStyle(
+                            fontSize: duSetFontSize(18),
+                            fontWeight: FontWeight.w400
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset("assets/icon/tags.png", width: duSetWidth(21), height: duSetHeight(21),
+                        color: tabIndex == 1 ? HexColor('#171717') : AppTheme.descText,
+                      ),
+                      const SizedBox(width: 12,),
+                      Text('Tags',
+                        style: TextStyle(
+                            fontSize: duSetFontSize(18),
+                            fontWeight: FontWeight.w400
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * 0.5492,
+            child: TabBarView(
+              controller: _controller,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: duSetHeight(12), horizontal: duSetWidth(12)),
+                  child: Store.connect<ReposProvider>(builder: (context, state, child){
+                    console.log(state.currentBranches);
+                    return MediaQuery.removePadding(
+                      removeTop: true,
+                      context: context,
+                      child: ListView.builder(
+                          physics: ClampingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin: EdgeInsets.only(bottom: duSetHeight(10)),
+                              padding: EdgeInsets.symmetric(vertical: duSetHeight(12),horizontal: duSetWidth(12)),
+                              decoration: BoxDecoration(
+                                color: AppTheme.white,
+                                borderRadius: BorderRadius.all(Radius.circular(6)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.withOpacity(.16),
+                                        blurRadius: 15.0, //阴影模糊程度
+                                        spreadRadius: 0.5 //阴影扩散程度
+                                    ),
+                                  ]
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Image.asset('assets/icon/check.png', width: duSetWidth(16),height: duSetHeight(16),)
+                                ],
+                              ),
+                            );
+                          },
+                          itemCount: state.branches.length
+                      ),
+                    );
+                  })
+                ),
+                Container(
+                  child: Center(
+                    child: Text('2'),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
 }

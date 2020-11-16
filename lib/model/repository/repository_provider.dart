@@ -1,10 +1,12 @@
 import 'package:fitee/config/config.dart';
+import 'package:fitee/model/branches/branches.dart';
 import 'package:fitee/model/commit/commit.dart';
 import 'package:fitee/model/readme/readme.dart';
 import 'package:fitee/model/release/release.dart';
 import 'package:fitee/model/repository/file_tree.dart';
 import 'package:fitee/model/repository/repository.dart';
 import 'package:fitee/model/user/user.dart';
+import 'package:fitee/services/branches_service.dart';
 import 'package:fitee/services/commit_service.dart';
 import 'package:fitee/services/release_service.dart';
 import 'package:fitee/services/repos_service.dart';
@@ -28,15 +30,20 @@ class ReposProvider with ChangeNotifier{
   List<User> collaborators;
   // 最后一次更新的release
   Release release;
+  // 分支列表
+  List<Branches> branches;
 
+  String currentBranches;
 
   fetchAll({@required String fullName}) async{
     loading = true;
     Repository repos = await fetchRepos(fullName: fullName);
+    this.currentBranches = repos.defaultBranch;
     await fetchReadme(fullName: fullName);
     await fetchLastCommit(fullName: fullName);
     await fetchFiles(fullName: fullName);
     await fetchLastRelease(fullName: fullName);
+    await fetchBranchesList(fullName: fullName);
     loading = false;
     notifyListeners();
     return repos;
@@ -74,5 +81,19 @@ class ReposProvider with ChangeNotifier{
       release = null;
     }
     return release;
+  }
+
+  fetchBranchesList({String fullName}) async {
+    try {
+      branches = await BranchesApi.fetchBranchesList(fullName: fullName);
+    }catch (e) {
+      branches = new List();
+    }
+    return branches;
+  }
+
+  setCurrentBranches({@required String branches}) async {
+    this.currentBranches = branches;
+    notifyListeners();
   }
 }
