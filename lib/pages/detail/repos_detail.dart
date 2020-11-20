@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:badges/badges.dart';
+import 'package:fitee/model/branches/branches.dart';
 import 'package:fitee/model/repository/file_tree.dart';
 import 'package:fitee/model/repository/repository.dart';
 import 'package:fitee/model/repository/repository_provider.dart';
+import 'package:fitee/model/tag/tag.dart';
 import 'package:fitee/model/user/user_provider.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
@@ -1010,6 +1012,9 @@ class _reposBranchesState extends State<_reposBranches> with TickerProviderState
     _searchController.selection = (
         TextSelection.fromPosition(TextPosition(offset: _searchController.text.length))
     );
+    _searchController.addListener(() async {
+      await Store.value<ReposProvider>(NavUtil.ctx).onSearch(txt: _searchController.text);
+    });
     return Container(
       color: HexColor('#F4F7F9'),
       child: Column(
@@ -1088,6 +1093,7 @@ class _reposBranchesState extends State<_reposBranches> with TickerProviderState
                                 _inputText = "";
                                 _hasDeleteIcon = (_inputText.isNotEmpty);
                               });
+                              _searchController.text = '';
                             },
                           ),
                         ) : new Text(""),
@@ -1181,35 +1187,15 @@ class _reposBranchesState extends State<_reposBranches> with TickerProviderState
                 Container(
                   padding: EdgeInsets.symmetric(vertical: duSetHeight(12), horizontal: duSetWidth(12)),
                   child: Store.connect<ReposProvider>(builder: (context, state, child){
-                    console.log(state.currentBranches);
                     return MediaQuery.removePadding(
                       removeTop: true,
                       context: context,
                       child: ListView.builder(
+                          shrinkWrap: true,
                           physics: ClampingScrollPhysics(),
                           itemBuilder: (context, index) {
-                            return Container(
-                              margin: EdgeInsets.only(bottom: duSetHeight(10)),
-                              padding: EdgeInsets.symmetric(vertical: duSetHeight(12),horizontal: duSetWidth(12)),
-                              decoration: BoxDecoration(
-                                color: AppTheme.white,
-                                borderRadius: BorderRadius.all(Radius.circular(6)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey.withOpacity(.16),
-                                        blurRadius: 15.0, //阴影模糊程度
-                                        spreadRadius: 0.5 //阴影扩散程度
-                                    ),
-                                  ]
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Image.asset('assets/icon/check.png', width: duSetWidth(16),height: duSetHeight(16),)
-                                ],
-                              ),
-                            );
+                            Branches branches = state.branches[index];
+                            return _BranchesItem(repos: state.result, branches: branches, currentBranches: state.currentBranches);
                           },
                           itemCount: state.branches.length
                       ),
@@ -1217,9 +1203,69 @@ class _reposBranchesState extends State<_reposBranches> with TickerProviderState
                   })
                 ),
                 Container(
-                  child: Center(
-                    child: Text('2'),
-                  ),
+                  padding: EdgeInsets.symmetric(vertical: duSetHeight(12), horizontal: duSetWidth(12)),
+                  child: Store.connect<ReposProvider>(builder: (context, state, child){
+                    return MediaQuery.removePadding(
+                      removeTop: true,
+                      context: context,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: ClampingScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              Tag tag = state.tags[index];
+                              return Container(
+                                margin: EdgeInsets.only(bottom: duSetHeight(6)),
+                                padding: EdgeInsets.symmetric(vertical: duSetHeight(12),horizontal: duSetWidth(12)),
+                                decoration: BoxDecoration(
+                                    color: AppTheme.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(6)),
+                                    // boxShadow: [
+                                    //   BoxShadow(
+                                    //       color: Colors.grey.withOpacity(.16),
+                                    //       blurRadius: 15.0, //阴影模糊程度
+                                    //       spreadRadius: 0.5 //阴影扩散程度
+                                    //   ),
+                                    // ]
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(tag.name,
+                                      style: TextStyle(
+                                        fontSize: duSetFontSize(18),
+                                        color: AppTheme.darkText,
+                                        fontWeight: FontWeight.w500
+                                      ),
+                                    ),
+                                    SizedBox(height: duSetHeight(2),),
+                                    Text(RelativeDateFormat.format(tag.commit.date),
+                                      style: TextStyle(
+                                        fontSize: duSetFontSize(14),
+                                        color: AppTheme.descText
+                                      ),
+                                    ),
+                                    SizedBox(height: duSetHeight(2),),
+                                    RichText(
+                                      textAlign: TextAlign.start,
+                                      text: TextSpan(
+                                          style: TextStyle(
+                                            fontSize: duSetFontSize(16),
+                                            color: AppTheme.descText,
+                                          ),
+                                          children: <InlineSpan>[
+                                            TextSpan(text: tag.message),
+                                          ]
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          itemCount: state.tags.length
+                        )
+                    );
+                  }),
                 ),
               ],
             ),
@@ -1228,5 +1274,69 @@ class _reposBranchesState extends State<_reposBranches> with TickerProviderState
       ),
     );
   }
+}
 
+class _BranchesItem extends StatefulWidget {
+
+  final Repository repos;
+  final Branches branches;
+  final String currentBranches;
+  _BranchesItem({Key key, this.repos, this.branches, this.currentBranches}) :super(key: key);
+
+  _BranchesItemState createState() => _BranchesItemState();
+}
+
+class _BranchesItemState extends State<_BranchesItem> with TickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: duSetHeight(6)),
+      padding: EdgeInsets.symmetric(vertical: duSetHeight(12),horizontal: duSetWidth(12)),
+      decoration: BoxDecoration(
+          color: AppTheme.white,
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+          // boxShadow: [
+          //   BoxShadow(
+          //       color: Colors.grey.withOpacity(.16),
+          //       blurRadius: 15.0, //阴影模糊程度
+          //       spreadRadius: 0.5 //阴影扩散程度
+          //   ),
+          // ]
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          widget.currentBranches == widget.branches.name ?
+          Image.asset('assets/icon/check.png', width: duSetWidth(16),height: duSetHeight(16),) : SizedBox(width: duSetWidth(16), height: duSetHeight(16)),
+          SizedBox(width: duSetWidth(12),),
+          Expanded(
+              child: Container(
+                child: Text(widget.branches.name,
+                  style: TextStyle(
+                      fontSize: duSetFontSize(20),
+                      color: AppTheme.darkText,
+                      fontWeight: FontWeight.w500
+                  ),
+                ),
+              )
+          ),
+          widget.branches.name == widget.repos.defaultBranch ? Container(
+            padding: EdgeInsets.symmetric(horizontal: duSetWidth(12), vertical: duSetHeight(2)),
+            decoration: BoxDecoration(
+                border: Border.all(color: AppTheme.descText),
+                borderRadius: BorderRadius.all(Radius.circular(100))
+            ),
+            child: Text('default',
+              style: TextStyle(
+                  fontSize: duSetFontSize(14),
+                  color: AppTheme.darkText
+              ),
+            ),
+          ) : SizedBox(),
+          SizedBox(width: duSetWidth(4),)
+        ],
+      ),
+    );
+  }
 }

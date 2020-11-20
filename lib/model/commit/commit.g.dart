@@ -18,6 +18,7 @@ Commit _$CommitFromJson(Map<String, dynamic> json) {
         ?.map(
             (e) => e == null ? null : File.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
   )
     ..committer = json['committer'] == null
         ? null
@@ -39,4 +40,5 @@ Map<String, dynamic> _$CommitToJson(Commit instance) => <String, dynamic>{
       'commit': instance.commit,
       'stats': instance.stats,
       'files': instance.files,
+      'date': instance.date?.toIso8601String(),
     };

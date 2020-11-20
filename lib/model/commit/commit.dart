@@ -16,8 +16,9 @@ class Commit {
   Commit commit;
   Stats stats;
   List<File> files;
+  DateTime date;
 
-  Commit({this.sha, this.author, this.message, this.url, this.files});
+  Commit({this.sha, this.author, this.message, this.url, this.files, this.date});
 
   factory Commit.fromJson(Map<String, dynamic> json) => _$CommitFromJson(json);
 

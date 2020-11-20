@@ -5,11 +5,14 @@ import 'package:fitee/model/readme/readme.dart';
 import 'package:fitee/model/release/release.dart';
 import 'package:fitee/model/repository/file_tree.dart';
 import 'package:fitee/model/repository/repository.dart';
+import 'package:fitee/model/tag/tag.dart';
 import 'package:fitee/model/user/user.dart';
 import 'package:fitee/services/branches_service.dart';
 import 'package:fitee/services/commit_service.dart';
 import 'package:fitee/services/release_service.dart';
 import 'package:fitee/services/repos_service.dart';
+import 'package:fitee/services/tag_service.dart';
+import 'package:fitee/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class ReposProvider with ChangeNotifier{
@@ -32,6 +35,12 @@ class ReposProvider with ChangeNotifier{
   Release release;
   // 分支列表
   List<Branches> branches;
+  // 标签列表
+  List<Tag> tags;
+  // 分支列表
+  List<Branches> tempBranches;
+  // 标签列表
+  List<Tag> tempTags;
 
   String currentBranches;
 
@@ -44,6 +53,7 @@ class ReposProvider with ChangeNotifier{
     await fetchFiles(fullName: fullName);
     await fetchLastRelease(fullName: fullName);
     await fetchBranchesList(fullName: fullName);
+    await fetchTagList(fullName: fullName);
     loading = false;
     notifyListeners();
     return repos;
@@ -85,15 +95,41 @@ class ReposProvider with ChangeNotifier{
 
   fetchBranchesList({String fullName}) async {
     try {
-      branches = await BranchesApi.fetchBranchesList(fullName: fullName);
+      var temp = await BranchesApi.fetchBranchesList(fullName: fullName);
+      branches = temp.reversed.toList();
     }catch (e) {
       branches = new List();
     }
+    this.tempBranches = branches;
     return branches;
+  }
+
+  fetchTagList({String fullName}) async {
+    try{
+      tags = await TagApi.fetchTagList(fullName: fullName);
+    }catch (e){
+      tags = new List();
+    }
+    tags.sort((left,right)=>right.commit.date.compareTo(left.commit.date));
+    this.tempTags = tags;
+    return tags;
   }
 
   setCurrentBranches({@required String branches}) async {
     this.currentBranches = branches;
+    notifyListeners();
+  }
+
+  onSearch({String txt}) async {
+    if(txt.isEmpty){
+      this.tags = this.tempTags;
+      this.branches = this.tempBranches;
+    }else {
+      var temp = this.branches.where((item) => item.name.contains(txt)).toList();
+      this.branches = temp;
+      var temp2 = this.tags.where((item) => item.name.contains(txt)).toList();
+      this.tags = temp2;
+    }
     notifyListeners();
   }
 }
