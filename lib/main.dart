@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'model/event/event_provider.dart';
 import 'model/letter/letter_provider.dart';
 import 'model/notify/notify_provider.dart';
+import 'model/repository/file_provider.dart';
 import 'model/search/search_provider.dart';
 import 'model/user/user_provider.dart';
 
@@ -36,6 +37,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_)=> LetterProvider()),
         ChangeNotifierProvider(create: (_)=> SearchProvider()),
         ChangeNotifierProvider(create: (_)=> ReposProvider()),
+        ChangeNotifierProvider(create: (_)=> FileProvider()),
       ],
       child: MyApp(),
     )

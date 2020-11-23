@@ -11,6 +11,7 @@ class FileTree {
   String sha;
   int size;
   String url;
+  String name;
 
   FileTree({this.path, this.mode, this.type, this.sha, this.size, this.url});
 

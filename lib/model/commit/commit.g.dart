@@ -15,8 +15,8 @@ Commit _$CommitFromJson(Map<String, dynamic> json) {
     message: json['message'] as String,
     url: json['url'] as String,
     files: (json['files'] as List)
-        ?.map(
-            (e) => e == null ? null : File.fromJson(e as Map<String, dynamic>))
+        ?.map((e) =>
+            e == null ? null : FileCommit.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
   )

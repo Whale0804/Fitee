@@ -12,7 +12,6 @@ import 'package:fitee/services/commit_service.dart';
 import 'package:fitee/services/release_service.dart';
 import 'package:fitee/services/repos_service.dart';
 import 'package:fitee/services/tag_service.dart';
-import 'package:fitee/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class ReposProvider with ChangeNotifier{
@@ -50,7 +49,7 @@ class ReposProvider with ChangeNotifier{
     this.currentBranches = repos.defaultBranch;
     await fetchReadme(fullName: fullName);
     await fetchLastCommit(fullName: fullName);
-    await fetchFiles(fullName: fullName);
+    await fetchTree(fullName: fullName);
     await fetchLastRelease(fullName: fullName);
     await fetchBranchesList(fullName: fullName);
     await fetchTagList(fullName: fullName);
@@ -79,8 +78,13 @@ class ReposProvider with ChangeNotifier{
     return commit;
   }
 
-  fetchFiles({@required String fullName, String sha = 'master'}) async {
-    trees = await ReposApi.fetchFiles(fullName: fullName, sha: sha);
+  fetchTree({@required String fullName, String sha = 'master'}) async {
+    trees = await ReposApi.fetchTree(fullName: fullName, sha: sha);
+    return trees.sort((a,b)=>a.mode.compareTo(b.mode));
+  }
+
+  fetchFiles({@required String fullName, String sha = 'master', String path = '/'}) async {
+    trees = await ReposApi.fetchFiles(fullName: fullName, sha: sha, path: path);
     return trees.sort((a,b)=>a.mode.compareTo(b.mode));
   }
 

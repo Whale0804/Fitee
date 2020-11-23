@@ -1,5 +1,6 @@
 
 import 'package:fitee/model/readme/readme.dart';
+import 'package:fitee/model/repository/file_entity.dart';
 import 'package:fitee/model/repository/file_tree.dart';
 import 'package:fitee/model/repository/repository.dart';
 import 'package:fitee/model/user/user.dart';
@@ -40,7 +41,19 @@ class ReposApi {
   }
 
 
-  static Future<List<FileTree>> fetchFiles({String fullName, String sha = 'master'}) async {
+  static Future<List<FileTree>> fetchFiles({String fullName, String sha = 'master', String path}) async {
+    Map<String, String> params = {
+      "access_token": await DioUtils().getAuthorizationHeader(),
+      "owner": fullName.split("/")[0],
+      "repo": fullName.split("/")[1],
+      'sha': sha,
+      'path': path
+    };
+    List<dynamic> result = await DioUtils().get("/api/v5/repos/${fullName}/contents/${path}", params: params);
+    return result.map((i) => FileTree.fromJson(i)).toList();
+  }
+
+  static Future<List<FileTree>> fetchTree({String fullName, String sha = 'master'}) async {
     Map<String, String> params = {
       "access_token": await DioUtils().getAuthorizationHeader(),
       "owner": fullName.split("/")[0],
@@ -50,6 +63,17 @@ class ReposApi {
     Map result = await DioUtils().get("/api/v5/repos/${fullName}/git/trees/${sha}", params: params);
     var tree = result['tree'] as List;
     return tree.map((i) => FileTree.fromJson(i)).toList();
+  }
+
+  static Future<FileEntity> fetchFile({String fullName, String sha}) async {
+    Map<String, String> params = {
+      "access_token": await DioUtils().getAuthorizationHeader(),
+      "owner": fullName.split("/")[0],
+      "repo": fullName.split("/")[1],
+      'sha': sha
+    };
+    var result = await DioUtils().get("/api/v5/repos/${fullName}/git/blobs/${sha}", params: params);
+    return FileEntity.fromJson(result);
   }
 
 }

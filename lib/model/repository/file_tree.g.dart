@@ -14,7 +14,7 @@ FileTree _$FileTreeFromJson(Map<String, dynamic> json) {
     sha: json['sha'] as String,
     size: json['size'] as int,
     url: json['url'] as String,
-  );
+  )..name = json['name'] as String;
 }
 
 Map<String, dynamic> _$FileTreeToJson(FileTree instance) => <String, dynamic>{
@@ -24,4 +24,5 @@ Map<String, dynamic> _$FileTreeToJson(FileTree instance) => <String, dynamic>{
       'sha': instance.sha,
       'size': instance.size,
       'url': instance.url,
+      'name': instance.name,
     };

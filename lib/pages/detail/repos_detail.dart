@@ -7,6 +7,8 @@ import 'package:fitee/model/repository/repository.dart';
 import 'package:fitee/model/repository/repository_provider.dart';
 import 'package:fitee/model/tag/tag.dart';
 import 'package:fitee/model/user/user_provider.dart';
+import 'package:fitee/pages/file/file.dart';
+import 'package:fitee/pages/file/tree.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/relative_date_format.dart';
@@ -726,33 +728,42 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                                   physics: ClampingScrollPhysics(),
                                                                   itemBuilder: (context, index) {
                                                                     FileTree ft = state.trees[index];
-                                                                    return Container(
-                                                                        padding: EdgeInsets.symmetric(vertical: duSetHeight(6)),
-                                                                        height: duSetHeight(34),
-                                                                        child: Row(
-                                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                                          children: [
-                                                                            ft.type == 'tree' ? Image.asset("assets/icon/folder.png", width: duSetWidth(20), height: duSetHeight(20))
-                                                                            : Image.asset("assets/icon/file.png", width: duSetWidth(22), height: duSetHeight(22)),
-                                                                            SizedBox(width: duSetWidth(6)),
-                                                                            Expanded(
-                                                                              child: Container(
-                                                                                padding: EdgeInsets.only(left: 8),
-                                                                                child: Text(ft.path,
-                                                                                  style: TextStyle(
-                                                                                      fontSize: duSetFontSize(18),
-                                                                                      color: AppTheme.darkText
+                                                                    return GestureDetector(
+                                                                      onTap: () async {
+                                                                        if(ft.type == 'tree'){
+                                                                          NavUtil.push(Tree(file: ft, fullName: state.result.fullName, ref: state.result.defaultBranch));
+                                                                        }else {
+                                                                          NavUtil.push(File(fullName: state.result.fullName, sha: ft.sha, title: ft.path));
+                                                                        }
+                                                                      },
+                                                                      child: Container(
+                                                                          padding: EdgeInsets.symmetric(vertical: duSetHeight(6)),
+                                                                          height: duSetHeight(34),
+                                                                          child: Row(
+                                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                                            children: [
+                                                                              ft.type == 'tree' ? Image.asset("assets/icon/folder.png", width: duSetWidth(20), height: duSetHeight(20))
+                                                                              : Image.asset("assets/icon/file.png", width: duSetWidth(22), height: duSetHeight(22)),
+                                                                              SizedBox(width: duSetWidth(6)),
+                                                                              Expanded(
+                                                                                child: Container(
+                                                                                  padding: EdgeInsets.only(left: 8),
+                                                                                  child: Text(ft.path,
+                                                                                    style: TextStyle(
+                                                                                        fontSize: duSetFontSize(18),
+                                                                                        color: AppTheme.darkText
+                                                                                    ),
                                                                                   ),
                                                                                 ),
                                                                               ),
-                                                                            ),
-                                                                            Icon(Icons.arrow_forward_ios,
-                                                                              color: Colors.grey,
-                                                                              size: duSetFontSize(16),
-                                                                            )
-                                                                          ],
-                                                                        )
+                                                                              Icon(Icons.arrow_forward_ios,
+                                                                                color: Colors.grey,
+                                                                                size: duSetFontSize(16),
+                                                                              )
+                                                                            ],
+                                                                          )
+                                                                      ),
                                                                     );
                                                                   },
                                                                   itemCount: state.trees.length
@@ -1314,7 +1325,7 @@ class _BranchesItemState extends State<_BranchesItem> with TickerProviderStateMi
               child: Container(
                 child: Text(widget.branches.name,
                   style: TextStyle(
-                      fontSize: duSetFontSize(20),
+                      fontSize: duSetFontSize(18),
                       color: AppTheme.darkText,
                       fontWeight: FontWeight.w500
                   ),

@@ -1,4 +1,4 @@
-import 'package:fitee/model/commit/file.dart';
+import 'package:fitee/model/commit/file_commit.dart';
 import 'package:fitee/model/commit/stats.dart';
 import 'package:fitee/model/user/user.dart';
 
@@ -15,7 +15,7 @@ class Commit {
   User committer;
   Commit commit;
   Stats stats;
-  List<File> files;
+  List<FileCommit> files;
   DateTime date;
 
   Commit({this.sha, this.author, this.message, this.url, this.files, this.date});

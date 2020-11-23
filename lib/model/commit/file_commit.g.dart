@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'file.dart';
+part of 'file_commit.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-File _$FileFromJson(Map<String, dynamic> json) {
-  return File(
+FileCommit _$FileCommitFromJson(Map<String, dynamic> json) {
+  return FileCommit(
     sha: json['sha'] as String,
     filename: json['filename'] as String,
     status: json['status'] as String,
@@ -18,7 +18,8 @@ File _$FileFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$FileToJson(File instance) => <String, dynamic>{
+Map<String, dynamic> _$FileCommitToJson(FileCommit instance) =>
+    <String, dynamic>{
       'sha': instance.sha,
       'filename': instance.filename,
       'status': instance.status,
