@@ -8,12 +8,17 @@ import 'package:fitee/services/user_service.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider with ChangeNotifier {
+
+  bool loading = true;
+
   User user;
   User currentUser;
-  bool loading = true;
+
+  List<User> collaborators;
 
   // 是否关注改用户
   bool isFollow = false;
+
 
   getUser() async{
     bool isLogin = await LocalStorage.getBool(AppConfig.LOGIN_KEY)?? false;
@@ -68,5 +73,16 @@ class UserProvider with ChangeNotifier {
     }
     notifyListeners();
     return isFollow;
+  }
+
+  fetchCollaborators({String fullName}) async {
+    collaborators = await UserApi.fetchCollaborators(fullName: fullName);
+    loading = false;
+    notifyListeners();
+    return collaborators;
+  }
+
+  setClear() async{
+    this.loading = true;
   }
 }

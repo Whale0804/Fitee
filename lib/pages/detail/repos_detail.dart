@@ -7,6 +7,7 @@ import 'package:fitee/model/repository/repository.dart';
 import 'package:fitee/model/repository/repository_provider.dart';
 import 'package:fitee/model/tag/tag.dart';
 import 'package:fitee/model/user/user_provider.dart';
+import 'package:fitee/pages/collaborators/collaborators.dart';
 import 'package:fitee/pages/file/file.dart';
 import 'package:fitee/pages/file/tree.dart';
 import 'package:fitee/theme/app_theme.dart';
@@ -562,11 +563,11 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                               crossAxisAlignment: CrossAxisAlignment.center,
                                                               children: <Widget>[
                                                                 SizedBox(width: duSetWidth(6)),
-                                                                Image.asset("assets/icon/contributors.png", width: duSetWidth(18), height: duSetHeight(18),),
+                                                                Image.asset("assets/icon/collaborators.png", width: duSetWidth(18), height: duSetHeight(18),),
                                                                 Expanded(
                                                                   child: Container(
                                                                     padding: EdgeInsets.only(left: 8),
-                                                                    child: Text('Contributors',
+                                                                    child: Text('Collaborators',
                                                                       style: TextStyle(
                                                                           fontSize: duSetFontSize(18),
                                                                           color: AppTheme.darkText
@@ -593,7 +594,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                             ),
                                                           ),
                                                           onTap: ()=> {
-
+                                                            NavUtil.push(Collaborators(fullName: state.result.fullName))
                                                           },
                                                         ) : SizedBox(),
                                                       ],
