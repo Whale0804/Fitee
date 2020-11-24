@@ -34,7 +34,7 @@ class _TreeState extends State<Tree> with TickerProviderStateMixin {
   }
 
   initData() async {
-    await Store.value<FileProvider>(NavUtil.ctx).setClear();
+    await Store.value<FileProvider>(NavUtil.ctx).onClear();
     List<FileTree> list = await Store.value<FileProvider>(NavUtil.ctx).fetchTree(fullName: widget.fullName, sha: widget.file.sha);
     setState(() {
       trees = list;

@@ -1,5 +1,6 @@
 
 import 'package:fitee/cache/local_storage.dart';
+import 'package:fitee/config/base_provider.dart';
 import 'package:fitee/config/config.dart';
 import 'package:fitee/model/user/user.dart';
 import 'package:fitee/services/follow_service.dart';
@@ -7,9 +8,7 @@ import 'package:fitee/services/login_service.dart';
 import 'package:fitee/services/user_service.dart';
 import 'package:flutter/material.dart';
 
-class UserProvider with ChangeNotifier {
-
-  bool loading = true;
+class UserProvider extends BaseProvider with ChangeNotifier{
 
   User user;
   User currentUser;
@@ -82,7 +81,12 @@ class UserProvider with ChangeNotifier {
     return collaborators;
   }
 
-  setClear() async{
-    this.loading = true;
+  @override
+  void onClear() async {
+    super.onClear();
+  }
+
+  @override
+  void setPage({int page = 1}) {
   }
 }

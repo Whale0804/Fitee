@@ -1,13 +1,11 @@
 
+import 'package:fitee/config/base_provider.dart';
 import 'package:fitee/config/config.dart';
 import 'package:fitee/model/letter/letter.dart';
 import 'package:fitee/services/letter_service.dart';
 import 'package:flutter/material.dart';
 
-class LetterProvider with ChangeNotifier{
-
-  bool loading = true;
-  String status = AppConfig.NORMAL_STATE;
+class LetterProvider extends BaseProvider with ChangeNotifier{
 
   List<Letter> result;
 
@@ -41,5 +39,10 @@ class LetterProvider with ChangeNotifier{
     loading = false;
     notifyListeners();
     return result;
+  }
+
+  @override
+  void onClear() {
+    super.onClear();
   }
 }

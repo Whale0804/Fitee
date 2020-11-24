@@ -35,7 +35,7 @@ class _FileState extends State<File> with TickerProviderStateMixin {
   }
 
   initData() async {
-    await Store.value<FileProvider>(NavUtil.ctx).setClear();
+    await Store.value<FileProvider>(NavUtil.ctx).onClear();
     FileEntity data = await Store.value<FileProvider>(NavUtil.ctx).fetchFile(fullName: widget.fullName, sha: widget.sha);
     setState(() {
       file = data;

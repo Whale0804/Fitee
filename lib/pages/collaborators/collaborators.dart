@@ -28,7 +28,7 @@ class _CollaboratorsState extends State<Collaborators> {
   }
 
   initData() async {
-    await Store.value<UserProvider>(NavUtil.ctx).setClear();
+    await Store.value<UserProvider>(NavUtil.ctx).onClear();
     await Store.value<UserProvider>(NavUtil.ctx).fetchCollaborators(fullName: widget.fullName);
   }
 

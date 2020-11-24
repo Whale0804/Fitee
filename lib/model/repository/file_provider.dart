@@ -1,19 +1,12 @@
 
+import 'package:fitee/config/base_provider.dart';
 import 'package:fitee/config/config.dart';
 import 'package:fitee/model/repository/file_entity.dart';
 import 'package:fitee/model/repository/file_tree.dart';
 import 'package:fitee/services/repos_service.dart';
-import 'package:fitee/theme/app_theme.dart';
-import 'package:fitee/utils/screen.dart';
-import 'package:fitee/utils/utils.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class FileProvider with ChangeNotifier {
-
-  bool loading = true;
-
-  String status = AppConfig.NORMAL_STATE;
+class FileProvider extends BaseProvider with ChangeNotifier  {
 
   // 文件树
   List<FileTree> trees;
@@ -37,10 +30,15 @@ class FileProvider with ChangeNotifier {
     return file;
   }
 
-  setClear() {
-    this.loading = true;
+  @override
+  void onClear() async {
+    super.onClear();
     this.trees = [];
     this.fullName = '';
+  }
+
+  @override
+  void setPage({int page = 1}) {
   }
 
 }

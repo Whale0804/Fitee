@@ -10,6 +10,7 @@ import 'package:fitee/model/user/user_provider.dart';
 import 'package:fitee/pages/collaborators/collaborators.dart';
 import 'package:fitee/pages/file/file.dart';
 import 'package:fitee/pages/file/tree.dart';
+import 'package:fitee/pages/release/release_page.dart';
 import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/relative_date_format.dart';
@@ -549,7 +550,7 @@ class _ReposDetailState extends State<ReposDetailPage> with TickerProviderStateM
                                                             ),
                                                           ),
                                                           onTap: ()=> {
-
+                                                            NavUtil.push(ReleasePage(fullName: state.result.fullName))
                                                           },
                                                         ) : SizedBox(),
                                                         state.result.members.length > 1 ? _divider() : SizedBox(),

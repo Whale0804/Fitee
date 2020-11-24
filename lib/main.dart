@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fitee/model/release/release_provider.dart';
 import 'package:fitee/model/repository/repository_provider.dart';
 import 'package:fitee/plugin/db/db_helper.dart';
 import 'package:fitee/plugin/no_splash.dart';
@@ -38,6 +39,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_)=> SearchProvider()),
         ChangeNotifierProvider(create: (_)=> ReposProvider()),
         ChangeNotifierProvider(create: (_)=> FileProvider()),
+        ChangeNotifierProvider(create: (_)=> ReleaseProvider()),
       ],
       child: MyApp(),
     )
