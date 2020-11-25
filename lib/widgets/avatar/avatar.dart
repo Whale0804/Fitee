@@ -2,6 +2,7 @@
 import 'dart:math';
 
 import 'package:fitee/pages/mine_page.dart';
+import 'package:fitee/theme/app_theme.dart';
 import 'package:fitee/utils/nav_util.dart';
 import 'package:fitee/utils/screen.dart';
 import 'package:flutter/material.dart';
@@ -14,13 +15,13 @@ class Avatar extends StatelessWidget{
   final double height;
   final BorderRadius borderRadius;
 
-  Avatar({this.url,this.name = '', this.width = 56, this.height = 52, this.borderRadius});
+  Avatar({this.url, this.name = '', this.width = 56, this.height = 52, this.borderRadius});
   @override
   Widget build(BuildContext context) {
     var tempUrl = getRandomInt();
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppTheme.white,
           borderRadius: borderRadius == null ? BorderRadius.all(Radius.circular(14.0)): borderRadius
       ),
       child: GestureDetector(
